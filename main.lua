@@ -1,5 +1,4 @@
-function function love.load()
-  -- body...
+function love.load()
 end
 
 function love.update(dt)
@@ -7,5 +6,4 @@ function love.update(dt)
 end
 
 function love.draw()
-  -- body...
 end
