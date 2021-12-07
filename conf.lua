@@ -7,5 +7,5 @@ function love.conf(t)
     t.window.vsync = 0
     t.window.fullscreen = true
     t.window.borderless = false
-    t.window.highdpi = true
+    t.window.highdpi = false
 end
