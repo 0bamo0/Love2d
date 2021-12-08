@@ -14,6 +14,7 @@ function Player:load()
   self.collider = world:newBSGRectangleCollider(self.x , self.y , self.width , self.height,0)
   self.collider:setPreSolve(CallbackFunction)
   self.collider:setType('dynamic')
+  self.collider:setFixedRotation(true)
   self.grounded = false
 end
 
@@ -32,7 +33,7 @@ function Player:draw()
   if self.direction == 'left' then
     scaleX = -1
   end
-  self.animation.current:draw(self.sheet , self.x , self.y , 0 , scaleX ,1, self.width/2-6 ,self.height/2)
+  self.animation.current:draw(self.sheet , self.x , self.y , 0 , scaleX*1.2 ,1.2, self.width/2-6 ,self.height/2)
 end
 
 function Player:Move(key)
