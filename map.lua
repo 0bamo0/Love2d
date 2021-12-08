@@ -1,12 +1,14 @@
 local Map = {}
 local Player = require'player'
+local Pigs = require'Ennemis/Pigs'
 function Map:load()
-  world = wf.newWorld(0 , 1000 , true)
+  world = wf.newWorld(0 , 2000 , true)
   world:setQueryDebugDrawing(true)
   self.currentLevel = 1
   world:addCollisionClass('Ground')
   world:addCollisionClass('Player')
   world:addCollisionClass('Platforms')
+  world:addCollisionClass('Ennemy')
 
   self:init()
 end
@@ -29,14 +31,15 @@ function Map:init()
     local collider = world:newRectangleCollider(v.x , v.y , v.width , v.height)
     collider:setCollisionClass('Platforms')
     collider:setType('static')
+    platx , platy = v.width , v.height
   end
   self:spawnEntities()
 end
 
 function Map:spawnEntities()
 	for i,v in ipairs(self.entityLayer.objects) do
-		if v.type == "spikes" then
-			Spike.new(v.x + v.width / 2, v.y + v.height / 2)
+		if v.type == "pig" then
+			Pigs.new(v.x, v.y ,v.width , v.height)
 		end
 	end
 end

@@ -8,8 +8,8 @@ return {
   height = 30,
   tilewidth = 32,
   tileheight = 32,
-  nextlayerid = 9,
-  nextobjectid = 29,
+  nextlayerid = 10,
+  nextobjectid = 43,
   properties = {},
   tilesets = {
     {
@@ -62,6 +62,32 @@ return {
       properties = {},
       wangsets = {},
       tilecount = 1024,
+      tiles = {}
+    },
+    {
+      name = "TX Tileset Ground",
+      firstgid = 1386,
+      tilewidth = 32,
+      tileheight = 32,
+      spacing = 0,
+      margin = 0,
+      columns = 16,
+      image = "../assets/TX Tileset Ground.png",
+      imagewidth = 512,
+      imageheight = 512,
+      objectalignment = "unspecified",
+      tileoffset = {
+        x = 0,
+        y = 0
+      },
+      grid = {
+        orientation = "orthogonal",
+        width = 32,
+        height = 32
+      },
+      properties = {},
+      wangsets = {},
+      tilecount = 256,
       tiles = {}
     }
   },
@@ -189,6 +215,19 @@ return {
           rotation = 0,
           visible = false,
           properties = {}
+        },
+        {
+          id = 32,
+          name = "",
+          type = "",
+          shape = "rectangle",
+          x = -32,
+          y = 0,
+          width = 32,
+          height = 400000,
+          rotation = 0,
+          visible = true,
+          properties = {}
         }
       }
     },
@@ -213,7 +252,7 @@ return {
           x = 320,
           y = 192,
           width = 160,
-          height = 32,
+          height = 1,
           rotation = 0,
           visible = true,
           properties = {}
@@ -225,14 +264,93 @@ return {
       draworder = "topdown",
       id = 5,
       name = "entity",
-      visible = false,
+      visible = true,
       opacity = 1,
       offsetx = 0,
       offsety = 0,
       parallaxx = 1,
       parallaxy = 1,
       properties = {},
-      objects = {}
+      objects = {
+        {
+          id = 35,
+          name = "",
+          type = "pig",
+          shape = "rectangle",
+          x = 230,
+          y = 170,
+          width = 19,
+          height = 15,
+          rotation = 0,
+          visible = true,
+          properties = {}
+        },
+        {
+          id = 38,
+          name = "",
+          type = "pig",
+          shape = "rectangle",
+          x = 253.167,
+          y = 173.167,
+          width = 19,
+          height = 15,
+          rotation = 0,
+          visible = true,
+          properties = {}
+        },
+        {
+          id = 39,
+          name = "",
+          type = "pig",
+          shape = "rectangle",
+          x = 275.167,
+          y = 187.167,
+          width = 19,
+          height = 15,
+          rotation = 0,
+          visible = true,
+          properties = {}
+        },
+        {
+          id = 40,
+          name = "",
+          type = "pig",
+          shape = "rectangle",
+          x = 171.167,
+          y = 149.167,
+          width = 19,
+          height = 15,
+          rotation = 0,
+          visible = true,
+          properties = {}
+        },
+        {
+          id = 41,
+          name = "",
+          type = "pig",
+          shape = "rectangle",
+          x = 105.167,
+          y = 167.167,
+          width = 19,
+          height = 15,
+          rotation = 0,
+          visible = true,
+          properties = {}
+        },
+        {
+          id = 42,
+          name = "",
+          type = "pig",
+          shape = "rectangle",
+          x = 199.167,
+          y = 163.167,
+          width = 19,
+          height = 15,
+          rotation = 0,
+          visible = true,
+          properties = {}
+        }
+      }
     }
   }
 }
