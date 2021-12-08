@@ -49,9 +49,16 @@ function debug(key)
   end
 end
 
+function log(key)
+  if key == 'ctrl' and isDebug then
+    print(Player.x)
+  end
+end
+
 function love.keypressed(key)
   Player:Jump(key)
   debug(key)
+  log(key)
 end
 function love.keyreleased(key)
   Player:Friction(key)

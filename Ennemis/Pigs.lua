@@ -57,7 +57,6 @@ function Pigs:draw()
   local scale = 1
   if self.direction == 'left' then scale = 1 else scale = -1 end
   self.anim:draw(self.sheet,self.x,self.y,0 , scale , 1 , self.width , self.height+3)
-  print(self.xVel)
 end
 
 
