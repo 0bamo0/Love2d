@@ -1,8 +1,12 @@
 local Map = {}
+local Player = require'player'
 function Map:load()
   world = wf.newWorld(0 , 1000 , true)
+  world:setQueryDebugDrawing(true)
   self.currentLevel = 1
-  world:addCollisionClass('ground')
+  world:addCollisionClass('Ground')
+  world:addCollisionClass('Player')
+  world:addCollisionClass('Platforms')
 
   self:init()
 end
@@ -13,13 +17,19 @@ end
 function Map:init()
   self.level = sti('maps/'..self.currentLevel..'.lua')
   self.groundLayer = self.level.layers.ground
+  self.platformsLayer = self.level.layers.Platforms
   self.entityLayer = self.level.layers.entity
+  self.wallsLayer = self.level.layers.Walls
   for i,v in ipairs(self.groundLayer.objects) do
     local collider = world:newRectangleCollider(v.x , v.y , v.width , v.height)
-    collider:setCollisionClass('ground')
+    collider:setCollisionClass('Ground')
     collider:setType('static')
   end
-
+  for i,v in ipairs(self.platformsLayer.objects) do
+    local collider = world:newRectangleCollider(v.x , v.y , v.width , v.height)
+    collider:setCollisionClass('Platforms')
+    collider:setType('static')
+  end
   self:spawnEntities()
 end
 
@@ -35,5 +45,4 @@ function Map:draw()
   self.level:drawLayer(self.level.layers['background'])
   self.level:drawLayer(self.level.layers['arbres'])
 end
-
 return Map

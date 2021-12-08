@@ -1,8 +1,8 @@
-Player = {}
+local Player = {}
 function Player:load()
     self:LoadAssets()
-  self.x = 0
-  self.y = -1000
+  self.x = 100
+  self.y = 210
   self.startX = self.x
   self.startY = self.y
   self.direction = "right"
@@ -10,20 +10,38 @@ function Player:load()
   self.speed = 200
   self.width = 69
   self.height = 44
-  self.jumpForce = 2000
-  self.collider = world:newBSGRectangleCollider(self.x , self.y , self.width , self.height,0)
-  self.collider:setPreSolve(CallbackFunction)
+  self.jumpForce = 600
+  self.collider = world:newRectangleCollider(self.x , self.y , self.width/3 , self.height-9)
+  self.collider:setCollisionClass('Player')
+  self.collider:setFixedRotation(true)
   self.collider:setType('dynamic')
+  function Custom(collider_1, collider_2, contact)
+    if collider_1.collision_class == 'Player' and collider_2.collision_class == 'Platforms'then
+      local nx, ny = contact:getNormal()
+      local px, py = collider_1:getPosition()
+      local tx, ty = collider_2:getPosition()
+      local tw , th = 0 , 32
+      if py+self.height/2 > ty-th/2 then
+        contact:setEnabled(false)
+      end
+    end
+  end
+  self.collider:setPreSolve(Custom)
   self.grounded = false
+  self.onPlatform = false
+
+
 end
 
 function Player:update(dt)
   self.xVel , self.yVel = self.collider:getLinearVelocity()
+  self.wallsLeft = false
+  self.wallsRight = false
   self:Collisions(dt)
   self:setDirection(dt)
   self:Move(dt)
+  self:Friction(key)
   self:setStat(dt)
-self:Friction(key)
   self:Animate(dt)
 end
 
@@ -31,19 +49,22 @@ function Player:draw()
   local scaleX = 1
   if self.direction == 'left' then
     scaleX = -1
+  elseif self.direction == 'right' then
+    scaleX = 1
   end
-  self.animation.current:draw(self.sheet , self.x , self.y , 0 , scaleX ,1, self.width/2-6 ,self.height/2)
+  self.animation.current:draw(self.sheet , self.x , self.y , 0 , scaleX ,1, self.width/2-6 ,self.height/2+4)
 end
 
 function Player:Move(key)
-  if love.keyboard.isDown('right','d') then
+  if love.keyboard.isDown('right','d') and not self.wallsRight then
     self.collider:setLinearVelocity(self.speed , self.yVel)
+    self.direction = 'right'
   elseif
-    love.keyboard.isDown('left','q') then
+    love.keyboard.isDown('left','q') and not self.wallsLeft then
     self.collider:setLinearVelocity(-1 *self.speed , self.yVel)
+    self.direction = 'left'
   end
   self.x , self.y = self.collider:getPosition()
-
 end
 
 function Player:Friction(key)
@@ -78,42 +99,55 @@ function  Player:Animate(dt)
 end
 
 function Player:setStat(dt)
-  if not self.grounded then
+      if self.yVel > 0 then
+      self.state = 'fall'
+      else
       self.state = 'jump'
-  end
-  if self.yVel > 0 and not self.grounded then
-    self.state = 'fall'
-  end
-  if self.grounded then
-    if (self.xVel < 1 and self.xVel > -1 ) then self.state = 'idle' else self.state = 'run' end
+      end
+
+  if (self.grounded or self.onPlatform) then
+    if self.xVel ~= 0 then
+      self.state = 'run'
+    else
+      self.state = 'idle'
+    end
   end
 end
 
 function Player:setDirection()
-   if self.xVel < -1 then
+   if self.xVel < 0 then
       self.direction = "left"
-   elseif self.xVel > 1 then
+   elseif self.xVel > 0 then
       self.direction = "right"
    end
 end
 
-function Player:Collisions()
-  if self.collider:enter('ground') then
+function Player:Collisions(dt)
+  local query1 = world:queryRectangleArea(self.x-self.width/4+7,self.y+self.height/2-5 , self.width/4+3 , 2 , {'Ground' , 'Platforms'})
+  if #query1 == 1 then
     self.grounded = true
-  end
-  if self.collider:exit('ground') then
+  else
     self.grounded = false
+  end
+  local query2Right = world:queryRectangleArea(self.x+self.width/4-6,self.y-self.height/2+5 , 2 , self.height-10 , {'Platforms'})
+  if #query2Right == 1 then
+    self.wallsRight = true
+  else
+    self.wallsRight = false
+  end
+  local query2Left = world:queryRectangleArea(self.x-self.width/4+4,self.y-self.height/2+5 , 2 , self.height-10 , {'Platforms'})
+  if #query2Left == 1 then
+    self.wallsLeft = true
+  else
+    self.wallsLeft = false
   end
 end
 
 function Player:Jump(key)
   if key == 'space' then
-    if self.grounded then
+    if (self.grounded or self.onPlatform) then
       self.collider:applyLinearImpulse(self.xVel , -self.jumpForce)
     end
   end
-end
-
-function CallbackFunction(collider_1,collider_2,contact)
 end
 return Player
