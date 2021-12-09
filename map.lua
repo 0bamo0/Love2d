@@ -6,9 +6,10 @@ function Map:load()
   world:setQueryDebugDrawing(true)
   self.currentLevel = 1
   world:addCollisionClass('Ground')
-  world:addCollisionClass('Player')
   world:addCollisionClass('Platforms')
   world:addCollisionClass('Ennemy')
+  world:addCollisionClass('Walls')
+    world:addCollisionClass('Player' , {ignores = {'Ennemy'}})
 
   self:init()
 end
@@ -31,7 +32,12 @@ function Map:init()
     local collider = world:newRectangleCollider(v.x , v.y , v.width , v.height)
     collider:setCollisionClass('Platforms')
     collider:setType('static')
-    platx , platy = v.width , v.height
+    platy = v.height 
+  end
+  for i,v in ipairs(self.wallsLayer.objects) do
+    local collider = world:newRectangleCollider(v.x , v.y , v.width , v.height)
+    collider:setCollisionClass('Walls')
+    collider:setType('static')
   end
   self:spawnEntities()
 end
@@ -39,7 +45,7 @@ end
 function Map:spawnEntities()
 	for i,v in ipairs(self.entityLayer.objects) do
 		if v.type == "pig" then
-			Pigs.new(v.x, v.y ,v.width , v.height)
+			Pigs.new(v.x, v.y ,v.width , v.height,v.properties.speed )
 		end
 	end
 end
