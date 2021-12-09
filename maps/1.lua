@@ -8,8 +8,8 @@ return {
   height = 30,
   tilewidth = 32,
   tileheight = 32,
-  nextlayerid = 10,
-  nextobjectid = 43,
+  nextlayerid = 11,
+  nextobjectid = 48,
   properties = {},
   tilesets = {
     {
@@ -215,16 +215,31 @@ return {
           rotation = 0,
           visible = false,
           properties = {}
-        },
+        }
+      }
+    },
+    {
+      type = "objectgroup",
+      draworder = "topdown",
+      id = 10,
+      name = "Walls",
+      visible = true,
+      opacity = 1,
+      offsetx = 0,
+      offsety = 0,
+      parallaxx = 1,
+      parallaxy = 1,
+      properties = {},
+      objects = {
         {
-          id = 32,
+          id = 46,
           name = "",
           type = "",
           shape = "rectangle",
-          x = -32,
+          x = -10,
           y = 0,
-          width = 32,
-          height = 400000,
+          width = 10,
+          height = 40000,
           rotation = 0,
           visible = true,
           properties = {}
@@ -273,38 +288,27 @@ return {
       properties = {},
       objects = {
         {
-          id = 35,
-          name = "",
-          type = "pig",
-          shape = "rectangle",
-          x = 230,
-          y = 170,
-          width = 19,
-          height = 15,
-          rotation = 0,
-          visible = true,
-          properties = {}
-        },
-        {
-          id = 38,
-          name = "",
-          type = "pig",
-          shape = "rectangle",
-          x = 253.167,
-          y = 173.167,
-          width = 19,
-          height = 15,
-          rotation = 0,
-          visible = true,
-          properties = {}
-        },
-        {
           id = 39,
           name = "",
           type = "pig",
           shape = "rectangle",
-          x = 275.167,
-          y = 187.167,
+          x = 186,
+          y = 200,
+          width = 19,
+          height = 15,
+          rotation = 0,
+          visible = true,
+          properties = {
+            ["speed"] = "100"
+          }
+        },
+        {
+          id = 44,
+          name = "",
+          type = "fed",
+          shape = "rectangle",
+          x = 255.833,
+          y = 163.833,
           width = 19,
           height = 15,
           rotation = 0,
@@ -312,38 +316,12 @@ return {
           properties = {}
         },
         {
-          id = 40,
+          id = 45,
           name = "",
-          type = "pig",
+          type = "hyu",
           shape = "rectangle",
-          x = 171.167,
-          y = 149.167,
-          width = 19,
-          height = 15,
-          rotation = 0,
-          visible = true,
-          properties = {}
-        },
-        {
-          id = 41,
-          name = "",
-          type = "pig",
-          shape = "rectangle",
-          x = 105.167,
-          y = 167.167,
-          width = 19,
-          height = 15,
-          rotation = 0,
-          visible = true,
-          properties = {}
-        },
-        {
-          id = 42,
-          name = "",
-          type = "pig",
-          shape = "rectangle",
-          x = 199.167,
-          y = 163.167,
+          x = 133.833,
+          y = 139.833,
           width = 19,
           height = 15,
           rotation = 0,
