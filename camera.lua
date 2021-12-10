@@ -20,9 +20,9 @@ end
 
 function cam:Zoom(x,y)
   if y > 0 then
-      cam:zoom(2)
+      cam:zoom(1.1)
   elseif y < 0 then
-      cam:zoom(0.5)
+      cam:zoom(0.9)
   end
 end
 
@@ -31,16 +31,16 @@ function cam:LockToPlayer(key)
 end
 function cam:Movement()
   if love.keyboard.isDown('n') and not camToPlayer then
-    cam.x = cam.x + 1
+    cam.x = cam.x +0.1
   end
   if love.keyboard.isDown('b') and not camToPlayer then
-    cam.y = cam.y + 1
+    cam.y = cam.y +0.1
   end
   if love.keyboard.isDown('v') and not camToPlayer then
-    cam.x = cam.x - 1
+    cam.x = cam.x -0.1
   end
   if love.keyboard.isDown('g') and not camToPlayer then
-    cam.y = cam.y - 1
+    cam.y = cam.y -0.1
   end
 end
 return cam
