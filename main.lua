@@ -1,39 +1,66 @@
 love.graphics.setDefaultFilter("nearest", "nearest")
-local Map = require'map'
-local Player = require'player'
-local timer = require'libs/timer'
+wf = require'libs/windfield'
+sti = require'libs/sti'
+camera = require'libs/camera'
+anim8 = require "libs/anim8"
+
+
+local Map = require('map')
+local Player = require('player')
+local timer = require('libs/timer')
+local Pigs = require('Ennemis/Pigs')
+local cam = require('camera')
+local debugging = require('debugging')
+
 function love.load()
-  Effect = true
-  wf = require'libs/windfield'
-  sti = require'libs/sti'
-  camera = require'libs/camera'
-  anim8 = require "libs/anim8"
-  Player = require'player'
-  require'camera'
+  debugging:load()
   Map:load()
   Player:load()
+  cam:Load()
 end
 
 function love.update(dt)
-  world:update(dt)
-  cam:update(dt)
   Player:update(dt)
+  Pigs.updateAll(dt)
+  cam:update(dt)
   Map:update(dt)
-
+  world:update(dt)
 end
 
 function love.draw()
-    cam:attach()
+  cam:attach()
   Map:draw()
+  Pigs.drawAll()
   Player:draw()
-  world:draw()
-    cam:detach()
-love.graphics.print(Player.xVel)
+  if debugging.isActif then world:draw() end
+  cam:detach()
+  debugging:draw()
 end
-
 function love.keypressed(key)
   Player:Jump(key)
+  debugging:Switch(key)
+  Exit (key)
+  cam:LockToPlayer(key)
 end
+
+function Exit(key)
+  if key == 'escape' then
+    love.event.quit()
+  end
+end
+
 function love.keyreleased(key)
   Player:Friction(key)
+end
+
+function love.mousepressed(x, y,key)
+  Player:FastAttack(key)
+end
+
+function love.mousereleased(x, y, button)
+  Player:AttackTimer(button)
+end
+
+function love.wheelmoved(x, y)
+  cam:Zoom(x,y)
 end

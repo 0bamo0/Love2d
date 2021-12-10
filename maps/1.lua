@@ -8,63 +8,10 @@ return {
   height = 30,
   tilewidth = 32,
   tileheight = 32,
-  nextlayerid = 6,
-  nextobjectid = 7,
+  nextlayerid = 11,
+  nextobjectid = 58,
   properties = {},
-  tilesets = {
-    {
-      name = "mapsTilesets",
-      firstgid = 1,
-      tilewidth = 32,
-      tileheight = 32,
-      spacing = 0,
-      margin = 0,
-      columns = 19,
-      image = "../assets/mapsTilesets.png",
-      imagewidth = 608,
-      imageheight = 608,
-      objectalignment = "unspecified",
-      tileoffset = {
-        x = 0,
-        y = 0
-      },
-      grid = {
-        orientation = "orthogonal",
-        width = 32,
-        height = 32
-      },
-      properties = {},
-      wangsets = {},
-      tilecount = 361,
-      tiles = {}
-    },
-    {
-      name = "TX Village Props",
-      firstgid = 362,
-      tilewidth = 32,
-      tileheight = 32,
-      spacing = 0,
-      margin = 0,
-      columns = 32,
-      image = "../assets/TX Village Props.png",
-      imagewidth = 1024,
-      imageheight = 1024,
-      objectalignment = "unspecified",
-      tileoffset = {
-        x = 0,
-        y = 0
-      },
-      grid = {
-        orientation = "orthogonal",
-        width = 32,
-        height = 32
-      },
-      properties = {},
-      wangsets = {},
-      tilecount = 1024,
-      tiles = {}
-    }
-  },
+  tilesets = {},
   layers = {
     {
       type = "tilelayer",
@@ -92,7 +39,7 @@ return {
         0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
         0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
         0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-        98, 98, 98, 98, 98, 98, 98, 98, 98, 98, 98, 98, 98, 98, 98, 98, 98, 98, 98, 98, 98, 98, 98, 98, 98, 98, 98, 98, 98, 98,
+        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
         0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
         0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
         0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
@@ -137,9 +84,9 @@ return {
         0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
         0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
         0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-        0, 0, 0, 0, 307, 308, 0, 0, 0, 0, 0, 307, 308, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-        0, 0, 0, 0, 326, 327, 0, 0, 0, 0, 0, 326, 327, 0, 0, 0, 0, 0, 0, 0, 307, 308, 0, 0, 0, 0, 0, 0, 0, 0,
-        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 326, 327, 0, 0, 0, 0, 0, 0, 0, 0,
+        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
         0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
         0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
         0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
@@ -187,7 +134,89 @@ return {
           width = 960,
           height = 32,
           rotation = 0,
-          visible = false,
+          visible = true,
+          properties = {}
+        }
+      }
+    },
+    {
+      type = "objectgroup",
+      draworder = "topdown",
+      id = 10,
+      name = "Walls",
+      visible = true,
+      opacity = 1,
+      offsetx = 0,
+      offsety = 0,
+      parallaxx = 1,
+      parallaxy = 1,
+      properties = {},
+      objects = {
+        {
+          id = 46,
+          name = "",
+          type = "",
+          shape = "rectangle",
+          x = -10,
+          y = 0,
+          width = 10,
+          height = 40000,
+          rotation = 0,
+          visible = true,
+          properties = {}
+        },
+        {
+          id = 56,
+          name = "",
+          type = "",
+          shape = "rectangle",
+          x = 288,
+          y = 226,
+          width = 32,
+          height = 62,
+          rotation = 0,
+          visible = true,
+          properties = {}
+        },
+        {
+          id = 57,
+          name = "",
+          type = "",
+          shape = "rectangle",
+          x = 0,
+          y = 226,
+          width = 32,
+          height = 62,
+          rotation = 0,
+          visible = true,
+          properties = {}
+        }
+      }
+    },
+    {
+      type = "objectgroup",
+      draworder = "topdown",
+      id = 6,
+      name = "Platforms",
+      visible = true,
+      opacity = 1,
+      offsetx = 0,
+      offsety = 0,
+      parallaxx = 1,
+      parallaxy = 1,
+      properties = {},
+      objects = {
+        {
+          id = 23,
+          name = "",
+          type = "platforms",
+          shape = "rectangle",
+          x = 320,
+          y = 192,
+          width = 160,
+          height = 1,
+          rotation = 0,
+          visible = true,
           properties = {}
         }
       }
@@ -197,7 +226,7 @@ return {
       draworder = "topdown",
       id = 5,
       name = "entity",
-      visible = false,
+      visible = true,
       opacity = 1,
       offsetx = 0,
       offsety = 0,
@@ -206,30 +235,35 @@ return {
       properties = {},
       objects = {
         {
-          id = 5,
+          id = 39,
           name = "",
-          type = "red",
+          type = "pig",
           shape = "rectangle",
-          x = 352,
-          y = 128,
-          width = 32,
-          height = 32,
+          x = 387,
+          y = 170,
+          width = 19,
+          height = 15,
           rotation = 0,
           visible = true,
-          properties = {}
+          properties = {
+            ["speed"] = "80"
+          }
         },
         {
-          id = 6,
+          id = 55,
           name = "",
-          type = "green",
+          type = "pigSpawnArea",
           shape = "rectangle",
-          x = 608,
-          y = 128,
-          width = 32,
-          height = 32,
+          x = 82,
+          y = 88,
+          width = 181,
+          height = 30,
           rotation = 0,
           visible = true,
-          properties = {}
+          properties = {
+            ["spawnNumber"] = 2,
+            ["speed"] = "80"
+          }
         }
       }
     }
