@@ -1,34 +1,50 @@
 local Pigs = {img = love.graphics.newImage('assets/pig.png')}
 Pigs.__index = Pigs
 local ActivePigs = {}
+local debugging = require('debugging')
+local Player = require('player')
 
 function Pigs.new(x,y,width,height,speed)
-    local instance = setmetatable({}, Pigs)
-    instance.x = x
-    instance.y = y
-    instance.width = width
-    instance.height = height
-    instance.speed = speed
-    instance.stat = 'idle'
-    instance.direction = 1
-    instance.speed = speed
-    instance.collider = world:newRectangleCollider(x,y,width ,height)
-    instance.collider:setType('dynamic')
-    instance.collider:setFixedRotation(true)
-    instance.collider:setCollisionClass('Ennemy')
-    table.insert(ActivePigs, instance)
+  local instance = setmetatable({}, Pigs)
+  instance.x = x
+  instance.y = y
+  instance.width = width
+  instance.height = height
+  instance.speed = speed
+  instance.stat = 'idle'
+  instance.direction = 1
+  instance.speed = speed
+  instance.collider = world:newRectangleCollider(x,y,width ,height)
+  instance.collider:setType('dynamic')
+  instance.collider:setFixedRotation(true)
+  instance.collider:setCollisionClass('Ennemy')
+  instance.sheet = love.graphics.newImage('assets/pig.png')
+  instance.grid = anim8.newGrid( 34, 28, instance.sheet:getWidth(), instance.sheet:getHeight())
+  instance.animation = {}
+  instance.animation.walk = anim8.newAnimation( instance.grid('1-6' , 1), 0.1)
+  instance.animation.idle = anim8.newAnimation( instance.grid('1-1' , 1), 0.1)
+  table.insert(ActivePigs, instance)
 end
-
-function Pigs.LoadAssets(self)
-  self.sheet = love.graphics.newImage('assets/pig.png')
-  self.grid = anim8.newGrid( 34, 28, self.sheet:getWidth(), self.sheet:getHeight())
-  self.setAnimations(Pigs)
-end
-
-function Pigs.setAnimations(self)
-  self.animation = {}
-  self.animation.walk = anim8.newAnimation( self.grid('1-6' , 1), 0.1)
-  self.animation.idle = anim8.newAnimation( self.grid('1-1' , 1), 0.1)
+function Pigs.newArea(x,y,width,height,speed)
+  local instance = setmetatable({}, Pigs)
+  instance.x = x
+  instance.y = y
+  instance.width = 19
+  instance.height = 15
+  instance.speed = speed
+  instance.stat = 'idle'
+  instance.direction = 1
+  instance.speed = speed
+  instance.collider = world:newRectangleCollider(x,y,19 ,15)
+  instance.collider:setType('dynamic')
+  instance.collider:setFixedRotation(true)
+  instance.collider:setCollisionClass('Ennemy')
+  instance.sheet = love.graphics.newImage('assets/pig.png')
+  instance.grid = anim8.newGrid( 34, 28, instance.sheet:getWidth(), instance.sheet:getHeight())
+  instance.animation = {}
+  instance.animation.walk = anim8.newAnimation( instance.grid('1-6' , 1), 0.1)
+  instance.animation.idle = anim8.newAnimation( instance.grid('1-1' , 1), 0.1)
+  table.insert(ActivePigs, instance)
 end
 
 function Pigs:update(dt)
@@ -60,24 +76,38 @@ function Pigs:setDirection(dt)
 end
 
 function Pigs:AI(dt)
-  if self:checkNoGround(dt) or self:checkWalls(dt) then
+
+  if (self:checkNoGround(dt) or self:checkWalls(dt)) then
     self.direction = -self.direction
   end
   self.collider:setLinearVelocity(self.direction*self.speed , self.yVel)
 end
 
 function Pigs:checkNoGround(dt)
-    local query = world:queryRectangleArea(self.x+self.direction*self.width/2+self.direction,self.y+self.height/2 , 1 , 1 , {'Ground','Platforms'})
+    local query = world:queryRectangleArea(self.x+self.direction*self.width/2-2*self.direction,self.y+self.height/2 , 1 , 1 , {'Ground','Platforms'})
     if #query == 0 then
     return true end
-
 end
 
 function Pigs:checkWalls(dt)
-  local query = world:queryRectangleArea(self.x-self.width/2-2,self.y-self.height/2 , 2 , self.height , {'Walls'})
-  local query = world:queryRectangleArea(self.x+self.width/2,self.y-self.height/2 , 2 , self.height , {'Walls'})
-  if #query > 0 then
-  return true end
+  if self.collider:enter('Walls') then return true end
+  if self.collider:enter('Ennemy') then return true end
+end
+
+function Pigs:checkPlayer(dt)
+  local query = world:queryRectangleArea(self.x-40 , self.y-self.height/2 , 80 ,self.height, {'Player'})
+  local query = world:queryRectangleArea(self.x-40 , self.y-self.height/2 , 80 ,self.height, {'Player'})
+  if #query > 0 then return true end
+end
+
+function Pigs:walkToPlayer(dt)
+  self.SeePlayer = true
+  if self.x - Player.x < 0 then
+    self.direction = 1
+  end
+  if self.x - Player.x > 0 then
+    self.direction = -1
+  end
 end
 
 function Pigs:draw()
@@ -97,7 +127,7 @@ function Pigs.drawAll()
 end
 
 function Pigs:ForceMove(dt)
-  if isDebug then
+  if debugging.isActif then
     if love.keyboard.isDown('j') then
       self.collider:setLinearVelocity(-100 , self.yVel)
     end
