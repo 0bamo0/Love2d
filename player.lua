@@ -130,7 +130,7 @@ end
 function Player:Collisions(dt)
   local queryX = self.x-self.width/2
   local queryY = self.y+self.height/2
-  local query = world:queryRectangleArea(queryX,queryY, self.width , 1 , {'Ground' , 'Platforms'})
+  local query = world:queryRectangleArea(queryX,queryY, self.width , 1 , {'Ground' , 'Platforms' , 'Walls'})
   if #query == 1 then self.grounded = true else self.grounded = false end
 
   if self.direction == 1 then
