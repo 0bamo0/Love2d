@@ -1,7 +1,6 @@
 local Pigs = {img = love.graphics.newImage('assets/pig.png')}
 Pigs.__index = Pigs
 local ActivePigs = {}
-local debugging = require('debugging')
 local Player = require('player')
 
 function Pigs.new(x,y,width,height,speed)
@@ -54,7 +53,8 @@ function Pigs:update(dt)
   self:AI(dt)
   self:Animate(dt)
   self:sync(dt)
-  self:ForceMove(dt)
+  self.chekcollision()
+  self:checkRemove(dt)
 end
 
 function Pigs:Animate(dt)
@@ -93,7 +93,6 @@ end
 
 function Pigs:checkWalls(dt)
   if self.collider:enter('Walls') then return true end
-  if self.collider:enter('Ennemy') then return true end
 end
 
 function Pigs:checkPlayer(dt)
@@ -103,18 +102,28 @@ function Pigs:checkPlayer(dt)
 end
 
 function Pigs:walkToPlayer(dt)
-  self.SeePlayer = true
   if self.x - Player.x < 0 then
     self.direction = 1
   end
   if self.x - Player.x > 0 then
     self.direction = -1
   end
-  if self.x - Player.x == 0 then
-    self.direction = 1
+end
+
+function Pigs:checkRemove(dt)
+  if self.toBeRemoved then
+    self:remove()
   end
 end
 
+function Pigs:remove()
+  for i,instance in ipairs(ActivePigs) do
+      if instance == self then
+         self.collider:destroy()
+         table.remove(ActivePigs, i)
+      end
+   end
+end
 function Pigs:draw()
   self.animation.current:draw(self.sheet,self.x,self.y,0 , -self.direction , 1 , self.width , self.height+3)
 end
@@ -125,6 +134,7 @@ end
 function Pigs.updateAll(dt)
    for i,instance in ipairs(ActivePigs) do
       instance:update(dt)
+
    end
 end
 
@@ -134,15 +144,12 @@ function Pigs.drawAll()
    end
 end
 
-function Pigs:ForceMove(dt)
-  if debugging.isActif then
-    if love.keyboard.isDown('j') then
-      self.collider:setLinearVelocity(-100 , self.yVel)
-    end
-    if love.keyboard.isDown('l') then
-      self.collider:setLinearVelocity(100 , self.yVel)
-    end
-  end
+function Pigs.chekcollision()
+ for i,instance in ipairs(ActivePigs) do
+   if instance.collider:enter('Player') then
+     instance.toBeRemoved = true
+   end
+ end
 end
 
 return Pigs
