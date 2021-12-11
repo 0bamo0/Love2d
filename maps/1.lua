@@ -11,7 +11,34 @@ return {
   nextlayerid = 11,
   nextobjectid = 58,
   properties = {},
-  tilesets = {},
+  tilesets = {
+    {
+      name = "Terrain (16x16)",
+      firstgid = 1,
+      tilewidth = 32,
+      tileheight = 32,
+      spacing = 0,
+      margin = 0,
+      columns = 22,
+      image = "../assets/Terrain (16x16).png",
+      imagewidth = 704,
+      imageheight = 352,
+      objectalignment = "unspecified",
+      tileoffset = {
+        x = 0,
+        y = 0
+      },
+      grid = {
+        orientation = "orthogonal",
+        width = 32,
+        height = 32
+      },
+      properties = {},
+      wangsets = {},
+      tilecount = 242,
+      tiles = {}
+    }
+  },
   layers = {
     {
       type = "tilelayer",
@@ -36,10 +63,10 @@ return {
         0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
         0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
         0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+        0, 0, 0, 89, 90, 90, 90, 91, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+        104, 0, 0, 111, 112, 112, 112, 113, 0, 95, 96, 97, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+        126, 0, 0, 111, 112, 112, 112, 113, 0, 117, 118, 119, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+        148, 7, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8,
         0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
         0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
         0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
@@ -171,9 +198,9 @@ return {
           type = "",
           shape = "rectangle",
           x = 288,
-          y = 226,
-          width = 32,
-          height = 62,
+          y = 224,
+          width = 95.9545,
+          height = 64.0455,
           rotation = 0,
           visible = true,
           properties = {}
@@ -211,7 +238,7 @@ return {
           name = "",
           type = "platforms",
           shape = "rectangle",
-          x = 320,
+          x = 96,
           y = 192,
           width = 160,
           height = 1,
@@ -239,29 +266,30 @@ return {
           name = "",
           type = "pig",
           shape = "rectangle",
-          x = 387,
+          x = 165,
           y = 170,
           width = 19,
           height = 15,
           rotation = 0,
           visible = true,
           properties = {
-            ["speed"] = "80"
+            ["speed"] = "70"
           }
         },
         {
           id = 55,
           name = "",
-          type = "pigSpawnArea",
+          type = "pigsSpawnArea",
           shape = "rectangle",
-          x = 82,
-          y = 88,
+          x = 88,
+          y = 64,
           width = 181,
           height = 30,
           rotation = 0,
           visible = true,
           properties = {
-            ["spawnNumber"] = 2,
+            ["isArea"] = true,
+            ["spawnNumber"] = 1,
             ["speed"] = "80"
           }
         }

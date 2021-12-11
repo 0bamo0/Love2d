@@ -9,9 +9,9 @@ function Player:load()
   self.direction = 1
   self.stat = "idle"
   self.speed = 200
-  self.width = 18
-  self.height = 33
-  self.jumpForce = 760
+  self.width = 18*1.5
+  self.height = 33*1.5
+  self.jumpForce = 1500
   self.attackRange = 1
   self.attacktimer = 0.56
   self.collider = world:newRectangleCollider(self.x , self.y , self.width , self.height)
@@ -52,15 +52,15 @@ function Player:update(dt)
 end
 
 function Player:draw()
-  self.animation.current:draw(self.sheet , self.x , self.y , 0 , self.direction ,1, self.width+8,self.height-7)
+  self.animation.current:draw(self.sheet , self.x , self.y , 0 , self.direction*1.5 ,1.5, self.width/1.5+8,self.height/1.5-7)
 end
 
-function Player:Move(key)
+function Player:Move(dt)
   if love.keyboard.isDown('right','d') and not self.wallsRight and self.canMove then
     self.collider:setLinearVelocity(self.speed , self.yVel)
   elseif
     love.keyboard.isDown('left','q') and not self.wallsLeft and self.canMove then
-    self.collider:setLinearVelocity(-1 *self.speed , self.yVel)
+    self.collider:setLinearVelocity(-self.speed , self.yVel)
   end
   self.x , self.y = self.collider:getPosition()
 end
@@ -157,30 +157,7 @@ function Player:Jump(key)
 end
 
 function Player:Attack(dt)
-  if love.mouse.isDown('1') then
-    self.attacktimer = self.attacktimer - dt
-    if self.attacktimer > 0 then
-      self.stat = 'attack'
-      if self.attacktimer < 0.35 then
-    if self.direction == 1 then
-      local query = world:queryRectangleArea(self.x+self.width/2, self.y-5 , 30 , 10 ,{'Ennemy'} )
-      for i , v in ipairs(query) do
-        local x,y = v:getLinearVelocity()
-        v:applyLinearImpulse(100*self.direction , 0)
-      end
-    end
 
-    if self.direction == -1 then
-      local query = world:queryRectangleArea(self.x-self.width/2-30, self.y-5 , 30 , 10 ,{'Ennemy'} )
-        for i , v in ipairs(query) do
-          local x,y = v:getLinearVelocity()
-          v:applyLinearImpulse(100*self.direction , 0)
-        end
-    end
-  end
-    self.canMove = false
-  end
-  end
 end
 
 function Player:AttackTimer(button)

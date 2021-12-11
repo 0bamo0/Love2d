@@ -49,9 +49,9 @@ end
 
 function Pigs:update(dt)
   self.xVel , self.yVel = self.collider:getLinearVelocity()
-  self:AI(dt)
   self:setDirection(dt)
   self:setStat(dt)
+  self:AI(dt)
   self:Animate(dt)
   self:sync(dt)
   self:ForceMove(dt)
@@ -72,11 +72,13 @@ function Pigs:setStat(dt)
 end
 
 function Pigs:setDirection(dt)
-  if self.xVel > 0 then self.direction = 1 elseif self.xVel < 0 then self.direction = -1 end
+  if self.xVel > 0 then self.direction = 1 elseif self.xVel < 0 then self.direction = -1 else self.direction = 1 end
 end
 
 function Pigs:AI(dt)
-
+  if self:checkPlayer(dt) then
+    self:walkToPlayer(dt)
+  end
   if (self:checkNoGround(dt) or self:checkWalls(dt)) then
     self.direction = -self.direction
   end
@@ -84,7 +86,7 @@ function Pigs:AI(dt)
 end
 
 function Pigs:checkNoGround(dt)
-    local query = world:queryRectangleArea(self.x+self.direction*self.width/2-2*self.direction,self.y+self.height/2 , 1 , 1 , {'Ground','Platforms'})
+    local query = world:queryRectangleArea(self.x+self.direction*5,self.y+self.height/2 , 2 , 2 , {'Ground','Platforms'})
     if #query == 0 then
     return true end
 end
@@ -96,7 +98,7 @@ end
 
 function Pigs:checkPlayer(dt)
   local query = world:queryRectangleArea(self.x-40 , self.y-self.height/2 , 80 ,self.height, {'Player'})
-  local query = world:queryRectangleArea(self.x-40 , self.y-self.height/2 , 80 ,self.height, {'Player'})
+  local query = world:queryRectangleArea(self.x-40-self.width/2 , self.y-self.height/2 , 80 ,self.height, {'Player'})
   if #query > 0 then return true end
 end
 
@@ -108,10 +110,16 @@ function Pigs:walkToPlayer(dt)
   if self.x - Player.x > 0 then
     self.direction = -1
   end
+  if self.x - Player.x == 0 then
+    self.direction = 1
+  end
 end
 
 function Pigs:draw()
   self.animation.current:draw(self.sheet,self.x,self.y,0 , -self.direction , 1 , self.width , self.height+3)
+end
+
+function Pigs:checkForAttacks()
 end
 
 function Pigs.updateAll(dt)

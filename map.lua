@@ -47,7 +47,7 @@ function Map:spawnEntities()
 		if v.type == "pig" then
 			Pigs.new(v.x, v.y ,v.width , v.height,v.properties.speed )
 		end
-    if v.type == "pigSpawnArea" then
+    if v.type == "pigsSpawnArea" then
       for i =1 , v.properties.spawnNumber do
 			     Pigs.newArea(math.random(v.x , v.x+v.width),math.random(v.y , v.y+v.height),v.width , v.height,v.properties.speed )
       end

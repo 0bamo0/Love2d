@@ -13,17 +13,18 @@ local cam = require('camera')
 local debugging = require('debugging')
 
 function love.load()
-  debugging:load()
   Map:load()
   Player:load()
   cam:Load()
+
+  debugging:load()
 end
 
 function love.update(dt)
+  Map:update(dt)
   Player:update(dt)
   Pigs.updateAll(dt)
   cam:update(dt)
-  Map:update(dt)
   world:update(dt)
 end
 
