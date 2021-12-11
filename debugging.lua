@@ -1,7 +1,8 @@
 local debugging = {}
 local Player = require('player')
+
 function debugging:load()
-  self.isActif = true
+  self.isActif = false
 end
 
 function debugging:draw()
