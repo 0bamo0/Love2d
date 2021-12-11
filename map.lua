@@ -9,12 +9,8 @@ function Map:load()
   world:addCollisionClass('Platforms')
   world:addCollisionClass('Ennemy')
   world:addCollisionClass('Walls')
-    world:addCollisionClass('Player' , {ignores = {'Ennemy'}})
-
+  world:addCollisionClass('Player' , {ignores = {'Ennemy'}})
   self:init()
-end
-
-function Map:update(dt)
 end
 
 function Map:init()

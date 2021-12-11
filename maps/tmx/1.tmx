@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <map version="1.5" tiledversion="1.7.2" orientation="orthogonal" renderorder="right-down" width="30" height="30" tilewidth="32" tileheight="32" infinite="0" nextlayerid="11" nextobjectid="58">
  <editorsettings>
-  <chunksize width="32" height="32"/>
   <export target="../1.lua" format="lua"/>
  </editorsettings>
  <tileset firstgid="1" name="Terrain (16x16)" tilewidth="32" tileheight="32" tilecount="242" columns="22">
@@ -87,7 +86,7 @@
   <object id="23" type="platforms" x="96" y="192" width="160" height="1"/>
  </objectgroup>
  <objectgroup id="5" name="entity">
-  <object id="39" type="pig" x="165" y="170" width="19" height="15">
+  <object id="39" type="pig" x="189" y="258" width="19" height="15">
    <properties>
     <property name="speed" value="70"/>
    </properties>

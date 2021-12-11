@@ -21,7 +21,6 @@ function love.load()
 end
 
 function love.update(dt)
-  Map:update(dt)
   Player:update(dt)
   Pigs.updateAll(dt)
   cam:update(dt)
@@ -44,24 +43,21 @@ function love.keypressed(key)
   cam:LockToPlayer(key)
 end
 
-function Exit(key)
-  if key == 'escape' then
-    love.event.quit()
-  end
-end
-
 function love.keyreleased(key)
   Player:Friction(key)
 end
 
 function love.mousepressed(x, y,key)
-  Player:FastAttack(key)
 end
 
 function love.mousereleased(x, y, button)
-  Player:AttackTimer(button)
 end
 
 function love.wheelmoved(x, y)
-  cam:Zoom(x,y)
+end
+
+function Exit(key)
+  if key == 'escape' then
+    love.event.quit()
+  end
 end

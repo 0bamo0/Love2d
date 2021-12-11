@@ -9,9 +9,9 @@ function Player:load()
   self.direction = 1
   self.stat = "idle"
   self.speed = 200
-  self.width = 18*1.5
-  self.height = 33*1.5
-  self.jumpForce = 1500
+  self.width = 18
+  self.height = 33
+  self.jumpForce = 680
   self.attackRange = 1
   self.attacktimer = 0.56
   self.collider = world:newRectangleCollider(self.x , self.y , self.width , self.height)
@@ -47,12 +47,11 @@ function Player:update(dt)
   self:Move(dt)
   self:Friction(key)
   self:setStat(dt)
-  self:Attack(dt)
   self:Animate(dt)
 end
 
 function Player:draw()
-  self.animation.current:draw(self.sheet , self.x , self.y , 0 , self.direction*1.5 ,1.5, self.width/1.5+8,self.height/1.5-7)
+  self.animation.current:draw(self.sheet , self.x , self.y , 0 , self.direction*1 ,1, self.width+8,self.height-7)
 end
 
 function Player:Move(dt)
@@ -110,10 +109,11 @@ function Player:setStat(dt)
   elseif self.yVel > 0 then
     self.stat = 'fall'
   end
+
   if self.grounded or self.onPlatform then
-  if self.xVel ~= 0 then
-  self.stat = 'run'
-  else
+    if self.xVel ~= 0 then
+      self.stat = 'run'
+    else
   self.stat = 'idle'
   end
   end
@@ -153,23 +153,6 @@ function Player:Jump(key)
     if (self.grounded or self.onPlatform) then
       self.collider:applyLinearImpulse(self.xVel , -self.jumpForce)
     end
-  end
-end
-
-function Player:Attack(dt)
-
-end
-
-function Player:AttackTimer(button)
-  if button == 1 then
-    self.canMove = true
-    self.animation.current:gotoFrame(1)
-    self.attacktimer = 0.5
-  end
-end
-
-function Player:FastAttack(key)
-  if key == 1 then
   end
 end
 
