@@ -12,6 +12,7 @@ local cam = require("camera")
 local debugging = require("debugging")
 
 function love.load()
+  bg = love.graphics.newImage('assets/background.png')
     Map:load()
     Player:load()
     cam:Load()
@@ -28,6 +29,7 @@ function love.update(dt)
 end
 
 function love.draw()
+  love.graphics.draw(bg, 0 , 0 , 0 , 2)
     cam:attach()
     Map:draw()
     Pigs.drawAll()
@@ -36,7 +38,6 @@ function love.draw()
     end
     Player:draw()
     cam:detach()
-    debugging:draw()
 end
 
 function love.keypressed(key)
@@ -57,7 +58,6 @@ function love.mousereleased(x, y, button)
 end
 
 function love.wheelmoved(x, y)
-  cam:Zoom(x, y)
 end
 
 function Exit(key)

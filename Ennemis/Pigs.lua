@@ -3,7 +3,7 @@ Pigs.__index = Pigs
 local ActivePigs = {}
 local Player = require('player')
 
-function Pigs.new(x,y,width,height,speed,spawnNumber)
+function Pigs.new(x,y,width,height,speed)
   local instance = setmetatable({}, Pigs)
   instance.x = x
   instance.y = y
@@ -25,7 +25,13 @@ function Pigs.new(x,y,width,height,speed,spawnNumber)
   instance.collider:setFixedRotation(true)
   instance.collider:setCollisionClass('Ennemy')
   instance.sheet = love.graphics.newImage('assets/pig.png')
+  instance.dust = love.graphics.newImage('assets/dust.png')
   instance.grid = anim8.newGrid( 50, 50, instance.sheet:getWidth(), instance.sheet:getHeight())
+  instance.particles = {}
+  instance.particles.dust = love.graphics.newParticleSystem(instance.dust, 100)
+  instance.particles.dust:setEmissionRate(80)
+  instance.particles.dust:setParticleLifetime(1,1)
+  instance.particles.dust:setColors(1, 1, 0, 1, 1, 0, 1, 1)
   instance.animation = {}
   instance.animation.walk = anim8.newAnimation( instance.grid('1-6' , 2), 0.1)
   instance.animation.idle = anim8.newAnimation( instance.grid('1-6' , 1), 0.1)
@@ -45,6 +51,10 @@ end
 function Pigs:Animate(dt)
   self.animation.current = self.animation[self.stat]
   self.animation.current:update(dt)
+  if self.stat == 'walk' then
+  self.particles.dust:setLinearAcceleration(0, 0, -self.direction*80,0)
+  self.particles.dust:update(dt)
+  end
 end
 
 function Pigs:sync(dt)
@@ -106,12 +116,14 @@ function Pigs:attckPlayer(dt)
     Player:hurt(self.dmg*self.direction,dt)
   end
 end
+
 function Pigs.removeAll()
   for i,instance in ipairs(ActivePigs) do
     instance.collider:destroy()
   end
   ActivePigs = {}
 end
+
 function Pigs:remove()
   for i,instance in ipairs(ActivePigs) do
       if instance == self then
@@ -120,11 +132,12 @@ function Pigs:remove()
       end
    end
 end
-function Pigs:draw()
-  self.animation.current:draw(self.sheet,self.x,self.y,0 , -self.direction , 1 , 25,23)
-end
 
-function Pigs:checkForAttacks()
+function Pigs:draw()
+  local x,y = self.collider:getPosition()
+  love.graphics.draw(self.particles.dust, x, y , 0 , 0.3 , 0.3 , self.direction*25 ,-23)
+  self.animation.current:draw(self.sheet,x,y,0 , -self.direction , 1 , 23 , 23)
+
 end
 
 function Pigs.updateAll(dt)

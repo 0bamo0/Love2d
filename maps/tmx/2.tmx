@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.5" tiledversion="1.7.2" orientation="orthogonal" renderorder="right-down" width="30" height="30" tilewidth="32" tileheight="32" infinite="1" nextlayerid="7" nextobjectid="7">
+<map version="1.5" tiledversion="1.7.2" orientation="orthogonal" renderorder="right-down" width="30" height="30" tilewidth="32" tileheight="32" infinite="1" nextlayerid="7" nextobjectid="9">
  <editorsettings>
-  <export format="lua"/>
+  <export target="../2.lua" format="lua"/>
  </editorsettings>
  <tileset firstgid="1" name="terrain" tilewidth="32" tileheight="32" tilecount="242" columns="22">
   <image source="../../assets/terrain.png" width="704" height="352"/>
@@ -32,7 +32,8 @@
    </properties>
   </object>
  </objectgroup>
- <objectgroup id="6" name="Next">
-  <object id="6" x="832" y="288" width="32" height="64"/>
+ <objectgroup id="6" name="LevelControl">
+  <object id="6" type="Next" x="832" y="288" width="32" height="64"/>
+  <object id="8" x="576" y="192" width="32" height="32"/>
  </objectgroup>
 </map>

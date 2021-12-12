@@ -9,7 +9,7 @@ return {
   tilewidth = 32,
   tileheight = 32,
   nextlayerid = 7,
-  nextobjectid = 7,
+  nextobjectid = 9,
   properties = {},
   tilesets = {
     {
@@ -193,7 +193,7 @@ return {
       type = "objectgroup",
       draworder = "topdown",
       id = 6,
-      name = "Next",
+      name = "LevelControl",
       visible = true,
       opacity = 1,
       offsetx = 0,
@@ -205,12 +205,25 @@ return {
         {
           id = 6,
           name = "",
-          type = "",
+          type = "Next",
           shape = "rectangle",
           x = 832,
           y = 288,
           width = 32,
           height = 64,
+          rotation = 0,
+          visible = true,
+          properties = {}
+        },
+        {
+          id = 8,
+          name = "",
+          type = "",
+          shape = "rectangle",
+          x = 576,
+          y = 192,
+          width = 32,
+          height = 32,
           rotation = 0,
           visible = true,
           properties = {}
