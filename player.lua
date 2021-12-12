@@ -3,16 +3,15 @@ function Player:load()
     self:LoadAssets()
     self.x = 100
     self.y = 210
-    self.startX = self.x
-    self.startY = self.y
     self.direction = 1
     self.stat = "idle"
     self.speed = 200
     self.width = 18
     self.height = 33
     self.jumpForce = 680
-    self.hurttime = 0.4
+    self.hurttime = 0.5
     self.attacktimer = 0.56
+    self.spawnTimer = 1
     self.collider = world:newRectangleCollider(self.x, self.y, self.width, self.height)
     self.collider:setCollisionClass("Player")
     self.collider:setFixedRotation(true)
@@ -32,6 +31,7 @@ function Player:load()
     self.grounded = false
     self.onPlatform = false
     self.canMove = true
+    self.Respawing = false
 end
 
 function Player:update(dt)
@@ -42,7 +42,7 @@ function Player:update(dt)
     self:setDirection(dt)
     self:Move(dt)
     self:setStat(dt)
-    self:checkifhurt(dt)
+    self:checkStun(dt)
     self:Animate(dt)
 end
 
@@ -118,6 +118,8 @@ function Player:setStat(dt)
             self.stat = "idle"
         end
     end
+    if self.xVel > 300 then self.xVel = 300 elseif self.xVel < -300 then self.xVel = -300 end
+    if self.yVel > 300 then self.yVel = 300 elseif self.yVel < -300 then self.yVel = -300 end
 end
 
 function Player:Collisions(dt)
@@ -161,17 +163,20 @@ function Player:Jump(key)
     end
 end
 
-function Player:resetPosition()
-    self.collider.body:setPosition(self.startX, self.startY)
+function Player:resetPosition(dt)
+  self.collider.body:setPosition(self.startX, self.startY)
+  self.collider:applyLinearImpulse(0,10000000)
+  self.Respawning = true
 end
 
 function Player:hurt(dmg, dt)
     self.collider:applyLinearImpulse(dmg, -250)
     self.ishurt = true
-    self.hurttime = 0.4
+    self.hurttime = 0.5
 end
 
-function Player:checkifhurt(dt)
+function Player:checkStun(dt)
+
     if self.ishurt then
         self.stat = "hurt"
         self.stuned = true
@@ -181,6 +186,17 @@ function Player:checkifhurt(dt)
         self:setStat()
         self.stuned = false
     end
-end
+    if self.Respawning then
+        self.stuned = true
+        self.spawnTimer = self.spawnTimer - dt
+    end
+    if self.spawnTimer < 0 then
+        self.stuned = false
+        self.Respawning = false
+        self.spawnTimer = 1
+    end
+    print(self.spawnTimer)
 
+
+end
 return Player

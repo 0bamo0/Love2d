@@ -10,7 +10,7 @@ end
 
 function debugging:draw()
     if self.isActif then
-        love.graphics.print(Player.xVel)
+        love.graphics.print(Player.yVel)
         if Player.grounded then
             love.graphics.print("On Ground", 0, 10)
         else

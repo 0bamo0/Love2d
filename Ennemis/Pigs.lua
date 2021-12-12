@@ -27,7 +27,7 @@ function Pigs.new(x,y,width,height,speed,spawnNumber)
   instance.sheet = love.graphics.newImage('assets/pig.png')
   instance.grid = anim8.newGrid( 50, 50, instance.sheet:getWidth(), instance.sheet:getHeight())
   instance.animation = {}
-  instance.animation.walk = anim8.newAnimation( instance.grid('1-6' , 3), 0.1)
+  instance.animation.walk = anim8.newAnimation( instance.grid('1-6' , 2), 0.1)
   instance.animation.idle = anim8.newAnimation( instance.grid('1-6' , 1), 0.1)
   instance.animation.current = instance.animation.idle
   table.insert(ActivePigs, instance)

@@ -22,7 +22,7 @@ function Map:init()
     self.platformsLayer = self.level.layers.Platforms
     self.entityLayer = self.level.layers.Entity
     self.wallsLayer = self.level.layers.Walls
-    self.nextLayer = self.level.layers.Next
+    self.lvlControlLayer = self.level.layers.LevelControl
 
     for i, obj in ipairs(self.groundLayer.objects) do
         local collider = world:newRectangleCollider(obj.x, obj.y, obj.width, obj.height)
@@ -37,34 +37,33 @@ function Map:init()
         table.insert(self.level.colliders, collider)
         platy = obj.height
     end
-    for i, obj in ipairs(self.nextLayer.objects) do
-        local collider = world:newRectangleCollider(obj.x, obj.y, obj.width, obj.height)
-        collider:setCollisionClass("Next")
-        collider:setType("static")
-        table.insert(self.level.colliders, collider)
-    end
     for i, obj in ipairs(self.wallsLayer.objects) do
         local collider = world:newRectangleCollider(obj.x, obj.y, obj.width, obj.height)
         collider:setCollisionClass("Walls")
         collider:setType("static")
         table.insert(self.level.colliders, collider)
     end
-    for i, obj in ipairs(self.nextLayer.objects) do
+    for i, obj in ipairs(self.lvlControlLayer.objects) do
+      if obj.type == 'Next' then
         local collider = world:newRectangleCollider(obj.x, obj.y, obj.width, obj.height)
         collider:setCollisionClass("Next")
         collider:setType("static")
         table.insert(self.level.colliders, collider)
+      elseif obj.type == 'Spawn' then
+        Player.startX = obj.x
+        Player.startY = obj.y
+      end
     end
     self:spawnEntities()
 end
 
 function Map:update(dt)
     if Player.collider:enter("Next") then
-        self:next()
+        self:next(dt)
     end
 end
 
-function Map:next()
+function Map:next(dt)
     self:clean()
     local n = love.filesystem.getDirectoryItems("maps")
     if self.currentLevel == #n - 1 then
@@ -73,7 +72,7 @@ function Map:next()
         self.currentLevel = self.currentLevel
     end
     self:init()
-    Player:resetPosition()
+    Player:resetPosition(dt)
 end
 
 function Map:clean()

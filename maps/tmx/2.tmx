@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <map version="1.5" tiledversion="1.7.2" orientation="orthogonal" renderorder="right-down" width="30" height="30" tilewidth="32" tileheight="32" infinite="1" nextlayerid="7" nextobjectid="7">
  <editorsettings>
-  <export target="../1.lua" format="lua"/>
+  <export format="lua"/>
  </editorsettings>
  <tileset firstgid="1" name="terrain" tilewidth="32" tileheight="32" tilecount="242" columns="22">
   <image source="../../assets/terrain.png" width="704" height="352"/>

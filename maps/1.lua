@@ -8,8 +8,8 @@ return {
   height = 30,
   tilewidth = 32,
   tileheight = 32,
-  nextlayerid = 7,
-  nextobjectid = 7,
+  nextlayerid = 8,
+  nextobjectid = 11,
   properties = {},
   tilesets = {
     {
@@ -78,13 +78,27 @@ return {
           shape = "rectangle",
           x = 0,
           y = 352,
-          width = 1300,
+          width = 1e+06,
           height = 1,
           rotation = 0,
           visible = true,
           properties = {}
         }
       }
+    },
+    {
+      type = "objectgroup",
+      draworder = "topdown",
+      id = 7,
+      name = "PlayerSpawn",
+      visible = true,
+      opacity = 1,
+      offsetx = 0,
+      offsety = 0,
+      parallaxx = 1,
+      parallaxy = 1,
+      properties = {},
+      objects = {}
     },
     {
       type = "objectgroup",
@@ -167,7 +181,7 @@ return {
           rotation = 0,
           visible = true,
           properties = {
-            ["spawnNumber"] = 0,
+            ["spawnNumber"] = 1,
             ["speed"] = 80
           }
         },
@@ -193,7 +207,7 @@ return {
       type = "objectgroup",
       draworder = "topdown",
       id = 6,
-      name = "Next",
+      name = "LevelControl",
       visible = true,
       opacity = 1,
       offsetx = 0,
@@ -203,14 +217,27 @@ return {
       properties = {},
       objects = {
         {
-          id = 6,
+          id = 7,
           name = "",
-          type = "",
+          type = "Spawn",
           shape = "rectangle",
-          x = 832,
-          y = 288,
-          width = 32,
+          x = 114.545,
+          y = 124.364,
+          width = 64,
           height = 64,
+          rotation = 0,
+          visible = true,
+          properties = {}
+        },
+        {
+          id = 9,
+          name = "",
+          type = "Next",
+          shape = "rectangle",
+          x = 608,
+          y = 320,
+          width = 32,
+          height = 32,
           rotation = 0,
           visible = true,
           properties = {}
