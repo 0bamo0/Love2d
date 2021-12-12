@@ -5,7 +5,7 @@ function love.conf(t)
     t.gammacorrect = true
     t.console = true
     t.window.vsync = false
-    t.window.fullscreen = true
+    t.window.fullscreen = false
     t.window.borderless = false
     t.window.highdpi = true
     t.window.x = nil

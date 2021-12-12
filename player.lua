@@ -42,7 +42,7 @@ function Player:update(dt)
     self:setDirection(dt)
     self:Move(dt)
     self:setStat(dt)
-    self:checkStun(dt)
+    self:Timers(dt)
     self:Animate(dt)
 end
 
@@ -89,12 +89,7 @@ function Player:LoadAssets()
 end
 
 function Player:Animate(dt)
-    if self.stat == "attack" then
-        self.animation.current = self.animation[self.stat]
-        self.animation.current:clone()
-    else
-        self.animation.current = self.animation[self.stat]
-    end
+    self.animation.current = self.animation[self.stat]
     self.animation.current:update(dt)
 end
 function Player:setDirection(dt)
@@ -175,7 +170,7 @@ function Player:hurt(dmg, dt)
     self.hurttime = 0.5
 end
 
-function Player:checkStun(dt)
+function Player:Timers(dt)
 
     if self.ishurt then
         self.stat = "hurt"
@@ -195,8 +190,5 @@ function Player:checkStun(dt)
         self.Respawning = false
         self.spawnTimer = 1
     end
-    print(self.spawnTimer)
-
-
 end
 return Player

@@ -17,7 +17,7 @@ function Pigs.new(x,y,width,height,speed)
   end
   instance.speed = speed
   instance.stat = 'idle'
-  instance.attackCooldown = 0.5
+  instance.attackCooldown = 0.6
   instance.direction = 1
   instance.speed = speed
   instance.collider = world:newRectangleCollider(x,y,instance.width ,instance.height)
@@ -35,17 +35,20 @@ function Pigs.new(x,y,width,height,speed)
   instance.animation = {}
   instance.animation.walk = anim8.newAnimation( instance.grid('1-6' , 2), 0.1)
   instance.animation.idle = anim8.newAnimation( instance.grid('1-6' , 1), 0.1)
+  instance.animation.attck = anim8.newAnimation( instance.grid('4-6' , 3,'1-2',4), 0.1)
   instance.animation.current = instance.animation.idle
+
   table.insert(ActivePigs, instance)
 end
 
 function Pigs:update(dt)
   self.xVel , self.yVel = self.collider:getLinearVelocity()
   self:setDirection(dt)
-  self:setStat(dt)
   self:AI(dt)
+  self:setStat(dt)
   self:Animate(dt)
   self:sync(dt)
+  self:Timers(dt)
 end
 
 function Pigs:Animate(dt)
@@ -62,8 +65,10 @@ self.x , self.y = self.collider:getPosition()
 end
 
 function Pigs:setStat(dt)
+  if not self.isAttcking then
   if self.xVel ~= 0 then self.stat = 'walk'
   else self.stat = 'idle' end
+  end
 end
 
 function Pigs:setDirection(dt)
@@ -114,6 +119,8 @@ end
 function Pigs:attckPlayer(dt)
   if self.collider:enter('Player') then
     Player:hurt(self.dmg*self.direction,dt)
+    self.isAttcking = true
+    self.stat = 'attck'
   end
 end
 
@@ -158,5 +165,17 @@ function Pigs.chekcollision()
      instance.toBeRemoved = true
    end
  end
+end
+
+function Pigs:Timers(dt)
+    if self.isAttcking then
+        self.stat = "attck"
+        self.attackCooldown = self.attackCooldown - dt
+    end
+    if self.attackCooldown < 0 then
+      self:setStat()
+      self.isAttcking = false
+      self.attackCooldown = 0.5
+    end
 end
 return Pigs
