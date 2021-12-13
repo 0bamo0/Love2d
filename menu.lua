@@ -1,75 +1,7 @@
---[[local ui = {}
-ui.GamePaused = true
-function ui:load(dt)
-  self.menu = {}
-  self.menu.button = {}
-  self.menu.buttonStart = love.graphics.newImage('assets/GUI/Menu/start_idle.png')
-  self.menu.buttonStartHover = love.graphics.newImage('assets/GUI/Menu/start_hover.png')
-  self.menu.buttonExit = love.graphics.newImage('assets/GUI/Menu/quit_idle.png')
-  self.menu.buttonExitHover = love.graphics.newImage('assets/GUI/Menu/quit_hover.png')
-  self.menu.button.margin = 16
-  table.insert(self.menu.button, self:newButton(start,self.menu.buttonStart,self.menu.buttonStartHover))
-  table.insert(self.menu.button, self:newButton(exit,self.menu.buttonExit,self.menu.buttonExitHover))
-end
-
-function ui:draw()
-self:buttondraw()
-end
-
-function ui:newButton( fn , img , imgHot)
-  return {
-    fn = fn,
-    img = img,
-    imgHot = imgHot,
-    now = false,
-    last = false
-  }
-end
-
-function ui:buttondraw()
-local ww , wh = love.graphics.getDimensions()
-local cursur_y = 0
-for i,button in ipairs(self.menu.button) do
-  button.last = button.now
-  local buttonW = button.img:getWidth()
-  local buttonH = button.img:getHeight()
-  local totalH = (buttonH+self.menu.button.margin) * #self.menu.button
-  local bx = ww/2 - buttonW/2
-  local by = wh/2-totalH/2+cursur_y
-
-  local mx , my = love.mouse.getPosition()
-  local hot = mx > bx and mx < bx + buttonW and
-              my > by and my < by + buttonH
-
-  if hot then
-    img = button.imgHot
-  else
-    img = button.img
-  end
-
-  button.now = love.mouse.isDown(1)
-  if button.now and not button.last and hot then
-    button.fn()
-  end
-  love.graphics.draw(img, bx , by , 0 , 1,1)
-  cursur_y = cursur_y + buttonH + self.menu.button.margin
-end
-end
-
-function start()
-  ui.GamePaused = false
-end
-
-function exit()
-  Exit('escape')
-end
-
-return ui
-]]--
-
 local Menu = {}
 local ww,wh = love.graphics.getDimensions()
 local tween = require('libs/tween')
+local shaders = require('shaders')
 cam2 = camera()
 function Menu:load()
   self.Camera = cam2

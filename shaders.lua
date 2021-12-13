@@ -1,8 +1,7 @@
 local shaders = {}
 local moonshine = require('libs/moonshine')
 function shaders:load()
-  self.effect = moonshine.chain(moonshine.effects.scanlines)
-
+  self.effect = moonshine.chain(moonshine.effects.vignette)
 end
 
 function shaders:update(dt)
