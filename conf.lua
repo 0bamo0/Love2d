@@ -5,7 +5,11 @@ function love.conf(t)
     t.gammacorrect = true
     t.console = false
 <<<<<<< HEAD
+<<<<<<< HEAD
     t.window.vsync = false
+=======
+    t.window.vsync = true
+>>>>>>> 168b82845e327ac07397d27418ad1bb839e9812e
 =======
     t.window.vsync = true
 >>>>>>> 168b82845e327ac07397d27418ad1bb839e9812e
