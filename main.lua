@@ -54,6 +54,7 @@ function love.draw()
     Player:draw()
     cam:detach()
   end
+  love.graphics.print(love.timer.getFPS() , 10 , 10 )
 end
 
 function love.keypressed(key)
@@ -66,7 +67,9 @@ end
 end
 
 function love.keyreleased(key)
+  if not Menu.isActif then
     Player:Friction(key)
+  end
 end
 
 function love.mousepressed(x, y, k)

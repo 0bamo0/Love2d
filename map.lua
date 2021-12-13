@@ -70,7 +70,7 @@ function Map:next(dt)
     if self.currentLevel == #n - 1 then
         self.currentLevel = self.currentLevel
     else
-        self.currentLevel = self.currentLevel
+        self.currentLevel = self.currentLevel + 1
     end
     self:init()
     Player:resetPosition(dt)
