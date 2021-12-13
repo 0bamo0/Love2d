@@ -2,7 +2,6 @@ local Pigs = {img = love.graphics.newImage('assets/pig.png')}
 Pigs.__index = Pigs
 local ActivePigs = {}
 local Player = require('player')
-
 function Pigs.new(x,y,width,height,speed)
   local instance = setmetatable({}, Pigs)
   instance.x = x
@@ -19,23 +18,24 @@ function Pigs.new(x,y,width,height,speed)
   instance.stat = 'idle'
   instance.attackCooldown = 0.6
   instance.direction = 1
+  instance.health = 5
   instance.speed = speed
-  instance.collider = world:newRectangleCollider(x,y,instance.width ,instance.height)
+  instance.collider = world:newBSGRectangleCollider(x,y,instance.width ,instance.height,15)
   instance.collider:setType('dynamic')
   instance.collider:setFixedRotation(true)
   instance.collider:setCollisionClass('Ennemy')
   instance.sheet = love.graphics.newImage('assets/pig.png')
   instance.dust = love.graphics.newImage('assets/dust.png')
-  instance.grid = anim8.newGrid( 50, 50, instance.sheet:getWidth(), instance.sheet:getHeight())
+  instance.grid = anim8.newGrid( 33, 28, instance.sheet:getWidth(), instance.sheet:getHeight())
   instance.particles = {}
   instance.particles.dust = love.graphics.newParticleSystem(instance.dust, 100)
   instance.particles.dust:setEmissionRate(80)
   instance.particles.dust:setParticleLifetime(1,1)
   instance.particles.dust:setColors(1, 1, 0, 1, 1, 0, 1, 1)
   instance.animation = {}
-  instance.animation.walk = anim8.newAnimation( instance.grid('1-6' , 2), 0.1)
   instance.animation.idle = anim8.newAnimation( instance.grid('1-6' , 1), 0.1)
-  instance.animation.attck = anim8.newAnimation( instance.grid('4-6' , 3,'1-2',4), 0.1)
+  instance.animation.walk = anim8.newAnimation( instance.grid('7-12' , 1), 0.1)
+  instance.animation.attack = anim8.newAnimation( instance.grid('13-17' , 1), 0.1)
   instance.animation.current = instance.animation.idle
 
   table.insert(ActivePigs, instance)
@@ -78,7 +78,7 @@ end
 function Pigs:AI(dt)
   if self:checkPlayer(dt) then
     self:walkToPlayer(dt)
-    self:attckPlayer(dt)
+    self:attackPlayer(dt)
   end
   if (self:checkNoGround(dt) or self:checkWalls(dt)) then
     self.direction = -self.direction
@@ -116,11 +116,11 @@ function Pigs:checkRemove(dt)
   end
 end
 
-function Pigs:attckPlayer(dt)
+function Pigs:attackPlayer(dt)
   if self.collider:enter('Player') then
     Player:hurt(self.dmg*self.direction,dt)
     self.isAttcking = true
-    self.stat = 'attck'
+    self.stat = 'attack'
   end
 end
 
@@ -142,8 +142,8 @@ end
 
 function Pigs:draw()
   local x,y = self.collider:getPosition()
-  love.graphics.draw(self.particles.dust, x, y , 0 , 0.3 , 0.3 , self.direction*25 ,-23)
-  self.animation.current:draw(self.sheet,x,y,0 , -self.direction , 1 , 23 , 23)
+  love.graphics.draw(self.particles.dust, x, y , 0 , 0.3 , 0.3 , self.direction*19 ,-23)
+  self.animation.current:draw(self.sheet,x,y,0 , -self.direction , 1 , 19,19 )
 
 end
 
@@ -169,7 +169,7 @@ end
 
 function Pigs:Timers(dt)
     if self.isAttcking then
-        self.stat = "attck"
+        self.stat = "attack"
         self.attackCooldown = self.attackCooldown - dt
     end
     if self.attackCooldown < 0 then

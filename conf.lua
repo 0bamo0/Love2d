@@ -12,6 +12,6 @@ function love.conf(t)
     t.window.y = nil
     t.version = "11.3"
     t.window.icon = nil
-    if not t.window.fullscreen then t.window.width = 800; t.window.height = 600 end
+    t.window.resizable = true
     t.window.fullscreentype = "desktop"
 end

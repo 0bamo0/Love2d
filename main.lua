@@ -4,15 +4,20 @@ sti = require "libs/sti"
 camera = require "libs/camera"
 anim8 = require "libs/anim8"
 
+
+local Menu = require('menu')
 local Map = require("map")
 local Player = require("player")
 local timer = require("libs/timer")
 local Pigs = require("Ennemis/Pigs")
 local cam = require("camera")
 local debugging = require("debugging")
+local shaders = require('shaders')
+
 
 function love.load()
-  bg = love.graphics.newImage('assets/background.png')
+    Menu:load()
+    shaders:load()
     Map:load()
     Player:load()
     cam:Load()
@@ -20,16 +25,26 @@ function love.load()
 end
 
 function love.update(dt)
+  shaders:update(dt)
+  if Menu.isActif then
+  Menu:update(dt)
+  end
+  if not Menu.isActif then
     Pigs.updateAll(dt)
     Player:update(dt)
     cam:update(dt)
     world:update(dt)
     debugging:update(dt)
     Map:update(dt)
+  end
 end
 
 function love.draw()
-  love.graphics.draw(bg, 0 , 0 , 0 , 2)
+  if Menu.isActif then
+    Menu:draw()
+  end
+  if not Menu.isActif then
+    love.graphics.draw(bg, 0, 0, 0, 2, 2)
     cam:attach()
     Map:draw()
     Pigs.drawAll()
@@ -38,20 +53,29 @@ function love.draw()
     end
     Player:draw()
     cam:detach()
+  end
 end
 
 function love.keypressed(key)
+  if not Menu.isActif then
     Player:Jump(key)
-    debugging:Switch(key)
-    Exit(key)
     cam:LockToPlayer(key)
+    debugging:Switch(key)
+end
+  Exit(key)
 end
 
 function love.keyreleased(key)
     Player:Friction(key)
 end
 
-function love.mousepressed(x, y, key)
+function love.mousepressed(x, y, k)
+  if not Menu.isActif then
+    Player:Attck(k)
+  end
+  if Menu.isActif then
+  Menu:buttonClicked(x,y,k)
+end
 end
 
 function love.mousereleased(x, y, button)
@@ -61,7 +85,10 @@ function love.wheelmoved(x, y)
 end
 
 function Exit(key)
-    if key == "escape" then
+    if key == "escape" and Menu.isActif then
         love.event.quit()
+    end
+    if key == "escape" and not Menu.isActif then
+        Menu.isActif = true
     end
 end

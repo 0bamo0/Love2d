@@ -1,4 +1,5 @@
 local Player = {}
+
 function Player:load()
     self:LoadAssets()
     self.x = 100
@@ -9,7 +10,7 @@ function Player:load()
     self.width = 18
     self.height = 33
     self.jumpForce = 680
-    self.hurttime = 0.5
+    self.hurtTimer = 0.5
     self.attacktimer = 0.56
     self.spawnTimer = 1
     self.collider = world:newRectangleCollider(self.x, self.y, self.width, self.height)
@@ -28,10 +29,12 @@ function Player:load()
         end
     end
     self.collider:setPreSolve(Custom)
+
     self.grounded = false
     self.onPlatform = false
     self.canMove = true
     self.Respawing = false
+    self.isAttcking = false
 end
 
 function Player:update(dt)
@@ -44,10 +47,6 @@ function Player:update(dt)
     self:setStat(dt)
     self:Timers(dt)
     self:Animate(dt)
-end
-
-function Player:draw()
-    self.animation.current:draw(self.sheet, self.x, self.y, 0, self.direction, 1, self.width + 8, self.height - 7)
 end
 
 function Player:Move(dt)
@@ -70,9 +69,9 @@ end
 function Player:LoadAssets()
     local Effects = true
     if Effects then
-        self.sheet = love.graphics.newImage("assets/player/playerskin1effect.png")
+        self.sheet = love.graphics.newImage("assets/Player/playerskin1effect.png")
     else
-        self.sheet = love.graphics.newImage("assets/player/playerskin1noeffect.png")
+        self.sheet = love.graphics.newImage("assets/Player/playerskin1noeffect.png")
     end
     self.grid = anim8.newGrid(69, 44, self.sheet:getWidth(), self.sheet:getHeight(), 0, 0, 0)
     self.animation = {}
@@ -87,11 +86,20 @@ function Player:LoadAssets()
     self.animation.fall = anim8.newAnimation(self.grid("6-6", 8, "1-1", 9), 0.1)
     self.animation.fullJump = anim8.newAnimation(self.grid("6-6", 7, "1-6", 8, "1-1", 9), 0.1)
 end
-
 function Player:Animate(dt)
+  if self.stat == 'jump' then
+    self.animation.current = self.animation[self.stat]
+  else
     self.animation.current = self.animation[self.stat]
     self.animation.current:update(dt)
+  end
 end
+function Player:draw()
+    self.animation.current:draw(self.sheet, self.x, self.y, 0, self.direction, 1, 27, 25.5)
+end
+
+
+
 function Player:setDirection(dt)
     if self.xVel < 0 then
         self.direction = -1
@@ -167,17 +175,22 @@ end
 function Player:hurt(dmg, dt)
     self.collider:applyLinearImpulse(dmg, -250)
     self.ishurt = true
-    self.hurttime = 0.5
+    self.hurtTimer = 0.5
+end
+
+function Player:Attck(k)
+  if k == 1 then
+    self.isAttcking = true
+  end
 end
 
 function Player:Timers(dt)
-
     if self.ishurt then
         self.stat = "hurt"
         self.stuned = true
-        self.hurttime = self.hurttime - dt
+        self.hurtTimer = self.hurtTimer - dt
     end
-    if self.hurttime < 0 then
+    if self.hurtTimer < 0 then
         self:setStat()
         self.stuned = false
     end
@@ -189,6 +202,18 @@ function Player:Timers(dt)
         self.stuned = false
         self.Respawning = false
         self.spawnTimer = 1
+    end
+    if self.isAttcking then
+      self.attacktimer = self.attacktimer - dt
+        self.stat = 'attack'
+        self.stuned = true
+
+    end
+    if self.attacktimer < 0 then
+        self.stuned = false
+        self.isAttcking = false
+        self.attacktimer = 0.56
+        self.animation.current:gotoFrame(1)
     end
 end
 return Player

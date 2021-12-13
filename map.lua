@@ -3,8 +3,9 @@ local Player = require "player"
 local Pigs = require "Ennemis/Pigs"
 
 function Map:load()
+bg = love.graphics.newImage('assets/background.png')
     world = wf.newWorld(0, 2000, false)
-    world:setQueryDebugDrawing(true)
+    world:setQueryDebugDrawing(false)
     self.currentLevel = 1
     world:addCollisionClass("Ground")
     world:addCollisionClass("Platforms")
@@ -89,14 +90,20 @@ function Map:spawnEntities()
     for i, entity in ipairs(self.entityLayer.objects) do
         if entity.type == "pig" then
             for i = 1, entity.properties.spawnNumber do
+              if entity.properties.spawnNumber > 1 then
+                local sx = math.random(entity.x ,entity.x+entity.width)
+                local sy = math.random(entity.y ,entity.y+entity.height)
+                Pigs.new(sx, sy, entity.width, entity.height, entity.properties.speed)
+              else
                 Pigs.new(entity.x, entity.y, entity.width, entity.height, entity.properties.speed)
+              end
             end
         end
     end
 end
 
 function Map:draw()
-    self.level:drawLayer(self.level.layers["Ground"])
+    self.level:drawLayer(self.level.layers["GroundDraw"])
 end
 
 return Map
