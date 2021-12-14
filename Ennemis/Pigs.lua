@@ -2,6 +2,7 @@ local Pigs = {img = love.graphics.newImage('assets/pig.png')}
 Pigs.__index = Pigs
 local ActivePigs = {}
 local Player = require('player')
+
 function Pigs.new(x,y,width,height,speed)
   local instance = setmetatable({}, Pigs)
   instance.x = x
@@ -42,6 +43,7 @@ function Pigs.new(x,y,width,height,speed)
 end
 
 function Pigs:update(dt)
+  Attcked = false
   self.xVel , self.yVel = self.collider:getLinearVelocity()
   self:setDirection(dt)
   self:AI(dt)
@@ -49,6 +51,7 @@ function Pigs:update(dt)
   self:Animate(dt)
   self:sync(dt)
   self:Timers(dt)
+  self:hurt()
 end
 
 function Pigs:Animate(dt)
@@ -122,6 +125,9 @@ function Pigs:attackPlayer(dt)
     self.isAttcking = true
     self.stat = 'attack'
   end
+end
+
+function Pigs:hurt()
 end
 
 function Pigs.removeAll()

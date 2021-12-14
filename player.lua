@@ -35,6 +35,7 @@ function Player:load()
     self.canMove = true
     self.Respawing = false
     self.isAttcking = false
+    self.attacked = false
 end
 
 function Player:update(dt)
@@ -173,15 +174,13 @@ function Player:resetPosition(dt)
 end
 
 function Player:hurt(dmg, dt)
-    self.collider:applyLinearImpulse(dmg, -250)
+    self.collider:setLinearVelocity(dmg, 0)
     self.ishurt = true
     self.hurtTimer = 0.5
 end
 
-function Player:Attck(k)
-  if k == 1 then
-    self.isAttcking = true
-  end
+function Player:Attack(b)
+  self.isAttcking = true
 end
 
 function Player:Timers(dt)

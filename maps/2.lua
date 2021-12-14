@@ -8,8 +8,8 @@ return {
   height = 30,
   tilewidth = 32,
   tileheight = 32,
-  nextlayerid = 7,
-  nextobjectid = 9,
+  nextlayerid = 9,
+  nextobjectid = 11,
   properties = {},
   tilesets = {
     {
@@ -20,7 +20,7 @@ return {
       spacing = 0,
       margin = 0,
       columns = 22,
-      image = "../assets/terrain.png",
+      image = "../assets/Terrain.png",
       imagewidth = 704,
       imageheight = 352,
       objectalignment = "unspecified",
@@ -47,7 +47,7 @@ return {
       width = 30,
       height = 30,
       id = 1,
-      name = "Ground",
+      name = "GroundDraw",
       visible = true,
       opacity = 1,
       offsetx = 0,
@@ -56,7 +56,50 @@ return {
       parallaxy = 1,
       properties = {},
       encoding = "lua",
-      chunks = {}
+      chunks = {
+        {
+          x = 0, y = 0, width = 16, height = 16,
+          data = {
+            0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+            0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+            0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+            0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+            0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+            0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+            0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+            0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+            0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+            0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 2, 2, 2, 2, 2, 2,
+            0, 0, 0, 0, 0, 0, 0, 0, 0, 23, 4, 4, 5, 4, 5, 24,
+            7, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8,
+            29, 30, 30, 30, 30, 30, 30, 30, 30, 30, 30, 30, 30, 30, 30, 30,
+            29, 30, 30, 30, 30, 30, 30, 30, 30, 30, 30, 30, 30, 30, 30, 30,
+            29, 30, 30, 30, 30, 30, 30, 30, 30, 30, 30, 30, 30, 30, 30, 30,
+            29, 30, 30, 30, 30, 30, 30, 30, 30, 30, 30, 30, 30, 30, 30, 30
+          }
+        },
+        {
+          x = 16, y = 0, width = 16, height = 16,
+          data = {
+            0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+            0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+            0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+            0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+            0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+            0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+            0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+            0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+            0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+            3, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+            25, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+            8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 0,
+            30, 30, 30, 30, 30, 30, 30, 30, 30, 30, 30, 30, 30, 30, 30, 0,
+            30, 30, 30, 30, 30, 30, 30, 30, 30, 30, 30, 30, 30, 30, 30, 0,
+            30, 30, 30, 30, 30, 30, 30, 30, 30, 30, 30, 30, 30, 30, 30, 0,
+            30, 30, 30, 30, 30, 30, 30, 30, 30, 30, 30, 30, 30, 30, 30, 0
+          }
+        }
+      }
     },
     {
       type = "objectgroup",
@@ -78,13 +121,27 @@ return {
           shape = "rectangle",
           x = 0,
           y = 352,
-          width = 1300,
+          width = 1e+06,
           height = 1,
           rotation = 0,
           visible = true,
           properties = {}
         }
       }
+    },
+    {
+      type = "objectgroup",
+      draworder = "topdown",
+      id = 7,
+      name = "PlayerSpawn",
+      visible = true,
+      opacity = 1,
+      offsetx = 0,
+      offsety = 0,
+      parallaxx = 1,
+      parallaxy = 1,
+      properties = {},
+      objects = {}
     },
     {
       type = "objectgroup",
@@ -132,9 +189,9 @@ return {
           name = "Platform",
           type = "",
           shape = "rectangle",
-          x = 320,
+          x = 288,
           y = 288,
-          width = 160,
+          width = 256,
           height = 1,
           rotation = 0,
           visible = true,
@@ -167,8 +224,8 @@ return {
           rotation = 0,
           visible = true,
           properties = {
-            ["spawnNumber"] = 0,
-            ["speed"] = 80
+            ["spawnNumber"] = 1,
+            ["speed"] = 0
           }
         },
         {
@@ -176,10 +233,10 @@ return {
           name = "Area",
           type = "pig",
           shape = "rectangle",
-          x = 418,
-          y = 222,
-          width = 16,
-          height = 16,
+          x = 397,
+          y = 153,
+          width = 136,
+          height = 64,
           rotation = 0,
           visible = true,
           properties = {
@@ -203,25 +260,25 @@ return {
       properties = {},
       objects = {
         {
-          id = 6,
+          id = 7,
           name = "",
-          type = "Next",
+          type = "Spawn",
           shape = "rectangle",
-          x = 832,
-          y = 288,
-          width = 32,
+          x = 114.545,
+          y = 124.364,
+          width = 64,
           height = 64,
           rotation = 0,
           visible = true,
           properties = {}
         },
         {
-          id = 8,
+          id = 9,
           name = "",
-          type = "",
+          type = "Next",
           shape = "rectangle",
-          x = 576,
-          y = 192,
+          x = 908,
+          y = 301.818,
           width = 32,
           height = 32,
           rotation = 0,

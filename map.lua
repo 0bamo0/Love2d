@@ -5,7 +5,7 @@ local Pigs = require "Ennemis/Pigs"
 function Map:load()
 bg = love.graphics.newImage('assets/background.png')
     world = wf.newWorld(0, 2000, false)
-    world:setQueryDebugDrawing(false)
+    world:setQueryDebugDrawing(true)
     self.currentLevel = 1
     world:addCollisionClass("Ground")
     world:addCollisionClass("Platforms")
@@ -70,7 +70,7 @@ function Map:next(dt)
     if self.currentLevel == #n - 1 then
         self.currentLevel = self.currentLevel
     else
-        self.currentLevel = self.currentLevel + 1
+        self.currentLevel = self.currentLevel +1
     end
     self:init()
     Player:resetPosition(dt)

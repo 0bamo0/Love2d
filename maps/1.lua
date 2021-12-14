@@ -10,7 +10,9 @@ return {
   tileheight = 32,
   nextlayerid = 8,
   nextobjectid = 11,
-  properties = {},
+  properties = {
+    ["speed"] = 80
+  },
   tilesets = {
     {
       name = "terrain",
@@ -225,7 +227,7 @@ return {
           visible = true,
           properties = {
             ["spawnNumber"] = 1,
-            ["speed"] = 0
+            ["speed"] = 80
           }
         },
         {

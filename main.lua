@@ -1,97 +1,68 @@
 love.graphics.setDefaultFilter("nearest", "nearest")
-wf = require "libs/windfield"
-sti = require "libs/sti"
-camera = require "libs/camera"
-anim8 = require "libs/anim8"
 
-
-local Menu = require('menu')
-local Map = require("map")
-local Player = require("player")
-local timer = require("libs/timer")
-local Pigs = require("Ennemis/Pigs")
-local cam = require("camera")
-local debugging = require("debugging")
-local shaders = require('shaders')
-
+local Menu = require("menu")
+local Game = require("game")
 
 function love.load()
     Menu:load()
-    shaders:load()
-    Map:load()
-    Player:load()
-    cam:Load()
-    debugging:load()
+    Game:load()
 end
 
 function love.update(dt)
-  shaders:update(dt)
-  if Menu.isActif then
-  Menu:update(dt)
-  end
-  if not Menu.isActif then
-    Pigs.updateAll(dt)
-    Player:update(dt)
-    cam:update(dt)
-    world:update(dt)
-    debugging:update(dt)
-    Map:update(dt)
-  end
+    if Menu.isActif then
+        Menu:update(dt)
+    end
+    if not Menu.isActif and Menu.GameStart or Menu.Settings then
+        Game:update(dt)
+    end
 end
 
 function love.draw()
-  if Menu.isActif then
-    Menu:draw()
-  end
-  if not Menu.isActif then
-    love.graphics.draw(bg, 0, 0, 0, 2, 2)
-    cam:attach()
-    Map:draw()
-    Pigs.drawAll()
-    if debugging.isActif then
-        world:draw()
+    if Menu.isActif then
+        Menu:draw()
     end
-    Player:draw()
-    cam:detach()
-  end
-  love.graphics.print(love.timer.getFPS() , 10 , 10 )
+    if not Menu.isActif and Menu.GameStart then
+        Game:draw()
+    end
 end
 
 function love.keypressed(key)
-  if not Menu.isActif then
-    Player:Jump(key)
-    cam:LockToPlayer(key)
-    debugging:Switch(key)
-end
-  Exit(key)
+    if not Menu.isActif and Menu.GameStart then
+        Game:keypressed(key)
+    end
+    Quit(key)
 end
 
 function love.keyreleased(key)
-  if not Menu.isActif then
-    Player:Friction(key)
-  end
+    if not Menu.isActif and Menu.GameStart then
+        Game:keyreleased(key)
+    end
 end
 
-function love.mousepressed(x, y, k)
-  if not Menu.isActif then
-    Player:Attck(k)
-  end
-  if Menu.isActif then
-  Menu:buttonClicked(x,y,k)
-end
-end
-
-function love.mousereleased(x, y, button)
+function love.mousepressed(x, y, b)
+    if not Menu.isActif and Menu.GameStart then
+        Game:mousepressed(x, y, b)
+    end
 end
 
 function love.wheelmoved(x, y)
+    if Menu.isActif then
+    end
 end
 
-function Exit(key)
-    if key == "escape" and Menu.isActif then
-        love.event.quit()
-    end
-    if key == "escape" and not Menu.isActif then
-        Menu.isActif = true
-    end
+function Exit()
+    love.event.quit(0)
+end
+
+function Quit(key)
+  if key == 'escape' and Menu.isActif and not Settings.Showed  then
+    Exit()
+  end
+  if key == 'escape' and not Menu.isActif and Menu.GameStart  then
+    Menu:load()
+  end
+  if key == 'escape' and Settings.Showed then
+    print(Settings.Showed)
+    Settings.Showed = false
+  end
 end
