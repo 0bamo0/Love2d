@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.5" tiledversion="1.7.2" orientation="orthogonal" renderorder="right-down" width="30" height="30" tilewidth="32" tileheight="32" infinite="1" nextlayerid="8" nextobjectid="12">
+<map version="1.5" tiledversion="1.7.2" orientation="orthogonal" renderorder="right-down" width="30" height="30" tilewidth="32" tileheight="32" infinite="1" nextlayerid="8" nextobjectid="13">
  <editorsettings>
   <export target="../1.lua" format="lua"/>
  </editorsettings>
@@ -72,9 +72,14 @@
     <property name="speed" type="int" value="80"/>
    </properties>
   </object>
-  <object id="11" type="sign" x="160" y="320" width="32" height="32">
+  <object id="11" type="sign" x="32" y="320" width="32" height="32">
    <properties>
     <property name="id" type="int" value="1"/>
+   </properties>
+  </object>
+  <object id="12" type="sign" x="256" y="320" width="32" height="32">
+   <properties>
+    <property name="id" type="int" value="2"/>
    </properties>
   </object>
  </objectgroup>

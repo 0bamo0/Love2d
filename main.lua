@@ -5,7 +5,7 @@ local Game = require("game")
 
 function love.load()
   Gamestat = 'Menu'
-    Menu:load()
+    if Gamestat == 'Menu' then Menu:load() end
     Game:load()
 end
 
@@ -40,7 +40,7 @@ function Quit(key)
   if key == 'escape' and Gamestat == 'Menu' and not Menu.showSetting then
     Exit()
   end
-  if key == 'escape' and Gamestat ~= 'Menu' then
+  if key == 'escape' and Gamestat == 'Game' then
     Gamestat = 'Menu'
     Menu:load()
   end
