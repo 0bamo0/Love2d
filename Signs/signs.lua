@@ -44,7 +44,7 @@ function Signs:draw()
   print(tw , th)
     if self.stat == 'show' then
       love.graphics.draw(self.textBox , self.x-(tw/12) , self.y-(th/12)-60 , 0 , 1/6 , 1/6)
-      love.graphics.printf(string.sub(self:queryText() , 0 , self.textPosition),self.font,self.x-fx/4 , self.y-60 , self.textBox:getWidth(),'left',0 , 0.6 ,0.6)
+      love.graphics.printf(string.sub(self:queryText() , 0 , self.textPosition),self.font,self.x-(fx/4)-(tw/15) , self.y-70 , self.textBox:getWidth(),'left',0 , 0.6 ,0.6)
   end
 end
 
