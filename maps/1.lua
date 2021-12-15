@@ -9,7 +9,7 @@ return {
   tilewidth = 32,
   tileheight = 32,
   nextlayerid = 8,
-  nextobjectid = 13,
+  nextobjectid = 14,
   properties = {
     ["speed"] = 80
   },
@@ -219,8 +219,8 @@ return {
           name = "Unit",
           type = "pig",
           shape = "rectangle",
-          x = 366,
-          y = 224,
+          x = 384,
+          y = 256,
           width = 16,
           height = 16,
           rotation = 0,
@@ -251,7 +251,7 @@ return {
           name = "",
           type = "sign",
           shape = "rectangle",
-          x = 32,
+          x = 256,
           y = 320,
           width = 32,
           height = 32,
@@ -266,7 +266,7 @@ return {
           name = "",
           type = "sign",
           shape = "rectangle",
-          x = 256,
+          x = 32,
           y = 320,
           width = 32,
           height = 32,
@@ -274,6 +274,22 @@ return {
           visible = true,
           properties = {
             ["id"] = 2
+          }
+        },
+        {
+          id = 13,
+          name = "Unit",
+          type = "pig",
+          shape = "rectangle",
+          x = 352,
+          y = 256,
+          width = 16,
+          height = 16,
+          rotation = 0,
+          visible = true,
+          properties = {
+            ["spawnNumber"] = 1,
+            ["speed"] = 80
           }
         }
       }
@@ -309,8 +325,8 @@ return {
           name = "",
           type = "Next",
           shape = "rectangle",
-          x = 908,
-          y = 301.818,
+          x = 416,
+          y = 320,
           width = 32,
           height = 32,
           rotation = 0,

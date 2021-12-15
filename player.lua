@@ -1,5 +1,5 @@
 local Player = {}
-local Pigs = require('Ennemis/Pigs')
+
 function Player:load()
     self:LoadAssets()
     self.x = 100
@@ -9,11 +9,11 @@ function Player:load()
     self.speed = 200
     self.width = 18
     self.height = 33
-    self.jumpForce = 680
+    self.jumpForce = 520
     self.hurtTimer = 0.5
     self.attacktimer = 0.56
     self.spawnTimer = 1
-    self.collider = world:newRectangleCollider(self.x, self.y, self.width, self.height)
+    self.collider = world:newBSGRectangleCollider(self.x, self.y, self.width, self.height,15)
     self.collider:setCollisionClass("Player")
     self.collider:setFixedRotation(true)
     self.collider:setType("dynamic")
@@ -24,7 +24,6 @@ function Player:load()
     self.canMove = true
     self.Respawing = false
     self.isAttcking = false
-    self.attacked = false
 end
 
 function Player:update(dt)
@@ -76,6 +75,7 @@ function Player:LoadAssets()
     self.animation.fall = anim8.newAnimation(self.grid("6-6", 8, "1-1", 9), 0.1)
     self.animation.fullJump = anim8.newAnimation(self.grid("6-6", 7, "1-6", 8, "1-1", 9), 0.1)
 end
+
 function Player:Animate(dt)
   if self.stat == 'jump' then
     self.animation.current = self.animation[self.stat]
@@ -84,11 +84,10 @@ function Player:Animate(dt)
     self.animation.current:update(dt)
   end
 end
+
 function Player:draw()
     self.animation.current:draw(self.sheet, self.x, self.y, 0, self.direction, 1, 27, 25.5)
 end
-
-
 
 function Player:setDirection(dt)
     if self.xVel < 0 then
@@ -97,6 +96,7 @@ function Player:setDirection(dt)
         self.direction = 1
     end
 end
+
 function Player:setStat(dt)
     if self.yVel < 0 then
         self.stat = "jump"
@@ -162,28 +162,17 @@ function Player:resetPosition(dt)
   self.Respawning = true
 end
 
-function Player:hurt(dmg, dt)
-    self.collider:setLinearVelocity(-dmg, -250)
-    self.ishurt = true
-    self.hurtTimer = 0.5
-end
-
 function Player:Attack(b)
   if not self.stuned then
     self.isAttcking = true
+    local query = world:queryRectangleArea(self.x + self.direction*10 , self.y-self.height/2 , 15 , self.height)
+    for i,collider in ipairs(query)do
+      collider:setLinearVelocity(self.direction*200 , -200)
+    end
   end
 end
 
 function Player:Timers(dt)
-    if self.ishurt then
-        self.stat = "hurt"
-        self.stuned = true
-        self.hurtTimer = self.hurtTimer - dt
-    end
-    if self.hurtTimer < 0 then
-        self:setStat()
-        self.stuned = false
-    end
     if self.Respawning then
         self.stuned = true
         self.spawnTimer = self.spawnTimer - dt
@@ -197,7 +186,6 @@ function Player:Timers(dt)
       self.attacktimer = self.attacktimer - dt
         self.stat = 'attack'
         self.stuned = true
-
     end
     if self.attacktimer < 0 then
         self.stuned = false

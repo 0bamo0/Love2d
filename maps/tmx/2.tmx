@@ -72,6 +72,6 @@
  </objectgroup>
  <objectgroup id="6" name="LevelControl">
   <object id="7" type="Spawn" x="114.545" y="124.364" width="64" height="64"/>
-  <object id="9" type="Next" x="908" y="301.818" width="32" height="32"/>
+  <object id="9" type="Next" x="352" y="320" width="32" height="32"/>
  </objectgroup>
 </map>

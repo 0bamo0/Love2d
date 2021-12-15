@@ -21,7 +21,6 @@ end
 
 function Signs:update(dt)
   self.x , self.y = self.collider:getPosition()
-  print(string.len(self:queryText()))
   self:setStat(dt)
 end
 
@@ -79,5 +78,11 @@ function Signs.updateAll(dt)
   for i,v in ipairs(ActiveSigns)do
     v:update(dt)
   end
+end
+function Signs.removeAll()
+  for i,v in ipairs(ActiveSigns)do
+    v.collider:destroy()
+  end
+  ActiveSigns = {}
 end
 return Signs

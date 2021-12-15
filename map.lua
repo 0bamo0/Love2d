@@ -10,10 +10,10 @@ bg = love.graphics.newImage('assets/background.png')
     world:addCollisionClass("Ground")
     world:addCollisionClass("Platforms")
     world:addCollisionClass("Walls")
-    world:addCollisionClass("Ennemy")
-    world:addCollisionClass("Signs")
-    world:addCollisionClass("Player", {ignores = {"Ennemy" , "Signs"}})
-    world:addCollisionClass("Next", {ignores = {"Ennemy", "Player"}})
+    world:addCollisionClass("Pigs")
+    world:addCollisionClass("Signs", {ignores={'Pigs'}})
+    world:addCollisionClass("Player", {ignores = {"Pigs" , "Signs"}})
+    world:addCollisionClass("Next", {ignores = {"Pigs", "Player"}})
     self:init()
 end
 
@@ -90,6 +90,7 @@ function Map:clean()
         collider:destroy()
     end
     Pigs.removeAll()
+    Signs.removeAll()
 end
 
 function Map:spawnEntities()
