@@ -9,7 +9,7 @@ return {
   tilewidth = 32,
   tileheight = 32,
   nextlayerid = 8,
-  nextobjectid = 11,
+  nextobjectid = 12,
   properties = {
     ["speed"] = 80
   },
@@ -244,6 +244,21 @@ return {
           properties = {
             ["spawnNumber"] = 0,
             ["speed"] = 80
+          }
+        },
+        {
+          id = 11,
+          name = "",
+          type = "sign",
+          shape = "rectangle",
+          x = 160,
+          y = 320,
+          width = 32,
+          height = 32,
+          rotation = 0,
+          visible = true,
+          properties = {
+            ["id"] = 1
           }
         }
       }

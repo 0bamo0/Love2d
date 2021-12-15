@@ -1,7 +1,7 @@
 local Map = {}
 local Player = require "player"
 local Pigs = require "Ennemis/Pigs"
-
+local Signs = require('Signs/signs')
 function Map:load()
 bg = love.graphics.newImage('assets/background.png')
     world = wf.newWorld(0, 2000, false)
@@ -9,9 +9,10 @@ bg = love.graphics.newImage('assets/background.png')
     self.currentLevel = 1
     world:addCollisionClass("Ground")
     world:addCollisionClass("Platforms")
-    world:addCollisionClass("Ennemy")
     world:addCollisionClass("Walls")
-    world:addCollisionClass("Player", {ignores = {"Ennemy"}})
+    world:addCollisionClass("Ennemy")
+    world:addCollisionClass("Signs")
+    world:addCollisionClass("Player", {ignores = {"Ennemy" , "Signs"}})
     world:addCollisionClass("Next", {ignores = {"Ennemy", "Player"}})
     self:init()
 end
@@ -25,25 +26,9 @@ function Map:init()
     self.wallsLayer = self.level.layers.Walls
     self.lvlControlLayer = self.level.layers.LevelControl
 
-    for i, obj in ipairs(self.groundLayer.objects) do
-        local collider = world:newRectangleCollider(obj.x, obj.y, obj.width, obj.height)
-        collider:setCollisionClass("Ground")
-        collider:setType("static")
-        table.insert(self.level.colliders, collider)
-    end
-    for i, obj in ipairs(self.platformsLayer.objects) do
-        local collider = world:newRectangleCollider(obj.x, obj.y, obj.width, obj.height)
-        collider:setCollisionClass("Platforms")
-        collider:setType("static")
-        table.insert(self.level.colliders, collider)
-        platy = obj.height
-    end
-    for i, obj in ipairs(self.wallsLayer.objects) do
-        local collider = world:newRectangleCollider(obj.x, obj.y, obj.width, obj.height)
-        collider:setCollisionClass("Walls")
-        collider:setType("static")
-        table.insert(self.level.colliders, collider)
-    end
+    self:LayerBuild(self.groundLayer.objects,"Ground","static")
+    self:LayerBuild(self.platformsLayer.objects,"Platforms","static")
+    self:LayerBuild(self.wallsLayer.objects,"Walls","static")
     for i, obj in ipairs(self.lvlControlLayer.objects) do
       if obj.type == 'Next' then
         local collider = world:newRectangleCollider(obj.x, obj.y, obj.width, obj.height)
@@ -56,6 +41,27 @@ function Map:init()
       end
     end
     self:spawnEntities()
+end
+
+function Map:LayerBuild(layer,class,type)
+  for i, obj in ipairs(layer) do
+      local collider = world:newRectangleCollider(obj.x, obj.y, obj.width, obj.height)
+      collider:setCollisionClass(class)
+      collider:setType(type)
+      table.insert(self.level.colliders, collider)
+  end
+end
+
+function OneWayPlatforms(collider_1, collider_2, contact)
+    if collider_1.collision_class == "Player" and collider_2.collision_class == "Platforms" then
+        local px, py = collider_1:getPosition()
+        local pw, ph = 22, 33
+        local tx, ty = collider_2:getPosition()
+        local tw, th = 100, 20
+        if py + 16 > ty - 1/2 then
+            contact:setEnabled(false)
+        end
+    end
 end
 
 function Map:update(dt)
@@ -98,6 +104,9 @@ function Map:spawnEntities()
                 Pigs.new(entity.x, entity.y, entity.width, entity.height, entity.properties.speed)
               end
             end
+        end
+        if entity.type == "sign" then
+          Signs.new(entity.x , entity.y,entity.properties.id)
         end
     end
 end

@@ -2,7 +2,7 @@ local debugging = {}
 local Player = require("player")
 local Pigs = require("Ennemis/Pigs")
 function debugging:load()
-    self.isActif = false
+    self.isActif = true
 end
 function debugging:update(dt)
 end

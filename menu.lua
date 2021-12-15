@@ -1,17 +1,14 @@
 local Menu = {}
 local ww, wh = love.graphics.getDimensions()
 local suit = require("libs/suit")
-local Settings = require('settings')
 function Menu:load()
-    self.isActif = true
-    self.GameStart = false
     self:LoadAssets()
-    Settings.Showed = false
-
 end
 
 function Menu:LoadAssets()
     self.assets = suit.new()
+    self.Settings = suit.new()
+    self.showSetting = false
     self.assets.buttons = {}
     self.assets.buttonStart = {
         img = love.graphics.newImage("assets/GUI/Menu/Buttons/start_1.png"),
@@ -35,10 +32,21 @@ function Menu:LoadAssets()
 end
 
 function Menu:update(dt)
-    self:addButtons(dt)
-    if Settings.Showed then
-    Settings:update(dt)
+
+    if self.showSetting then
+      self:drawSettingsButtons()
+    end
+    if not self.showSetting then
+      self:drawButtons(dt)
+    end
+end
+
+function Menu:drawSettingsButtons()
+  self.Settings:Button('Go Back',{id=1},ww/2-ww/6 , wh/2-wh/20 , ww/3 ,wh/10)
+  if self.Settings:isHit(1) then
+    self:buttonClicked('Go Back')
   end
+
 end
 
 function Menu:buttonsTotalHeight()
@@ -51,7 +59,7 @@ function Menu:buttonsTotalHeight()
     return bth / 2
 end
 
-function Menu:addButtons(dt)
+function Menu:drawButtons(dt)
     local x = 0
     local margin = 16
     for i, button in ipairs(self.assets.buttons) do
@@ -71,23 +79,25 @@ end
 function Menu:draw()
     love.graphics.setBackgroundColor(166 / 255, 110 / 255, 66 / 255)
     self.assets:draw()
-    if Settings.Showed then
-      Settings:draw()
+    if self.showSetting then
+      self.Settings:draw()
     end
 end
 
 function Menu:buttonClicked(x,dt)
     if x == "Start" then
-        self.isActif = false
-        self.GameStart = true
+      Gamestat = 'Game'
     end
     if x == "Exit" then
         Exit()
     end
     if x == 'Options' then
-        Settings.Showed = true
-        Settings:load()
+      self.showSetting = true
+    end
+    if x == 'Go Back' then
+      self.showSetting = false
     end
 end
+
 
 return Menu

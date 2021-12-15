@@ -1,7 +1,6 @@
 local Pigs = {img = love.graphics.newImage('assets/pig.png')}
 Pigs.__index = Pigs
 local ActivePigs = {}
-local Player = require('player')
 
 function Pigs.new(x,y,width,height,speed)
   local instance = setmetatable({}, Pigs)
@@ -37,13 +36,13 @@ function Pigs.new(x,y,width,height,speed)
   instance.animation.idle = anim8.newAnimation( instance.grid('1-6' , 1), 0.1)
   instance.animation.walk = anim8.newAnimation( instance.grid('7-12' , 1), 0.1)
   instance.animation.attack = anim8.newAnimation( instance.grid('13-17' , 1), 0.1)
+  instance.animation.hurt = anim8.newAnimation( instance.grid('18-19' , 1), 0.1)
   instance.animation.current = instance.animation.idle
 
   table.insert(ActivePigs, instance)
 end
 
 function Pigs:update(dt)
-  Attcked = false
   self.xVel , self.yVel = self.collider:getLinearVelocity()
   self:setDirection(dt)
   self:AI(dt)
@@ -51,7 +50,6 @@ function Pigs:update(dt)
   self:Animate(dt)
   self:sync(dt)
   self:Timers(dt)
-  self:hurt()
 end
 
 function Pigs:Animate(dt)
@@ -79,14 +77,11 @@ function Pigs:setDirection(dt)
 end
 
 function Pigs:AI(dt)
-  if self:checkPlayer(dt) then
-    self:walkToPlayer(dt)
-    self:attackPlayer(dt)
-  end
   if (self:checkNoGround(dt) or self:checkWalls(dt)) then
     self.direction = -self.direction
   end
-  self.collider:setLinearVelocity(self.direction*self.speed , self.yVel)
+  self.collider:setLinearVelocity(self.direction*self.speed*dt*80 , self.yVel*dt*80)
+  self:checkPlayer()
 end
 
 function Pigs:checkNoGround(dt)
@@ -99,17 +94,20 @@ function Pigs:checkWalls(dt)
   if self.collider:enter('Walls') then return true end
 end
 
-function Pigs:checkPlayer(dt)
+function Pigs:checkPlayer()
   local query = world:queryRectangleArea(self.x-40 , self.y-self.height/2 , 80 ,self.height, {'Player'})
   local query = world:queryRectangleArea(self.x-40-self.width/2 , self.y-self.height/2 , 80 ,self.height, {'Player'})
-  if #query > 0 then return true end
-end
-
-function Pigs:walkToPlayer(dt)
-  if self.x - Player.x < -30 then
-    self.direction = 1
-  elseif self.x - Player.x > 30 then
-    self.direction = -1
+  for i,player in ipairs(query) do
+    local x , y = player:getPosition()
+    if self.x - x < -30 then
+      self.direction = 1
+    elseif self.x - x > 30 then
+      self.direction = -1
+    end
+  end
+  if self.collider:enter('Player') then
+    self.isAttcking = true
+    self.direction = -self.direction
   end
 end
 
@@ -117,17 +115,6 @@ function Pigs:checkRemove(dt)
   if self.toBeRemoved then
     self:remove()
   end
-end
-
-function Pigs:attackPlayer(dt)
-  if self.collider:enter('Player') then
-    Player:hurt(self.dmg*self.direction,dt)
-    self.isAttcking = true
-    self.stat = 'attack'
-  end
-end
-
-function Pigs:hurt()
 end
 
 function Pigs.removeAll()
@@ -176,12 +163,13 @@ end
 function Pigs:Timers(dt)
     if self.isAttcking then
         self.stat = "attack"
+        self.collider:setLinearVelocity(0,self.yVel)
         self.attackCooldown = self.attackCooldown - dt
     end
     if self.attackCooldown < 0 then
       self:setStat()
       self.isAttcking = false
-      self.attackCooldown = 0.5
+      self.attackCooldown = 0.6
     end
 end
 return Pigs

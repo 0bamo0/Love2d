@@ -10,6 +10,7 @@ local Player = require("player")
 local Pigs = require("Ennemis/Pigs")
 local cam = require("camera")
 local debugging = require("debugging")
+local Signs = require('Signs/signs')
 
 function Game:load()
     Map:load()
@@ -20,6 +21,7 @@ end
 
 function Game:update(dt)
     Pigs.updateAll(dt)
+    Signs.updateAll(dt)
     Player:update(dt)
     cam:update(dt)
     world:update(dt)
@@ -32,6 +34,7 @@ function Game:draw()
     cam:attach()
     Map:draw()
     Pigs.drawAll()
+    Signs.drawAll()
     if debugging.isActif then
         world:draw()
     end

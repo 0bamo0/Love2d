@@ -1,5 +1,5 @@
 local Player = {}
-
+local Pigs = require('Ennemis/Pigs')
 function Player:load()
     self:LoadAssets()
     self.x = 100
@@ -17,18 +17,7 @@ function Player:load()
     self.collider:setCollisionClass("Player")
     self.collider:setFixedRotation(true)
     self.collider:setType("dynamic")
-    function Custom(collider_1, collider_2, contact)
-        if collider_1.collision_class == "Player" and collider_2.collision_class == "Platforms" then
-            local px, py = collider_1:getPosition()
-            local pw, ph = 22, 33
-            local tx, ty = collider_2:getPosition()
-            local tw, th = 100, 20
-            if py + self.height / 2 > ty - platy / 2 then
-                contact:setEnabled(false)
-            end
-        end
-    end
-    self.collider:setPreSolve(Custom)
+    self.collider:setPreSolve(OneWayPlatforms)
 
     self.grounded = false
     self.onPlatform = false
@@ -174,13 +163,15 @@ function Player:resetPosition(dt)
 end
 
 function Player:hurt(dmg, dt)
-    self.collider:setLinearVelocity(dmg, 0)
+    self.collider:setLinearVelocity(-dmg, -250)
     self.ishurt = true
     self.hurtTimer = 0.5
 end
 
 function Player:Attack(b)
-  self.isAttcking = true
+  if not self.stuned then
+    self.isAttcking = true
+  end
 end
 
 function Player:Timers(dt)
