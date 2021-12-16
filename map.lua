@@ -1,9 +1,9 @@
 local Map = {}
 local Player = require "player"
 local Pigs = require "Ennemis/Pigs"
-local Signs = require('Signs/signs')
+local Signs = require("Signs/signs")
 function Map:load()
-bg = love.graphics.newImage('assets/background.png')
+    bg = love.graphics.newImage("assets/background.png")
     world = wf.newWorld(0, 2000, false)
     world:setQueryDebugDrawing(true)
     self.currentLevel = 1
@@ -11,11 +11,11 @@ bg = love.graphics.newImage('assets/background.png')
     world:addCollisionClass("Platforms")
     world:addCollisionClass("Walls")
     world:addCollisionClass("Pigs")
-    world:addCollisionClass("Signs", {ignores={'Pigs'}})
-    world:addCollisionClass("Player", {ignores = {"Pigs" , "Signs"}})
+    world:addCollisionClass("Signs", {ignores = {"Pigs"}})
+    world:addCollisionClass("Player", {ignores = {"Pigs", "Signs"}})
     world:addCollisionClass("Next", {ignores = {"Pigs", "Player"}})
-    world:addCollisionClass('AttackCollider' , {ignores={'Player','Pigs','Ground','Platforms','Walls','Signs'}})
-    world:addCollisionClass('PigsAttack' , {ignores={'Player','Pigs','Ground','Platforms','Walls','Signs'}})
+    world:addCollisionClass("AttackCollider", {ignores = {"Player", "Pigs", "Ground", "Platforms", "Walls", "Signs"}})
+    world:addCollisionClass("PigsAttack", {ignores = {"Player", "Pigs", "Ground", "Platforms", "Walls", "Signs"}})
     self:init()
 end
 
@@ -28,30 +28,30 @@ function Map:init()
     self.wallsLayer = self.level.layers.Walls
     self.lvlControlLayer = self.level.layers.LevelControl
 
-    self:LayerBuild(self.groundLayer.objects,"Ground","static")
-    self:LayerBuild(self.platformsLayer.objects,"Platforms","static")
-    self:LayerBuild(self.wallsLayer.objects,"Walls","static")
+    self:LayerBuild(self.groundLayer.objects, "Ground", "static")
+    self:LayerBuild(self.platformsLayer.objects, "Platforms", "static")
+    self:LayerBuild(self.wallsLayer.objects, "Walls", "static")
     for i, obj in ipairs(self.lvlControlLayer.objects) do
-      if obj.type == 'Next' then
-        local collider = world:newRectangleCollider(obj.x, obj.y, obj.width, obj.height)
-        collider:setCollisionClass("Next")
-        collider:setType("static")
-        table.insert(self.level.colliders, collider)
-      elseif obj.type == 'Spawn' then
-        Player.startX = obj.x
-        Player.startY = obj.y
-      end
+        if obj.type == "Next" then
+            local collider = world:newRectangleCollider(obj.x, obj.y, obj.width, obj.height)
+            collider:setCollisionClass("Next")
+            collider:setType("static")
+            table.insert(self.level.colliders, collider)
+        elseif obj.type == "Spawn" then
+            Player.startX = obj.x
+            Player.startY = obj.y
+        end
     end
     self:spawnEntities()
 end
 
-function Map:LayerBuild(layer,class,type)
-  for i, obj in ipairs(layer) do
-      local collider = world:newRectangleCollider(obj.x, obj.y, obj.width, obj.height)
-      collider:setCollisionClass(class)
-      collider:setType(type)
-      table.insert(self.level.colliders, collider)
-  end
+function Map:LayerBuild(layer, class, type)
+    for i, obj in ipairs(layer) do
+        local collider = world:newRectangleCollider(obj.x, obj.y, obj.width, obj.height)
+        collider:setCollisionClass(class)
+        collider:setType(type)
+        table.insert(self.level.colliders, collider)
+    end
 end
 
 function OneWayPlatforms(collider_1, collider_2, contact)
@@ -60,7 +60,7 @@ function OneWayPlatforms(collider_1, collider_2, contact)
         local pw, ph = 22, 33
         local tx, ty = collider_2:getPosition()
         local tw, th = 100, 20
-        if py + 16 > ty - 1/2 then
+        if py + 16 > ty - 1 / 2 then
             contact:setEnabled(false)
         end
     end
@@ -78,7 +78,7 @@ function Map:next(dt)
     if self.currentLevel == #n - 1 then
         self.currentLevel = self.currentLevel
     else
-        self.currentLevel = self.currentLevel +1
+        self.currentLevel = self.currentLevel + 1
     end
     self:init()
     Player:resetPosition(dt)
@@ -99,17 +99,17 @@ function Map:spawnEntities()
     for i, entity in ipairs(self.entityLayer.objects) do
         if entity.type == "pig" then
             for i = 1, entity.properties.spawnNumber do
-              if entity.properties.spawnNumber > 1 then
-                local sx = math.random(entity.x ,entity.x+entity.width)
-                local sy = math.random(entity.y ,entity.y+entity.height)
-                Pigs.new(sx, sy, entity.width, entity.height, entity.properties.speed)
-              else
-                Pigs.new(entity.x, entity.y, entity.width, entity.height, entity.properties.speed)
-              end
+                if entity.properties.spawnNumber > 1 then
+                    local sx = math.random(entity.x, entity.x + entity.width)
+                    local sy = math.random(entity.y, entity.y + entity.height)
+                    Pigs.new(sx, sy, entity.width, entity.height, entity.properties.speed)
+                else
+                    Pigs.new(entity.x, entity.y, entity.width, entity.height, entity.properties.speed)
+                end
             end
         end
         if entity.type == "sign" then
-          Signs.new(entity.x , entity.y,entity.properties.id)
+            Signs.new(entity.x, entity.y, entity.properties.id)
         end
     end
 end

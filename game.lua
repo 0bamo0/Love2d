@@ -10,7 +10,7 @@ local Player = require("player")
 local Pigs = require("Ennemis/Pigs")
 local cam = require("camera")
 local debugging = require("debugging")
-local Signs = require('Signs/signs')
+local Signs = require("Signs/signs")
 
 function Game:load()
     Map:load()
@@ -41,8 +41,6 @@ function Game:draw()
     Player:draw()
     cam:detach()
 end
-
-
 
 function Game:keypressed(key)
     Player:Jump(key)

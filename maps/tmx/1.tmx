@@ -63,7 +63,7 @@
   <object id="4" name="Unit" type="pig" x="384" y="256" width="16" height="16">
    <properties>
     <property name="spawnNumber" type="int" value="1"/>
-    <property name="speed" type="int" value="10"/>
+    <property name="speed" type="int" value="80"/>
    </properties>
   </object>
   <object id="5" name="Area" type="pig" x="397" y="153" width="136" height="64">

@@ -11,9 +11,9 @@ function Player:load()
     self.height = 33
     self.jumpForce = 520
     self.hurtTimer = 0.5
-    self.attacktimer = 0.56
+    self.attacktimer = 0.24
     self.spawnTimer = 1
-    self.collider = world:newBSGRectangleCollider(self.x, self.y, self.width, self.height,15)
+    self.collider = world:newBSGRectangleCollider(self.x, self.y, self.width, self.height, 15)
     self.collider:setCollisionClass("Player")
     self.collider:setFixedRotation(true)
     self.collider:setType("dynamic")
@@ -70,7 +70,7 @@ function Player:LoadAssets()
     self.animation.run = anim8.newAnimation(self.grid("1-6", 2, "1-2", 3), 0.1)
     self.animation.combo1 = anim8.newAnimation(self.grid("3-6", 3, "1-3", 4), 0.04)
     self.animation.combo2 = anim8.newAnimation(self.grid("4-6", 4, "1-2", 5), 0.04)
-    self.animation.attack = anim8.newAnimation(self.grid("3-6", 3, "1-6", 4, "1-2", 5), 0.04)
+    self.animation.attack = anim8.newAnimation(self.grid("3-6", 3, "1-6", 4, "1-2", 5), 0.02)
     self.animation.death = anim8.newAnimation(self.grid("3-6", 5, "1-6", 6, "1-1", 7), 0.1)
     self.animation.hurt = anim8.newAnimation(self.grid("2-5", 7), 0.1)
     self.animation.jump = anim8.newAnimation(self.grid("6-6", 7, "1-5", 8), 0.1)
@@ -79,12 +79,12 @@ function Player:LoadAssets()
 end
 
 function Player:Animate(dt)
-  if self.stat == 'jump' then
-    self.animation.current = self.animation[self.stat]
-  else
-    self.animation.current = self.animation[self.stat]
-    self.animation.current:update(dt)
-  end
+    if self.stat == "jump" then
+        self.animation.current = self.animation[self.stat]
+    else
+        self.animation.current = self.animation[self.stat]
+        self.animation.current:update(dt)
+    end
 end
 
 function Player:draw()
@@ -113,8 +113,16 @@ function Player:setStat(dt)
             self.stat = "idle"
         end
     end
-    if self.xVel > 300 then self.xVel = 300 elseif self.xVel < -300 then self.xVel = -300 end
-    if self.yVel > 300 then self.yVel = 300 elseif self.yVel < -300 then self.yVel = -300 end
+    if self.xVel > 300 then
+        self.xVel = 300
+    elseif self.xVel < -300 then
+        self.xVel = -300
+    end
+    if self.yVel > 300 then
+        self.yVel = 300
+    elseif self.yVel < -300 then
+        self.yVel = -300
+    end
 end
 
 function Player:Collisions(dt)
@@ -151,10 +159,10 @@ function Player:Collisions(dt)
 end
 
 function Player:Hurt()
-if self.collider:enter('PigsAttack') then
-  self.isHurt = true
-  self.collider:setLinearVelocity(-self.direction*200 , -200)
-end
+    if self.collider:enter("PigsAttack") then
+        self.isHurt = true
+        self.collider:setLinearVelocity(-self.direction * 200, -200)
+    end
 end
 
 function Player:Jump(key)
@@ -166,25 +174,25 @@ function Player:Jump(key)
 end
 
 function Player:resetPosition(dt)
-  self.collider.body:setPosition(self.startX, self.startY)
-  self.collider:applyLinearImpulse(0,10000000)
-  self.Respawning = true
+    self.collider.body:setPosition(self.startX, self.startY)
+    self.collider:applyLinearImpulse(0, 10000000)
+    self.Respawning = true
 end
 
 function Player:Attack(b)
-  print(self.direction)
-  if b == 1 then
-  if not self.stuned then
-    self.isAttcking = true
-    if self.direction == 1 then
-    self.AttackCollider = world:newRectangleCollider(self.x+self.width-7 , self.y-self.height/2 , 25 , self.height )
-  elseif self.direction == -1 then
-    self.AttackCollider = world:newRectangleCollider(self.x-32, self.y-self.height/2 , 25 , self.height )
-  end
-    self.AttackCollider:setCollisionClass('AttackCollider')
-    self.AttackCollider:setType('static')
-  end
-end
+    if b == 1 then
+        if not self.stuned then
+            self.isAttcking = true
+            if self.direction == 1 then
+                self.AttackCollider =
+                    world:newRectangleCollider(self.x + self.width - 7, self.y - self.height / 2, 25, self.height)
+            elseif self.direction == -1 then
+                self.AttackCollider = world:newRectangleCollider(self.x - 32, self.y - self.height / 2, 25, self.height)
+            end
+            self.AttackCollider:setCollisionClass("AttackCollider")
+            self.AttackCollider:setType("static")
+        end
+    end
 end
 
 function Player:Timers(dt)
@@ -198,26 +206,26 @@ function Player:Timers(dt)
         self.spawnTimer = 1
     end
     if self.isAttcking then
-      self.attacktimer = self.attacktimer - dt
-        self.stat = 'attack'
+        self.attacktimer = self.attacktimer - dt
+        self.stat = "attack"
         self.stuned = true
     end
     if self.attacktimer < 0 then
-      self.AttackCollider:destroy()
+        self.AttackCollider:destroy()
         self.stuned = false
         self.isAttcking = false
-        self.attacktimer = 0.56
+        self.attacktimer = 0.24
         self.animation.current:gotoFrame(1)
     end
     if self.isHurt then
-      self.stuned = true
-      self.hurtTimer = self.hurtTimer - dt
-      self.stat = 'hurt'
+        self.stuned = true
+        self.hurtTimer = self.hurtTimer - dt
+        self.stat = "hurt"
     end
     if self.hurtTimer < 0 then
-      self.isHurt = false
-      self.hurtTimer = 0.5
-      self.stuned = false
+        self.isHurt = false
+        self.hurtTimer = 0.5
+        self.stuned = false
     end
 end
 return Player

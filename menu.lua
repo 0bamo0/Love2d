@@ -32,21 +32,19 @@ function Menu:LoadAssets()
 end
 
 function Menu:update(dt)
-
     if self.showSetting then
-      self:drawSettingsButtons()
+        self:drawSettingsButtons()
     end
     if not self.showSetting then
-      self:drawButtons(dt)
+        self:drawButtons(dt)
     end
 end
 
 function Menu:drawSettingsButtons()
-  self.Settings:Button('Go Back',{id=1},ww/2-ww/6 , wh/2-wh/20 , ww/3 ,wh/10)
-  if self.Settings:isHit(1) then
-    self:buttonClicked('Go Back')
-  end
-
+    self.Settings:Button("Go Back", {id = 1}, ww / 2 - ww / 6, wh / 2 - wh / 20, ww / 3, wh / 10)
+    if self.Settings:isHit(1) then
+        self:buttonClicked("Go Back")
+    end
 end
 
 function Menu:buttonsTotalHeight()
@@ -80,24 +78,23 @@ function Menu:draw()
     love.graphics.setBackgroundColor(166 / 255, 110 / 255, 66 / 255)
     self.assets:draw()
     if self.showSetting then
-      self.Settings:draw()
+        self.Settings:draw()
     end
 end
 
-function Menu:buttonClicked(x,dt)
+function Menu:buttonClicked(x, dt)
     if x == "Start" then
-      Gamestat = 'Game'
+        Gamestat = "Game"
     end
     if x == "Exit" then
         Exit()
     end
-    if x == 'Options' then
-      self.showSetting = true
+    if x == "Options" then
+        self.showSetting = true
     end
-    if x == 'Go Back' then
-      self.showSetting = false
+    if x == "Go Back" then
+        self.showSetting = false
     end
 end
-
 
 return Menu

@@ -227,7 +227,7 @@ return {
           visible = true,
           properties = {
             ["spawnNumber"] = 1,
-            ["speed"] = 10
+            ["speed"] = 80
           }
         },
         {
