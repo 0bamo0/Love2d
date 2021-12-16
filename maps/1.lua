@@ -227,7 +227,7 @@ return {
           visible = true,
           properties = {
             ["spawnNumber"] = 1,
-            ["speed"] = 80
+            ["speed"] = 10
           }
         },
         {
@@ -275,22 +275,6 @@ return {
           properties = {
             ["id"] = 2
           }
-        },
-        {
-          id = 13,
-          name = "Unit",
-          type = "pig",
-          shape = "rectangle",
-          x = 352,
-          y = 256,
-          width = 16,
-          height = 16,
-          rotation = 0,
-          visible = true,
-          properties = {
-            ["spawnNumber"] = 1,
-            ["speed"] = 80
-          }
         }
       }
     },
@@ -325,7 +309,7 @@ return {
           name = "",
           type = "Next",
           shape = "rectangle",
-          x = 416,
+          x = 768,
           y = 320,
           width = 32,
           height = 32,

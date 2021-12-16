@@ -14,6 +14,8 @@ bg = love.graphics.newImage('assets/background.png')
     world:addCollisionClass("Signs", {ignores={'Pigs'}})
     world:addCollisionClass("Player", {ignores = {"Pigs" , "Signs"}})
     world:addCollisionClass("Next", {ignores = {"Pigs", "Player"}})
+    world:addCollisionClass('AttackCollider' , {ignores={'Player','Pigs','Ground','Platforms','Walls','Signs'}})
+    world:addCollisionClass('PigsAttack' , {ignores={'Player','Pigs','Ground','Platforms','Walls','Signs'}})
     self:init()
 end
 

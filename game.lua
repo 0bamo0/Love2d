@@ -20,9 +20,9 @@ function Game:load()
 end
 
 function Game:update(dt)
-    Pigs.updateAll(dt)
     Signs.updateAll(dt)
     Player:update(dt)
+    Pigs.updateAll(dt)
     cam:update(dt)
     world:update(dt)
     debugging:update(dt)

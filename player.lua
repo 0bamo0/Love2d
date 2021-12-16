@@ -22,6 +22,7 @@ function Player:load()
     self.grounded = false
     self.onPlatform = false
     self.canMove = true
+    self.isHurt = false
     self.Respawing = false
     self.isAttcking = false
 end
@@ -34,6 +35,7 @@ function Player:update(dt)
     self:setDirection(dt)
     self:Move(dt)
     self:setStat(dt)
+    self:Hurt()
     self:Timers(dt)
     self:Animate(dt)
 end
@@ -148,6 +150,13 @@ function Player:Collisions(dt)
     end
 end
 
+function Player:Hurt()
+if self.collider:enter('PigsAttack') then
+  self.isHurt = true
+  self.collider:setLinearVelocity(-self.direction*200 , -200)
+end
+end
+
 function Player:Jump(key)
     if key == "space" and not self.stuned then
         if (self.grounded or self.onPlatform) then
@@ -163,13 +172,19 @@ function Player:resetPosition(dt)
 end
 
 function Player:Attack(b)
+  print(self.direction)
+  if b == 1 then
   if not self.stuned then
     self.isAttcking = true
-    local query = world:queryRectangleArea(self.x + self.direction*10 , self.y-self.height/2 , 15 , self.height)
-    for i,collider in ipairs(query)do
-      collider:setLinearVelocity(self.direction*200 , -200)
-    end
+    if self.direction == 1 then
+    self.AttackCollider = world:newRectangleCollider(self.x+self.width-7 , self.y-self.height/2 , 25 , self.height )
+  elseif self.direction == -1 then
+    self.AttackCollider = world:newRectangleCollider(self.x-32, self.y-self.height/2 , 25 , self.height )
   end
+    self.AttackCollider:setCollisionClass('AttackCollider')
+    self.AttackCollider:setType('static')
+  end
+end
 end
 
 function Player:Timers(dt)
@@ -188,10 +203,21 @@ function Player:Timers(dt)
         self.stuned = true
     end
     if self.attacktimer < 0 then
+      self.AttackCollider:destroy()
         self.stuned = false
         self.isAttcking = false
         self.attacktimer = 0.56
         self.animation.current:gotoFrame(1)
+    end
+    if self.isHurt then
+      self.stuned = true
+      self.hurtTimer = self.hurtTimer - dt
+      self.stat = 'hurt'
+    end
+    if self.hurtTimer < 0 then
+      self.isHurt = false
+      self.hurtTimer = 0.5
+      self.stuned = false
     end
 end
 return Player
