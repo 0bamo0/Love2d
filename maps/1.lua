@@ -8,23 +8,23 @@ return {
   height = 30,
   tilewidth = 32,
   tileheight = 32,
-  nextlayerid = 8,
-  nextobjectid = 14,
+  nextlayerid = 9,
+  nextobjectid = 33,
   properties = {
     ["speed"] = 80
   },
   tilesets = {
     {
-      name = "terrain",
+      name = "TX Tileset Ground",
       firstgid = 1,
       tilewidth = 32,
       tileheight = 32,
       spacing = 0,
       margin = 0,
-      columns = 22,
-      image = "../assets/Terrain.png",
-      imagewidth = 704,
-      imageheight = 352,
+      columns = 16,
+      image = "../assets/Terrain/TX Tileset Ground.png",
+      imagewidth = 512,
+      imageheight = 512,
       objectalignment = "unspecified",
       tileoffset = {
         x = 0,
@@ -37,7 +37,33 @@ return {
       },
       properties = {},
       wangsets = {},
-      tilecount = 242,
+      tilecount = 256,
+      tiles = {}
+    },
+    {
+      name = "TX Village Props",
+      firstgid = 257,
+      tilewidth = 32,
+      tileheight = 32,
+      spacing = 0,
+      margin = 0,
+      columns = 32,
+      image = "../assets/Terrain/TX Village Props.png",
+      imagewidth = 1024,
+      imageheight = 1024,
+      objectalignment = "unspecified",
+      tileoffset = {
+        x = 0,
+        y = 0
+      },
+      grid = {
+        orientation = "orthogonal",
+        width = 32,
+        height = 32
+      },
+      properties = {},
+      wangsets = {},
+      tilecount = 1024,
       tiles = {}
     }
   },
@@ -71,13 +97,13 @@ return {
             0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
             0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
             0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-            0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 2, 2, 2, 2, 2, 2,
-            0, 0, 0, 0, 0, 0, 0, 0, 0, 23, 4, 4, 5, 4, 5, 24,
-            7, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8,
-            29, 30, 30, 30, 30, 30, 30, 30, 30, 30, 30, 30, 30, 30, 30, 30,
-            29, 30, 30, 30, 30, 30, 30, 30, 30, 30, 30, 30, 30, 30, 30, 30,
-            29, 30, 30, 30, 30, 30, 30, 30, 30, 30, 30, 30, 30, 30, 30, 30,
-            29, 30, 30, 30, 30, 30, 30, 30, 30, 30, 30, 30, 30, 30, 30, 30
+            0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+            0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+            0, 0, 0, 0, 0, 2147483918, 0, 0, 0, 25, 25, 25, 25, 270, 0, 10,
+            0, 0, 0, 0, 0, 2147483950, 0, 0, 0, 0, 0, 0, 0, 302, 0, 0,
+            1, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2,
+            165, 77, 77, 168, 93, 167, 125, 108, 182, 77, 77, 108, 108, 76, 184, 168,
+            181, 182, 167, 77, 124, 167, 183, 167, 168, 184, 92, 108, 184, 200, 183, 108
           }
         },
         {
@@ -92,13 +118,55 @@ return {
             0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
             0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
             0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-            3, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-            25, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-            8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 0,
-            30, 30, 30, 30, 30, 30, 30, 30, 30, 30, 30, 30, 30, 30, 30, 0,
-            30, 30, 30, 30, 30, 30, 30, 30, 30, 30, 30, 30, 30, 30, 30, 0,
-            30, 30, 30, 30, 30, 30, 30, 30, 30, 30, 30, 30, 30, 30, 30, 0,
-            30, 30, 30, 30, 30, 30, 30, 30, 30, 30, 30, 30, 30, 30, 30, 0
+            0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+            0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+            56, 58, 11, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+            0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+            2, 2, 6, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+            109, 76, 142, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+            108, 76, 142, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+          }
+        },
+        {
+          x = 0, y = 16, width = 16, height = 16,
+          data = {
+            197, 182, 184, 92, 199, 166, 168, 93, 166, 199, 182, 182, 167, 124, 198, 108,
+            92, 76, 76, 166, 92, 166, 124, 108, 199, 200, 76, 125, 184, 200, 93, 183,
+            108, 125, 184, 167, 125, 184, 183, 183, 92, 167, 92, 198, 166, 167, 199, 76,
+            0, 76, 77, 76, 77, 76, 77, 76, 77, 76, 77, 76, 77, 76, 77, 76,
+            0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+            0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+            0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+            0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+            0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+            0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+            0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+            0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+            0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+            0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+            0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+            0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+          }
+        },
+        {
+          x = 16, y = 16, width = 16, height = 16,
+          data = {
+            199, 76, 142, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+            93, 76, 142, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+            199, 76, 94, 122, 2147483735, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+            77, 104, 104, 104, 105, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+            0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+            0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+            0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+            0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+            0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+            0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+            0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+            0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+            0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+            0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+            0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+            0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
           }
         }
       }
@@ -122,9 +190,35 @@ return {
           type = "",
           shape = "rectangle",
           x = 0,
-          y = 352,
-          width = 1e+06,
+          y = 416,
+          width = 608,
           height = 1,
+          rotation = 0,
+          visible = true,
+          properties = {}
+        },
+        {
+          id = 23,
+          name = "",
+          type = "",
+          shape = "rectangle",
+          x = 576,
+          y = 576,
+          width = 91.125,
+          height = 1,
+          rotation = 0,
+          visible = true,
+          properties = {}
+        },
+        {
+          id = 31,
+          name = "",
+          type = "",
+          shape = "rectangle",
+          x = 892,
+          y = 448,
+          width = 4000,
+          height = 32,
           rotation = 0,
           visible = true,
           properties = {}
@@ -170,6 +264,45 @@ return {
           rotation = 0,
           visible = true,
           properties = {}
+        },
+        {
+          id = 21,
+          name = "LimitV",
+          type = "",
+          shape = "rectangle",
+          x = 3712,
+          y = -1632,
+          width = 1,
+          height = 4000,
+          rotation = 0,
+          visible = true,
+          properties = {}
+        },
+        {
+          id = 22,
+          name = "",
+          type = "",
+          shape = "rectangle",
+          x = 576,
+          y = 417.125,
+          width = 32,
+          height = 203.875,
+          rotation = 0,
+          visible = true,
+          properties = {}
+        },
+        {
+          id = 32,
+          name = "",
+          type = "",
+          shape = "rectangle",
+          x = 664.75,
+          y = 576.75,
+          width = 3.5,
+          height = 63.25,
+          rotation = 0,
+          visible = true,
+          properties = {}
         }
       }
     },
@@ -191,10 +324,23 @@ return {
           name = "Platform",
           type = "",
           shape = "rectangle",
-          x = 288,
-          y = 288,
-          width = 256,
+          x = 480,
+          y = 352,
+          width = 128,
           height = 1,
+          rotation = 0,
+          visible = true,
+          properties = {}
+        },
+        {
+          id = 26,
+          name = "",
+          type = "",
+          shape = "rectangle",
+          x = 736,
+          y = 512,
+          width = 160,
+          height = 2,
           rotation = 0,
           visible = true,
           properties = {}
@@ -219,13 +365,14 @@ return {
           name = "Unit",
           type = "pig",
           shape = "rectangle",
-          x = 384,
-          y = 256,
+          x = 544,
+          y = 320,
           width = 16,
           height = 16,
           rotation = 0,
           visible = true,
           properties = {
+            ["health"] = 2,
             ["spawnNumber"] = 1,
             ["speed"] = 80
           }
@@ -240,8 +387,9 @@ return {
           width = 136,
           height = 64,
           rotation = 0,
-          visible = true,
+          visible = false,
           properties = {
+            ["health"] = 2,
             ["spawnNumber"] = 0,
             ["speed"] = 80
           }
@@ -251,29 +399,29 @@ return {
           name = "",
           type = "sign",
           shape = "rectangle",
-          x = 256,
-          y = 320,
-          width = 32,
-          height = 32,
-          rotation = 0,
-          visible = true,
-          properties = {
-            ["id"] = 1
-          }
-        },
-        {
-          id = 12,
-          name = "",
-          type = "sign",
-          shape = "rectangle",
-          x = 32,
-          y = 320,
+          x = 416,
+          y = 384,
           width = 32,
           height = 32,
           rotation = 0,
           visible = true,
           properties = {
             ["id"] = 2
+          }
+        },
+        {
+          id = 12,
+          name = "Welcome",
+          type = "sign",
+          shape = "rectangle",
+          x = 160,
+          y = 384,
+          width = 32,
+          height = 32,
+          rotation = 0,
+          visible = true,
+          properties = {
+            ["id"] = 1
           }
         }
       }
@@ -297,7 +445,7 @@ return {
           type = "Spawn",
           shape = "rectangle",
           x = 114.545,
-          y = 124.364,
+          y = 192,
           width = 64,
           height = 64,
           rotation = 0,
@@ -309,9 +457,22 @@ return {
           name = "",
           type = "Next",
           shape = "rectangle",
-          x = 768,
-          y = 320,
+          x = 912,
+          y = 344.136,
           width = 32,
+          height = 32,
+          rotation = 0,
+          visible = true,
+          properties = {}
+        },
+        {
+          id = 28,
+          name = "",
+          type = "Death",
+          shape = "rectangle",
+          x = 0,
+          y = 640,
+          width = 30000,
           height = 32,
           rotation = 0,
           visible = true,

@@ -3,7 +3,6 @@ local Player = require "player"
 local Pigs = require "Ennemis/Pigs"
 local Signs = require("Signs/signs")
 function Map:load()
-    bg = love.graphics.newImage("assets/background.png")
     world = wf.newWorld(0, 2000, false)
     world:setQueryDebugDrawing(true)
     self.currentLevel = 1
@@ -16,6 +15,7 @@ function Map:load()
     world:addCollisionClass("Next", {ignores = {"Pigs", "Player"}})
     world:addCollisionClass("AttackCollider", {ignores = {"Player", "Pigs", "Ground", "Platforms", "Walls", "Signs"}})
     world:addCollisionClass("PigsAttack", {ignores = {"Player", "Pigs", "Ground", "Platforms", "Walls", "Signs"}})
+    world:addCollisionClass("Death")
     self:init()
 end
 
@@ -40,6 +40,11 @@ function Map:init()
         elseif obj.type == "Spawn" then
             Player.startX = obj.x
             Player.startY = obj.y
+        elseif obj.type == "Death" then
+          local collider = world:newRectangleCollider(obj.x, obj.y, obj.width, obj.height)
+          collider:setCollisionClass("Death")
+          collider:setType("static")
+          table.insert(self.level.colliders, collider)
         end
     end
     self:spawnEntities()
@@ -57,10 +62,10 @@ end
 function OneWayPlatforms(collider_1, collider_2, contact)
     if collider_1.collision_class == "Player" and collider_2.collision_class == "Platforms" then
         local px, py = collider_1:getPosition()
-        local pw, ph = 22, 33
+        local pw, ph = 37, 37
         local tx, ty = collider_2:getPosition()
         local tw, th = 100, 20
-        if py + 16 > ty - 1 / 2 then
+        if py> ty then
             contact:setEnabled(false)
         end
     end
@@ -102,9 +107,9 @@ function Map:spawnEntities()
                 if entity.properties.spawnNumber > 1 then
                     local sx = math.random(entity.x, entity.x + entity.width)
                     local sy = math.random(entity.y, entity.y + entity.height)
-                    Pigs.new(sx, sy, entity.width, entity.height, entity.properties.speed)
+                    Pigs.new(sx, sy, entity.width, entity.height, entity.properties.speed,entity.properties.health)
                 else
-                    Pigs.new(entity.x, entity.y, entity.width, entity.height, entity.properties.speed)
+                    Pigs.new(entity.x, entity.y, entity.width, entity.height, entity.properties.speed,entity.properties.health)
                 end
             end
         end
@@ -115,6 +120,7 @@ function Map:spawnEntities()
 end
 
 function Map:draw()
+
     self.level:drawLayer(self.level.layers["GroundDraw"])
 end
 

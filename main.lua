@@ -4,6 +4,7 @@ local Menu = require("menu")
 local Game = require("game")
 
 function love.load()
+  print(love.graphics.getDimensions())
     Gamestat = "Menu"
     if Gamestat == "Menu" then
         Menu:load()
@@ -50,6 +51,9 @@ function love.mousepressed(x, y, b)
 end
 
 function love.wheelmoved(x, y)
+  if Gamestat == "Game" then
+  Game:wheelmoved(x, y)
+  end
 end
 
 function Quit(key)

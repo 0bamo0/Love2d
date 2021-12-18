@@ -46,11 +46,11 @@ function Signs:draw()
         love.graphics.polygon("fill", self.x - 6, self.y - 40, self.x + 6, self.y - 40, self.x, self.y - 45)
     end
     if self.stat == "show" then
-        local tx, ty = self.x - (tw / 11), self.y - 125
+        local tx, ty = self.x - (tw / 11), self.y - 105
         if tx < 0 then
             tx = self.x + 10
         end
-        local bx, by = self.x - (tw / 10), self.y - (th / 10) - 115
+        local bx, by = self.x - (tw / 10), self.y - (th / 10) - 95
         if bx < 0 then
             bx = self.x
         end

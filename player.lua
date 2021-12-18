@@ -7,15 +7,19 @@ function Player:load()
     self.direction = 1
     self.stat = "idle"
     self.speed = 200
-    self.width = 18
-    self.height = 33
-    self.jumpForce = 520
+    self.width = 37
+    self.height = 27
+    self.health = 10
+    self.jumpForce = 580
     self.hurtTimer = 0.5
     self.attacktimer = 0.24
+    self.deathtimer = 1.1
     self.spawnTimer = 1
+    self.dashTimer = 0.8
     self.collider = world:newBSGRectangleCollider(self.x, self.y, self.width, self.height, 15)
     self.collider:setCollisionClass("Player")
     self.collider:setFixedRotation(true)
+    self.collider:setMass(1)
     self.collider:setType("dynamic")
     self.collider:setPreSolve(OneWayPlatforms)
 
@@ -25,6 +29,8 @@ function Player:load()
     self.isHurt = false
     self.Respawing = false
     self.isAttcking = false
+    self.isDead = false
+
 end
 
 function Player:update(dt)
@@ -38,12 +44,14 @@ function Player:update(dt)
     self:Hurt()
     self:Timers(dt)
     self:Animate(dt)
+    self:falledIntoTheRiver(dt)
 end
 
 function Player:Move(dt)
     if love.keyboard.isDown("right", "d") and not self.wallsRight and self.canMove and not self.stuned then
         self.collider:setLinearVelocity(self.speed, self.yVel)
-    elseif love.keyboard.isDown("left", "q") and not self.wallsLeft and self.canMove and not self.stuned then
+      end
+    if love.keyboard.isDown("left", "q") and not self.wallsLeft and self.canMove and not self.stuned then
         self.collider:setLinearVelocity(-self.speed, self.yVel)
     end
     self.x, self.y = self.collider:getPosition()
@@ -58,37 +66,25 @@ function Player:Friction(key)
 end
 
 function Player:LoadAssets()
-    local Effects = true
-    if Effects then
-        self.sheet = love.graphics.newImage("assets/Player/playerskin1effect.png")
-    else
-        self.sheet = love.graphics.newImage("assets/Player/playerskin1noeffect.png")
-    end
-    self.grid = anim8.newGrid(69, 44, self.sheet:getWidth(), self.sheet:getHeight(), 0, 0, 0)
+    self.sheet = love.graphics.newImage("assets/Player/PlayerSheet-2.png")
+    self.grid = anim8.newGrid(78, 58, self.sheet:getWidth(), self.sheet:getHeight(), 0, 0, 0)
     self.animation = {}
-    self.animation.idle = anim8.newAnimation(self.grid("1-6", 1), 0.1)
-    self.animation.run = anim8.newAnimation(self.grid("1-6", 2, "1-2", 3), 0.1)
-    self.animation.combo1 = anim8.newAnimation(self.grid("3-6", 3, "1-3", 4), 0.04)
-    self.animation.combo2 = anim8.newAnimation(self.grid("4-6", 4, "1-2", 5), 0.04)
-    self.animation.attack = anim8.newAnimation(self.grid("3-6", 3, "1-6", 4, "1-2", 5), 0.02)
-    self.animation.death = anim8.newAnimation(self.grid("3-6", 5, "1-6", 6, "1-1", 7), 0.1)
-    self.animation.hurt = anim8.newAnimation(self.grid("2-5", 7), 0.1)
-    self.animation.jump = anim8.newAnimation(self.grid("6-6", 7, "1-5", 8), 0.1)
-    self.animation.fall = anim8.newAnimation(self.grid("6-6", 8, "1-1", 9), 0.1)
-    self.animation.fullJump = anim8.newAnimation(self.grid("6-6", 7, "1-6", 8, "1-1", 9), 0.1)
+    self.animation.idle = anim8.newAnimation(self.grid("1-11", 1), 0.1)
+    self.animation.run = anim8.newAnimation(self.grid("15-22",1), 0.1)
+    self.animation.attack = anim8.newAnimation(self.grid("23-25", 1), 0.1)
+    self.animation.death = anim8.newAnimation(self.grid("28-31", 1), 0.1)
+    self.animation.hurt = anim8.newAnimation(self.grid("26-27", 1), 0.1)
+    self.animation.jump = anim8.newAnimation(self.grid("12-13", 1), 0.1)
+    self.animation.fall = anim8.newAnimation(self.grid("14-14", 1), 0.1)
 end
 
 function Player:Animate(dt)
-    if self.stat == "jump" then
-        self.animation.current = self.animation[self.stat]
-    else
         self.animation.current = self.animation[self.stat]
         self.animation.current:update(dt)
-    end
 end
 
 function Player:draw()
-    self.animation.current:draw(self.sheet, self.x, self.y, 0, self.direction, 1, 27, 25.5)
+    self.animation.current:draw(self.sheet, self.x, self.y, 0, self.direction, 1, 31, 30)
 end
 
 function Player:setDirection(dt)
@@ -161,7 +157,11 @@ end
 function Player:Hurt()
     if self.collider:enter("PigsAttack") then
         self.isHurt = true
-        self.collider:setLinearVelocity(-self.direction * 200, -200)
+        self.collider:setLinearVelocity(-self.direction * 100, -100)
+        self.health = self.health - 1
+        if self.health == 0 then
+          self.isDead = true
+        end
     end
 end
 
@@ -171,6 +171,33 @@ function Player:Jump(key)
             self.collider:applyLinearImpulse(self.xVel, -self.jumpForce)
         end
     end
+end
+
+function Player:falledIntoTheRiver(dt)
+  --oooh noooo
+  if self.collider:enter('Death') then
+  self.isDead = true
+end
+end
+
+local lastclick = 0
+local clickInterval = 0.2
+
+function Player:Dash(key)
+  if key=='d' then
+          local time = love.timer.getTime()
+          if time <= lastclick + clickInterval then
+          else
+              lastclick = time
+          end
+      end
+      if key=='q' then
+              local time = love.timer.getTime()
+              if time <= lastclick + clickInterval then
+              else
+                  lastclick = time
+              end
+          end
 end
 
 function Player:resetPosition(dt)
@@ -185,9 +212,9 @@ function Player:Attack(b)
             self.isAttcking = true
             if self.direction == 1 then
                 self.AttackCollider =
-                    world:newRectangleCollider(self.x + self.width - 7, self.y - self.height / 2, 25, self.height)
+                    world:newRectangleCollider(self.x + self.width - 15, self.y - self.height / 2, 25, self.height)
             elseif self.direction == -1 then
-                self.AttackCollider = world:newRectangleCollider(self.x - 32, self.y - self.height / 2, 25, self.height)
+                self.AttackCollider = world:newRectangleCollider(self.x - 45, self.y - self.height / 2, 25, self.height)
             end
             self.AttackCollider:setCollisionClass("AttackCollider")
             self.AttackCollider:setType("static")
@@ -226,6 +253,18 @@ function Player:Timers(dt)
         self.isHurt = false
         self.hurtTimer = 0.5
         self.stuned = false
+    end
+    if self.isDead then
+      self.stuned = true
+      self.stat = 'death'
+      self.deathtimer = self.deathtimer - dt
+    end
+    if self.deathtimer < 0 then
+      self.isDead = false
+      self.health = 10
+      self:resetPosition()
+      self.deathtimer = 1.1
+      self.animation.current:gotoFrame(1)
     end
 end
 return Player

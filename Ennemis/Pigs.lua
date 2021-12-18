@@ -2,7 +2,7 @@ local Pigs = {img = love.graphics.newImage("assets/pig.png")}
 Pigs.__index = Pigs
 local ActivePigs = {}
 
-function Pigs.new(x, y, width, height, speed)
+function Pigs.new(x, y, width, height, speed , health)
     local instance = setmetatable({}, Pigs)
     instance.x = x
     instance.y = y
@@ -19,7 +19,8 @@ function Pigs.new(x, y, width, height, speed)
     instance.direction = 1
     instance.attacktimer = 0.4
     instance.attackCD = 2
-    instance.health = 2
+    instance.health = health
+    instance.maxHealth = health
     instance.hurtTimer = 0.4
     instance.deathtimer = 0.8
     instance.collider = world:newBSGRectangleCollider(x, y, instance.width, instance.height, 15)
@@ -140,12 +141,12 @@ function Pigs:AI(dt)
         self.ishurt = true
         self:hurt()
     end
-    if not self.ishurt and not self.isDead then
+    if not self.ishurt and not self.isDead and not self.isAttcking then
         self.collider:setLinearVelocity(self.direction * self.speed, self.yVel)
     end
 end
 function Pigs:checkForPlayer(dt)
-    local vision = world:queryRectangleArea(self.x - 55, self.y - self.height / 2, 100, self.height, {"Player"})
+    local vision = world:queryRectangleArea(self.x - 50, self.y - self.height / 2, 100, self.height, {"Player"})
     if #vision > 0 then
         self:walkToPlayer(vision, dt)
     else
@@ -160,7 +161,7 @@ function Pigs:walkToPlayer(vision, dt)
         elseif self.x - x > 20 then
             self.direction = -1
         end
-        if (self.collider:enter("Player") or self.collider:stay("Player")) then
+        if self.collider:enter("Player") then
             if self.canAttack and not self.ishurt and not self.isDead then
                 self:attackPlayer()
                 self.canAttack = false
@@ -179,9 +180,9 @@ end
 function Pigs:attackPlayer()
     self.isAttcking = true
     if self.direction == 1 then
-        self.attackCollider = world:newRectangleCollider(self.x + 8, self.y - self.height / 2, 10, self.height)
+        self.attackCollider = world:newRectangleCollider(self.x-10, self.y - self.height / 2, 20, self.height)
     elseif self.direction == -1 then
-        self.attackCollider = world:newRectangleCollider(self.x - 18, self.y - self.height / 2, 10, self.height)
+        self.attackCollider = world:newRectangleCollider(self.x-10, self.y - self.height / 2, 20, self.height)
     end
     self.attackCollider:setType("static")
     self.attackCollider:setCollisionClass("PigsAttack")
@@ -204,6 +205,11 @@ function Pigs:draw()
     local x, y = self.collider:getPosition()
     love.graphics.draw(self.particles.dust, x, y, 0, 0.3, 0.3, self.direction * 19, -23)
     self.animation.current:draw(self.sheet, x, y, 0, -self.direction, 1, 19, 19)
+    love.graphics.setColor(0.7, 0.7, 0.7)
+    love.graphics.rectangle('fill', self.x-(self.maxHealth*5/2), self.y-16,self.maxHealth*5, 3)
+    love.graphics.setColor(0,0.8,0)
+    love.graphics.rectangle('fill', self.x-(self.maxHealth*5/2), self.y-16, self.health*5, 3)
+    love.graphics.setColor(1,1,1)
 end
 
 function Pigs.removeAll()

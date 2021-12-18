@@ -1,13 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.5" tiledversion="1.7.2" orientation="orthogonal" renderorder="right-down" width="30" height="30" tilewidth="32" tileheight="32" infinite="1" nextlayerid="8" nextobjectid="14">
+<map version="1.5" tiledversion="1.7.2" orientation="orthogonal" renderorder="right-down" width="30" height="30" tilewidth="32" tileheight="32" infinite="1" nextlayerid="9" nextobjectid="33">
  <editorsettings>
   <export target="../1.lua" format="lua"/>
  </editorsettings>
  <properties>
   <property name="speed" type="int" value="80"/>
  </properties>
- <tileset firstgid="1" name="terrain" tilewidth="32" tileheight="32" tilecount="242" columns="22">
-  <image source="../../assets/Terrain.png" width="704" height="352"/>
+ <tileset firstgid="1" name="TX Tileset Ground" tilewidth="32" tileheight="32" tilecount="256" columns="16">
+  <image source="../../assets/Terrain/TX Tileset Ground.png" width="512" height="512"/>
+ </tileset>
+ <tileset firstgid="257" name="TX Village Props" tilewidth="32" tileheight="32" tilecount="1024" columns="32">
+  <image source="../../assets/Terrain/TX Village Props.png" width="1024" height="1024"/>
  </tileset>
  <layer id="1" name="GroundDraw" width="30" height="30">
   <data encoding="csv">
@@ -21,13 +24,13 @@
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
-0,0,0,0,0,0,0,0,0,1,2,2,2,2,2,2,
-0,0,0,0,0,0,0,0,0,23,4,4,5,4,5,24,
-7,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,
-29,30,30,30,30,30,30,30,30,30,30,30,30,30,30,30,
-29,30,30,30,30,30,30,30,30,30,30,30,30,30,30,30,
-29,30,30,30,30,30,30,30,30,30,30,30,30,30,30,30,
-29,30,30,30,30,30,30,30,30,30,30,30,30,30,30,30
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,2147483918,0,0,0,25,25,25,25,270,0,10,
+0,0,0,0,0,2147483950,0,0,0,0,0,0,0,302,0,0,
+1,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,
+165,77,77,168,93,167,125,108,182,77,77,108,108,76,184,168,
+181,182,167,77,124,167,183,167,168,184,92,108,184,200,183,108
 </chunk>
    <chunk x="16" y="0" width="16" height="16">
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
@@ -39,52 +42,97 @@
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
-3,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
-25,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
-8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,0,
-30,30,30,30,30,30,30,30,30,30,30,30,30,30,30,0,
-30,30,30,30,30,30,30,30,30,30,30,30,30,30,30,0,
-30,30,30,30,30,30,30,30,30,30,30,30,30,30,30,0,
-30,30,30,30,30,30,30,30,30,30,30,30,30,30,30,0
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+56,58,11,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+2,2,6,0,0,0,0,0,0,0,0,0,0,0,0,0,
+109,76,142,0,0,0,0,0,0,0,0,0,0,0,0,0,
+108,76,142,0,0,0,0,0,0,0,0,0,0,0,0,0
+</chunk>
+   <chunk x="0" y="16" width="16" height="16">
+197,182,184,92,199,166,168,93,166,199,182,182,167,124,198,108,
+92,76,76,166,92,166,124,108,199,200,76,125,184,200,93,183,
+108,125,184,167,125,184,183,183,92,167,92,198,166,167,199,76,
+0,76,77,76,77,76,77,76,77,76,77,76,77,76,77,76,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+</chunk>
+   <chunk x="16" y="16" width="16" height="16">
+199,76,142,0,0,0,0,0,0,0,0,0,0,0,0,0,
+93,76,142,0,0,0,0,0,0,0,0,0,0,0,0,0,
+199,76,94,122,2147483735,0,0,0,0,0,0,0,0,0,0,0,
+77,104,104,104,105,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
 </chunk>
   </data>
  </layer>
  <objectgroup id="2" name="Ground">
-  <object id="1" name="Ground" x="0" y="352" width="1e+06" height="1"/>
+  <object id="1" name="Ground" x="0" y="416" width="608" height="1"/>
+  <object id="23" x="576" y="576" width="91.125" height="1"/>
+  <object id="31" x="892" y="448" width="4000" height="32"/>
  </objectgroup>
  <objectgroup id="7" name="PlayerSpawn"/>
  <objectgroup id="3" name="Walls">
   <object id="2" name="LimitV" x="-1" y="-2000" width="1" height="4000"/>
+  <object id="21" name="LimitV" x="3712" y="-1632" width="1" height="4000"/>
+  <object id="22" x="576" y="417.125" width="32" height="203.875"/>
+  <object id="32" x="664.75" y="576.75" width="3.5" height="63.25"/>
  </objectgroup>
  <objectgroup id="4" name="Platforms">
-  <object id="3" name="Platform" x="288" y="288" width="256" height="1"/>
+  <object id="3" name="Platform" x="480" y="352" width="128" height="1"/>
+  <object id="26" x="736" y="512" width="160" height="2"/>
  </objectgroup>
  <objectgroup id="5" name="Entity">
-  <object id="4" name="Unit" type="pig" x="384" y="256" width="16" height="16">
+  <object id="4" name="Unit" type="pig" x="544" y="320" width="16" height="16">
    <properties>
+    <property name="health" type="int" value="2"/>
     <property name="spawnNumber" type="int" value="1"/>
     <property name="speed" type="int" value="80"/>
    </properties>
   </object>
-  <object id="5" name="Area" type="pig" x="397" y="153" width="136" height="64">
+  <object id="5" name="Area" type="pig" x="397" y="153" width="136" height="64" visible="0">
    <properties>
+    <property name="health" type="int" value="2"/>
     <property name="spawnNumber" type="int" value="0"/>
     <property name="speed" type="int" value="80"/>
    </properties>
   </object>
-  <object id="11" type="sign" x="256" y="320" width="32" height="32">
-   <properties>
-    <property name="id" type="int" value="1"/>
-   </properties>
-  </object>
-  <object id="12" type="sign" x="32" y="320" width="32" height="32">
+  <object id="11" type="sign" x="416" y="384" width="32" height="32">
    <properties>
     <property name="id" type="int" value="2"/>
    </properties>
   </object>
+  <object id="12" name="Welcome" type="sign" x="160" y="384" width="32" height="32">
+   <properties>
+    <property name="id" type="int" value="1"/>
+   </properties>
+  </object>
  </objectgroup>
  <objectgroup id="6" name="LevelControl">
-  <object id="7" type="Spawn" x="114.545" y="124.364" width="64" height="64"/>
-  <object id="9" type="Next" x="768" y="320" width="32" height="32"/>
+  <object id="7" type="Spawn" x="114.545" y="192" width="64" height="64"/>
+  <object id="9" type="Next" x="912" y="344.136" width="32" height="32"/>
+  <object id="28" type="Death" x="0" y="640" width="30000" height="32"/>
  </objectgroup>
 </map>

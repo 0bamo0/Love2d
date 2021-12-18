@@ -9,36 +9,11 @@ return {
   tilewidth = 32,
   tileheight = 32,
   nextlayerid = 9,
-  nextobjectid = 11,
-  properties = {},
-  tilesets = {
-    {
-      name = "terrain",
-      firstgid = 1,
-      tilewidth = 32,
-      tileheight = 32,
-      spacing = 0,
-      margin = 0,
-      columns = 22,
-      image = "../assets/Terrain.png",
-      imagewidth = 704,
-      imageheight = 352,
-      objectalignment = "unspecified",
-      tileoffset = {
-        x = 0,
-        y = 0
-      },
-      grid = {
-        orientation = "orthogonal",
-        width = 32,
-        height = 32
-      },
-      properties = {},
-      wangsets = {},
-      tilecount = 242,
-      tiles = {}
-    }
+  nextobjectid = 22,
+  properties = {
+    ["speed"] = 80
   },
+  tilesets = {},
   layers = {
     {
       type = "tilelayer",
@@ -56,50 +31,7 @@ return {
       parallaxy = 1,
       properties = {},
       encoding = "lua",
-      chunks = {
-        {
-          x = 0, y = 0, width = 16, height = 16,
-          data = {
-            0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-            0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-            0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-            0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-            0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-            0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-            0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-            0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-            0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-            0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 2, 2, 2, 2, 2, 2,
-            0, 0, 0, 0, 0, 0, 0, 0, 0, 23, 4, 4, 5, 4, 5, 24,
-            7, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8,
-            29, 30, 30, 30, 30, 30, 30, 30, 30, 30, 30, 30, 30, 30, 30, 30,
-            29, 30, 30, 30, 30, 30, 30, 30, 30, 30, 30, 30, 30, 30, 30, 30,
-            29, 30, 30, 30, 30, 30, 30, 30, 30, 30, 30, 30, 30, 30, 30, 30,
-            29, 30, 30, 30, 30, 30, 30, 30, 30, 30, 30, 30, 30, 30, 30, 30
-          }
-        },
-        {
-          x = 16, y = 0, width = 16, height = 16,
-          data = {
-            0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-            0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-            0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-            0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-            0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-            0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-            0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-            0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-            0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-            3, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-            25, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-            8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 0,
-            30, 30, 30, 30, 30, 30, 30, 30, 30, 30, 30, 30, 30, 30, 30, 0,
-            30, 30, 30, 30, 30, 30, 30, 30, 30, 30, 30, 30, 30, 30, 30, 0,
-            30, 30, 30, 30, 30, 30, 30, 30, 30, 30, 30, 30, 30, 30, 30, 0,
-            30, 30, 30, 30, 30, 30, 30, 30, 30, 30, 30, 30, 30, 30, 30, 0
-          }
-        }
-      }
+      chunks = {}
     },
     {
       type = "objectgroup",
@@ -168,6 +100,19 @@ return {
           rotation = 0,
           visible = true,
           properties = {}
+        },
+        {
+          id = 21,
+          name = "LimitV",
+          type = "",
+          shape = "rectangle",
+          x = 1312,
+          y = -1824,
+          width = 1,
+          height = 4000,
+          rotation = 0,
+          visible = true,
+          properties = {}
         }
       }
     },
@@ -217,15 +162,16 @@ return {
           name = "Unit",
           type = "pig",
           shape = "rectangle",
-          x = 366,
-          y = 224,
+          x = 384,
+          y = 256,
           width = 16,
           height = 16,
           rotation = 0,
           visible = true,
           properties = {
+            ["health"] = 2,
             ["spawnNumber"] = 1,
-            ["speed"] = 0
+            ["speed"] = 80
           }
         },
         {
@@ -238,10 +184,41 @@ return {
           width = 136,
           height = 64,
           rotation = 0,
-          visible = true,
+          visible = false,
           properties = {
+            ["health"] = 2,
             ["spawnNumber"] = 0,
             ["speed"] = 80
+          }
+        },
+        {
+          id = 11,
+          name = "",
+          type = "sign",
+          shape = "rectangle",
+          x = 256,
+          y = 320,
+          width = 32,
+          height = 32,
+          rotation = 0,
+          visible = true,
+          properties = {
+            ["id"] = 2
+          }
+        },
+        {
+          id = 12,
+          name = "Welcome",
+          type = "sign",
+          shape = "rectangle",
+          x = 160,
+          y = 320,
+          width = 32,
+          height = 32,
+          rotation = 0,
+          visible = true,
+          properties = {
+            ["id"] = 1
           }
         }
       }
@@ -277,7 +254,7 @@ return {
           name = "",
           type = "Next",
           shape = "rectangle",
-          x = 352,
+          x = 768,
           y = 320,
           width = 32,
           height = 32,
