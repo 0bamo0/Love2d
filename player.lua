@@ -7,7 +7,7 @@ function Player:load()
     self.direction = 1
     self.stat = "idle"
     self.speed = 200
-    self.width = 37
+    self.width = 25
     self.height = 27
     self.health = 10
     self.jumpForce = 580
@@ -16,7 +16,7 @@ function Player:load()
     self.deathtimer = 1.1
     self.spawnTimer = 1
     self.dashTimer = 0.8
-    self.collider = world:newBSGRectangleCollider(self.x, self.y, self.width, self.height, 15)
+    self.collider = world:newBSGRectangleCollider(self.x, self.y, self.width, self.height, 10)
     self.collider:setCollisionClass("Player")
     self.collider:setFixedRotation(true)
     self.collider:setMass(1)

@@ -120,7 +120,6 @@ function Map:spawnEntities()
 end
 
 function Map:draw()
-
     self.level:drawLayer(self.level.layers["GroundDraw"])
 end
 

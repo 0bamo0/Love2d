@@ -1,5 +1,5 @@
 local Menu = {}
-local ww, wh = love.graphics.getDimensions()
+
 local suit = require("libs/suit")
 function Menu:load()
     self:LoadAssets()
@@ -32,6 +32,7 @@ function Menu:LoadAssets()
 end
 
 function Menu:update(dt)
+  WindowW, WindowH = love.graphics.getDimensions()
     if self.showSetting then
         self:drawSettingsButtons()
     end
@@ -41,7 +42,7 @@ function Menu:update(dt)
 end
 
 function Menu:drawSettingsButtons()
-    self.Settings:Button("Go Back", {id = 1}, ww / 2 - ww / 6, wh / 2 - wh / 20, ww / 3, wh / 10)
+    self.Settings:Button("Go Back", {id = 1}, WindowW / 2 - WindowW / 6, WindowH / 2 - WindowH / 20, WindowW / 3, WindowH / 10)
     if self.Settings:isHit(1) then
         self:buttonClicked("Go Back")
     end
@@ -64,8 +65,8 @@ function Menu:drawButtons(dt)
         local bw = button.img:getWidth()
         local bh = button.img:getHeight()
         local total = self:buttonsTotalHeight()
-        local bx = ww / 2 - (bw / 2)
-        local by = (wh / 2) - (total / 2)
+        local bx = WindowW / 2 - (bw / 2)
+        local by = (WindowH / 2) - (total / 2)
         self.assets:ImageButton(button.img, {id = button.id, hovered = button.img2}, bx, by + x)
         x = x + bh + margin
         if self.assets:isHit(button.id) then
