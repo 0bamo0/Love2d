@@ -63,7 +63,7 @@ function Game:mousereleased(x, y, button)
 end
 
 function Game:wheelmoved(x, y)
-
+    Camera:Zoom(x,y)
 end
 
 return Game

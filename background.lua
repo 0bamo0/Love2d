@@ -31,12 +31,17 @@ function Background:update(dt)
 end
 
 function Background:draw()
-  local scale = (ww*Camera.scaleX)/self.static:getWidth()
+  local scale = (ww/Camera.scaleX)/self.static:getWidth()
+  local x,y = Camera:getField()
   love.graphics.draw(self.static , Camera.x , Camera.y , 0 ,scale)
     for i=0 , 10 do
-      love.graphics.draw(self.far.img , (Camera.x/1.05)+(i*self.far.img:getWidth()) , Camera.y-150 , 0 , 1)
-      love.graphics.draw(self.mid.img , (Camera.x/1.1)+(i*self.mid.img:getWidth()) , Camera.y-150 , 0 , 1)
-      love.graphics.draw(self.close1.img , (Camera.x/2)+(i*self.close1.img:getWidth()) , Camera.y-190 , 0 , 1)
+      love.graphics.draw(self.far.img , (Camera.x/1.05)+(i*self.far.img:getWidth()) ,(wh/Camera.scaleY)-450, 0 , 1)
+    end
+    for i=0 , 10 do
+      love.graphics.draw(self.mid.img , (Camera.x/1.1)+(i*self.mid.img:getWidth()) , (wh/Camera.scaleY)-450 , 0 , 1)
+    end
+    for i=0 , 10 do
+      love.graphics.draw(self.close1.img , (Camera.x/2)+(i*self.close1.img:getWidth()) , (wh/Camera.scaleY)-550 , 0 , 1)
     end
 end
 

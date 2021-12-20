@@ -161,7 +161,7 @@ function Pigs:walkToPlayer(vision, dt)
         elseif self.x - x > 20 then
             self.direction = -1
         end
-        if self.collider:enter("Player") then
+        if self.collider:enter("Player") or self.collider:stay("Player") then
             if self.canAttack and not self.ishurt and not self.isDead then
                 self:attackPlayer()
                 self.canAttack = false

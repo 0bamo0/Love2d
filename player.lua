@@ -12,7 +12,7 @@ function Player:load()
     self.health = 10
     self.jumpForce = 580
     self.hurtTimer = 0.5
-    self.attacktimer = 0.24
+    self.attacktimer = 0.28
     self.deathtimer = 1.1
     self.spawnTimer = 1
     self.dashTimer = 0.8
@@ -157,7 +157,7 @@ end
 function Player:Hurt()
     if self.collider:enter("PigsAttack") then
         self.isHurt = true
-        self.collider:setLinearVelocity(-self.direction * 100, -100)
+        self.collider:setLinearVelocity(-self.direction * 200, -100)
         self.health = self.health - 1
         if self.health == 0 then
           self.isDead = true
@@ -241,8 +241,8 @@ function Player:Timers(dt)
         self.AttackCollider:destroy()
         self.stuned = false
         self.isAttcking = false
-        self.attacktimer = 0.24
-        self.animation.current:gotoFrame(1)
+        self.attacktimer = 0.28
+        self.animation.current:gotoFrame(3)
     end
     if self.isHurt then
         self.stuned = true
