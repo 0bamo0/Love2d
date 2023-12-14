@@ -1,10 +1,9 @@
 love.graphics.setDefaultFilter("nearest", "nearest")
 
-local Menu = require("menu")
-local Game = require("game")
+Menu = require("menu")
+Game = require("game")
 
 function love.load()
-  print(love.graphics.getDimensions())
     Gamestat = "Menu"
     if Gamestat == "Menu" then
         Menu:load()
@@ -28,7 +27,6 @@ function love.draw()
     if Gamestat == "Game" then
         Game:draw()
     end
-    love.graphics.print("Memory actually used (in mb): " .. collectgarbage("count") / 1024, 10, 10)
 end
 
 function love.keypressed(key)
