@@ -221,7 +221,9 @@ function Player:Attack(b)
         end
     end
 end
-
+function Player:touchpressed(id, x, y, dx, dy, pressure)
+    print(x)
+end
 function Player:Timers(dt)
     if self.Respawning then
         self.stuned = true

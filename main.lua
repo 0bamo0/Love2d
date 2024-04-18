@@ -36,6 +36,10 @@ function love.keypressed(key)
     Quit(key)
 end
 
+function love.touchpressed( id, x, y, dx, dy, pressure )
+    
+end
+
 function love.keyreleased(key)
     if Gamestat == "Game" then
         Game:keyreleased(key)
