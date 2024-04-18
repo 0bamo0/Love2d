@@ -4,7 +4,7 @@ Menu = require("menu")
 Game = require("game")
 
 function love.load()
-    Gamestat = "Menu"
+    Gamestat = "Game"
     if Gamestat == "Menu" then
         Menu:load()
     end
