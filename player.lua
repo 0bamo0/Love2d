@@ -173,7 +173,7 @@ function Player:Jump(key)
     end
 end
 
-function Player:falledIntoTheRiver(dt)
+function Player:fellIntoTheRiver(dt)
   --oooh noooo
   if self.collider:enter('Death') then
   self.isDead = true
@@ -222,7 +222,7 @@ function Player:Attack(b)
     end
 end
 function Player:touchpressed(id, x, y, dx, dy, pressure)
-    print(x)
+    Screeen = "hello"..x.."  "..y.."  "..dx.."  "..dy.."  "..pressure
 end
 function Player:Timers(dt)
     if self.Respawning then

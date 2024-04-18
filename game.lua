@@ -40,6 +40,7 @@ function Game:draw()
     end
     Player:draw()
     Signs.drawAll()
+    love.graphics.print("Hello" .. Screeen,Player.x , Player.y)
     Camera:unset()
     love.graphics.rectangle('fill', 600, 10, Player.health*10, 10)
 end
@@ -49,6 +50,10 @@ function Game:keypressed(key)
     Player:Dash(key)
     Camera:setMode(key)
     debugging:Switch(key)
+end
+
+function Game:touchpressed( id, x, y, dx, dy, pressure )
+    Player:touchpressed(id, x, y, dx, dy, pressure)
 end
 
 function Game:keyreleased(key)

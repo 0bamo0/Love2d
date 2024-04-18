@@ -4,6 +4,7 @@ Menu = require("menu")
 Game = require("game")
 
 function love.load()
+    Screeen = ""
     Gamestat = "Game"
     if Gamestat == "Menu" then
         Menu:load()
@@ -37,7 +38,7 @@ function love.keypressed(key)
 end
 
 function love.touchpressed( id, x, y, dx, dy, pressure )
-    
+    Game:touchpressed(id, x, y, dx, dy, pressure)
 end
 
 function love.keyreleased(key)
