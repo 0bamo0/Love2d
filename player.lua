@@ -224,6 +224,11 @@ end
 function Player:touchpressed(id, x, y, dx, dy, pressure)
     Screeen = "hello"..x.."  "..y.."  "..dx.."  "..dy.."  "..pressure
 end
+
+function Player:touchreleased(id, x, y, dx, dy, pressure)
+    Screeen = "hello"..x.."  "..y.."  "..dx.."  "..dy.."  "..pressure
+end
+
 function Player:Timers(dt)
     if self.Respawning then
         self.stuned = true
