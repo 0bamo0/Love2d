@@ -10,15 +10,16 @@ Pigs = require("Ennemis/Pigs")
 Camera = require("camera")
 debugging = require("debugging")
 Signs = require("Signs/signs")
+Controls = require('controls')
 
 function Game:load()
+    Controls:load()
     Map:load()
     Player:load()
     debugging:load()
 end
 
 function Game:update(dt)
-    WindowW, WindowH = love.graphics.getDimensions()
     Signs.updateAll(dt)
     Player:update(dt)
     Pigs.updateAll(dt)
@@ -30,6 +31,7 @@ function Game:update(dt)
 end
 
 function Game:draw()
+    love.graphics.setBackgroundColor(0 / 255, 0 / 255, 0 / 255)
     Camera:set()
     Map:draw()
     Pigs.drawAll()
@@ -39,10 +41,8 @@ function Game:draw()
     Player:draw()
     Signs.drawAll()
     Camera:unset()
-    print(Camera.locked)
-    love.graphics.print(Camera.x .."  " .. Camera.y .. "  ")
-    love.graphics.rectangle('fill', WindowW-300 , WindowH-10, Player.health*10, 10)
-   
+    Controls:draw()
+    love.graphics.rectangle('fill', WindowW-110 , 10 , Player.health*10, 10)
 end
 
 function Game:keypressed(key)
@@ -52,6 +52,11 @@ end
 
 function Game:touchpressed( id, x, y, dx, dy, pressure )
     Player:touchpressed(id, x, y, dx, dy, pressure)
+
+end
+
+function Game:touchreleased(id, x, y, dx, dy, pressure)
+    Player:touchreleased(id, x, y, dx, dy, pressure)
 end
 
 function Game:keyreleased(key)

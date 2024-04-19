@@ -1,7 +1,6 @@
-local Suit = require("libs/Suit")
+local Suit = require("libs/suit")
 
 local Menu = {}
-local WindowW, WindowH
 local buttonMargin = 16
 
 function Menu:load()
@@ -56,6 +55,10 @@ function Menu:buttonsTotalHeight()
     end
     
     return totalHeight / 2
+end
+
+function Menu:touchpressed(id, x, y, dx, dy, pressure)
+    
 end
 
 function Menu:drawButtons(dt)

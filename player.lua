@@ -48,10 +48,10 @@ function Player:update(dt)
 end
 
 function Player:Move(dt)
-    if love.keyboard.isDown("right", "d") and not self.wallsRight and self.canMove and not self.stuned then
+    if (love.keyboard.isDown("right", "d") and not self.wallsRight and self.canMove and not self.stuned) or self.isMovingRight then
         self.collider:setLinearVelocity(self.speed, self.yVel)
       end
-    if love.keyboard.isDown("left", "q") and not self.wallsLeft and self.canMove and not self.stuned then
+    if (love.keyboard.isDown("left", "q") and not self.wallsLeft and self.canMove and not self.stuned) or self.isMovingLeft then
         self.collider:setLinearVelocity(-self.speed, self.yVel)
     end
     self.x, self.y = self.collider:getPosition()
@@ -204,11 +204,23 @@ function Player:Attack(b)
     end
 end
 function Player:touchpressed(id, x, y, dx, dy, pressure)
-    Screeen = "hello"..x.."  "..y.."  "..dx.."  "..dy.."  "..pressure
+    if x > Controls.left.x and x < Controls.left.x + Controls.left.w and y > Controls.left.y and y < Controls.left.y + Controls.left.h then
+        self.isMovingLeft = true
+        self.isMovingRight = false
+    elseif x > Controls.right.x and x < Controls.right.x + Controls.right.w and y > Controls.right.y and y < Controls.right.y + Controls.right.h  then
+        self.isMovingRight = true
+        self.isMovingLeft = false
+    end
 end
 
+
 function Player:touchreleased(id, x, y, dx, dy, pressure)
-    Screeen = "hello"..x.."  "..y.."  "..dx.."  "..dy.."  "..pressure
+    print(x,y)
+    if self.isMovingLeft then
+        self.isMovingLeft = false
+    elseif self.isMovingRight then
+        self.isMovingRight = false
+    end
 end
 
 function Player:Timers(dt)

@@ -1,6 +1,4 @@
 local debugging = {}
-local Player = require("player")
-local Pigs = require("Ennemis/Pigs")
 function debugging:load()
     self.isActif = false
 end

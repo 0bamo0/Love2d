@@ -1,11 +1,16 @@
+if arg[2] == "debug" then
+    require("lldebugger").start()
+end
+
 love.graphics.setDefaultFilter("nearest", "nearest")
 
 Menu = require("menu")
 Game = require("game")
 
 function love.load()
-    Screeen = ""
-    Gamestat = "Game"
+    Sys_type = love.system.getOS()
+    WindowW, WindowH = love.graphics.getDimensions()
+    Gamestat = "Menu"
     if Gamestat == "Menu" then
         Menu:load()
     end
@@ -13,6 +18,7 @@ function love.load()
 end
 
 function love.update(dt)
+    WindowW, WindowH = love.graphics.getDimensions()
     if Gamestat == "Menu" then
         Menu:update(dt)
     end
@@ -28,6 +34,7 @@ function love.draw()
     if Gamestat == "Game" then
         Game:draw()
     end
+    love.graphics.print(Sys_type)
 end
 
 function love.keypressed(key)
@@ -39,6 +46,11 @@ end
 
 function love.touchpressed( id, x, y, dx, dy, pressure )
     Game:touchpressed(id, x, y, dx, dy, pressure)
+    Menu:touchpressed(id, x, y, dx, dy, pressure)
+end
+
+function love.touchreleased(id, x, y, dx, dy, pressure)
+    Game:touchreleased(id, x, y, dx, dy, pressure)
 end
 
 function love.keyreleased(key)
