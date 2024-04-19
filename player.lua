@@ -180,25 +180,7 @@ function Player:fellIntoTheRiver(dt)
 end
 end
 
-local lastclick = 0
-local clickInterval = 0.2
 
-function Player:Dash(key)
-  if key=='d' then
-          local time = love.timer.getTime()
-          if time <= lastclick + clickInterval then
-          else
-              lastclick = time
-          end
-      end
-      if key=='q' then
-              local time = love.timer.getTime()
-              if time <= lastclick + clickInterval then
-              else
-                  lastclick = time
-              end
-          end
-end
 
 function Player:resetPosition(dt)
     self.collider.body:setPosition(self.startX, self.startY)

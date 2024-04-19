@@ -4,23 +4,21 @@ wf = require "libs/windfield"
 sti = require "libs/sti"
 anim8 = require "libs/anim8"
 
-local Background = require('background')
-local Map = require("map")
-local Player = require("player")
-local Pigs = require("Ennemis/Pigs")
-local Camera = require("camera")
-local debugging = require("debugging")
-local Signs = require("Signs/signs")
+Map = require("map")
+Player = require("player")
+Pigs = require("Ennemis/Pigs")
+Camera = require("camera")
+debugging = require("debugging")
+Signs = require("Signs/signs")
 
 function Game:load()
-    Background:load()
     Map:load()
     Player:load()
     debugging:load()
 end
 
 function Game:update(dt)
-    Background:update(dt)
+    WindowW, WindowH = love.graphics.getDimensions()
     Signs.updateAll(dt)
     Player:update(dt)
     Pigs.updateAll(dt)
@@ -28,11 +26,11 @@ function Game:update(dt)
     debugging:update(dt)
     Map:update(dt)
     Camera:update(dt)
+    
 end
 
 function Game:draw()
     Camera:set()
-    Background:draw()
     Map:draw()
     Pigs.drawAll()
     if debugging.isActif then
@@ -40,15 +38,15 @@ function Game:draw()
     end
     Player:draw()
     Signs.drawAll()
-    love.graphics.print("Hello" .. Screeen,Player.x , Player.y)
     Camera:unset()
-    love.graphics.rectangle('fill', 600, 10, Player.health*10, 10)
+    print(Camera.locked)
+    love.graphics.print(Camera.x .."  " .. Camera.y .. "  ")
+    love.graphics.rectangle('fill', WindowW-300 , WindowH-10, Player.health*10, 10)
+   
 end
 
 function Game:keypressed(key)
     Player:Jump(key)
-    Player:Dash(key)
-    Camera:setMode(key)
     debugging:Switch(key)
 end
 

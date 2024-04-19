@@ -31,7 +31,6 @@ function Menu:loadAssets()
 end
 
 function Menu:update(dt)
-    WindowW, WindowH = love.graphics.getDimensions()
     if self.showSetting then
         self:drawSettingsButtons()
     else

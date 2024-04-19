@@ -1,13 +1,11 @@
-local Player = require('player')
 local Camera = {}
 Camera.x = 0
 Camera.y = 0
-Camera.layers = {}
 Camera.scaleX = 1
 Camera.scaleY = 1
 Camera.rotation = 0
-Camera.locked = true
-local ww,wh = love.graphics.getDimensions()
+
+
 function Camera:set()
   love.graphics.push()
   love.graphics.rotate(-self.rotation)
@@ -35,13 +33,13 @@ function Camera:scale(sx, sy)
 end
 
 function Camera:setPosition(x, y)
-  self.x = x-ww/2/self.scaleX or self.x-ww/2/self.scaleX
-  self.y = y-wh/2/self.scaleX or self.y-wh/2/self.scaleX
+  self.x = x-WindowW/2/self.scaleX or self.x-WindowW/2/self.scaleX
+  self.y = y-WindowH/2/self.scaleX or self.y-WindowH/2/self.scaleX
 end
 
 function Camera:getField()
-  local fieldW = ww/self.scaleX
-  local fieldH = wh/self.scaleY
+  local fieldW = WindowW/self.scaleX
+  local fieldH = WindowH/self.scaleY
   return fieldW , fieldH
 end
 
@@ -56,30 +54,7 @@ end
 
 
 function Camera:update(dt)
-  local fx,fy = self:getField()
-  self:lookAtPlayer(dt)
-  self:ForceMove()
-  if self.x < 0 then
-    self.x = 0
-  end
-  self.y = 80
-end
-
-function Camera:ForceMove()
-  if not self.locked then
-    if love.keyboard.isDown('g') then self:move(-10 , 0) end
-    if love.keyboard.isDown('j') then self:move(10 ,0) end
-    if love.keyboard.isDown('h') then self:move(0 ,10) end
-    if love.keyboard.isDown('y') then self:move(0,-10) end
-  end
-end
-
-function Camera:setMode(key)
-  if key == 't' and self.locked then
-    self.locked = false
-  elseif key == 't' and not self.locked then
-    self.locked = true
-  end
+  self:setPosition(Player.x , Player.y)
 end
 
 local function lerp(a, b, t)
@@ -89,12 +64,6 @@ local function damp(a, b, x, dt)
   return lerp(a, b, math.exp(-x * dt))
 end
 
-function Camera:lookAtPlayer(dt)
-  if self.locked then
-    local dx , dy = self:smoothing(Player.x-self.x-ww/2/self.scaleX , Player.y-self.y,1.6)
-    self:move(dx, (Player.y-wh/2/self.scaleY)-50)
-  end
-end
 
 function Camera:smoothing(dx,dy, s)
   local dts = love.timer.getDelta() * (s or stiffness)
