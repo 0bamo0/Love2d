@@ -44,7 +44,7 @@ function Player:update(dt)
     self:Hurt()
     self:Timers(dt)
     self:Animate(dt)
-    self:falledIntoTheRiver(dt)
+    self:fellIntoTheRiver(dt)
 end
 
 function Player:Move(dt)
