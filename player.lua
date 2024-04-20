@@ -188,8 +188,9 @@ function Player:resetPosition(dt)
     self.Respawning = true
 end
 
+
 function Player:Attack(b)
-    if b == 1 then
+    if b == 1 and Sys_type == "Windows" then
         if not self.stuned then
             self.isAttcking = true
             if self.direction == 1 then
@@ -203,22 +204,30 @@ function Player:Attack(b)
         end
     end
 end
+
 function Player:touchpressed(id, x, y, dx, dy, pressure)
+    Touches[id] = {id = ""}
     if x > Controls.left.x and x < Controls.left.x + Controls.left.w and y > Controls.left.y and y < Controls.left.y + Controls.left.h then
+        Touches[id].id = "left"
         self.isMovingLeft = true
         self.isMovingRight = false
     elseif x > Controls.right.x and x < Controls.right.x + Controls.right.w and y > Controls.right.y and y < Controls.right.y + Controls.right.h  then
+        Touches[id].id = "right"
         self.isMovingRight = true
         self.isMovingLeft = false
+    elseif x > Controls.jump.x and x < Controls.jump.x + Controls.jump.w and y > Controls.jump.y and y < Controls.jump.y + Controls.jump.h  then
+        if (self.grounded or self.onPlatform) then
+            Touches[id].id = "jump"
+            self.collider:applyLinearImpulse(self.xVel, -self.jumpForce)
+        end
     end
 end
 
 
 function Player:touchreleased(id, x, y, dx, dy, pressure)
-    print(x,y)
-    if self.isMovingLeft then
+    if self.isMovingLeft and Touches[id].id == "left" then
         self.isMovingLeft = false
-    elseif self.isMovingRight then
+    elseif self.isMovingRight and Touches[id].id == "right" then
         self.isMovingRight = false
     end
 end

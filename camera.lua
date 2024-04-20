@@ -4,7 +4,7 @@ Camera.y = 0
 Camera.scaleX = 1
 Camera.scaleY = 1
 Camera.rotation = 0
-
+Camera.isOnPlayer = true
 
 function Camera:set()
   love.graphics.push()
@@ -54,7 +54,30 @@ end
 
 
 function Camera:update(dt)
-  self:setPosition(Player.x , Player.y)
+  if self.isOnPlayer then
+     self:setPosition(Player.x , Player.y)
+  end
+  if self.x < 0 then
+    self.x = 0
+  end
+  print(self:getField())
+
+
+  if not self.isOnPlayer then
+    if love.keyboard.isDown('l') then
+      Camera.x = Camera.x + 10
+    end
+    if love.keyboard.isDown('j') then
+      Camera.x = Camera.x - 10
+    end
+    if love.keyboard.isDown('i') then
+      Camera.y = Camera.y - 10
+    end
+    if love.keyboard.isDown('k') then
+      Camera.y = Camera.y + 10
+    end
+
+  end
 end
 
 local function lerp(a, b, t)
