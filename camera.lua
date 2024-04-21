@@ -1,29 +1,29 @@
 local Camera = {}
 Camera.x = 0
 Camera.y = 0
-Camera.scaleX = 1
-Camera.scaleY = 1
+Camera.scaleX = 1.6
+Camera.scaleY = 1.6
 Camera.rotation = 0
 Camera.isOnPlayer = true
 
 function Camera:set()
-  love.graphics.push()
-  love.graphics.rotate(-self.rotation)
-  love.graphics.scale(self.scaleX,self.scaleY)
-  love.graphics.translate(-self.x, -self.y)
+    love.graphics.push()
+    love.graphics.rotate(-self.rotation)
+    love.graphics.scale(self.scaleX,self.scaleY)
+    love.graphics.translate(-self.x, -self.y)
 end
 
 function Camera:unset()
-  love.graphics.pop()
+    love.graphics.pop()
 end
 
 function Camera:move(dx, dy)
-  self.x = self.x + (dx or 0)
-  self.y = self.y + (dy or 0)
+    self.x = self.x + (dx or 0)
+    self.y = self.y + (dy or 0)
 end
 
 function Camera:rotate(dr)
-  self.rotation = self.rotation + dr
+    self.rotation = self.rotation + dr
 end
 
 function Camera:scale(sx, sy)
@@ -54,13 +54,16 @@ end
 
 
 function Camera:update(dt)
+  local fx, fy = self:getField()
   if self.isOnPlayer then
-     self:setPosition(Player.x , Player.y)
+      local dx , dy = self:smoothing(Player.x-self.x-WindowW/2/self.scaleX , Player.y-self.y-WindowH/2/self.scaleY,3)
+      self:move(dx,dy)
   end
   if self.x < 0 then
     self.x = 0
   end
-  print(self:getField())
+  print(fy)
+
 
 
   if not self.isOnPlayer then

@@ -45,7 +45,9 @@ function Game:draw()
     Player:draw()
     Signs.drawAll()
     Camera:unset()
-    Controls:draw()
+    if Sys_type == "Android" then
+        Controls:draw()
+    end
     love.graphics.rectangle('fill', WindowW-110 , 10 , Player.health*10, 10)
 end
 

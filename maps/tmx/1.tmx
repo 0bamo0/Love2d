@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.10" tiledversion="1.10.2" orientation="orthogonal" renderorder="right-down" width="54" height="32" tilewidth="32" tileheight="32" infinite="1" nextlayerid="10" nextobjectid="46">
+<map version="1.10" tiledversion="1.10.2" orientation="orthogonal" renderorder="right-down" width="54" height="32" tilewidth="32" tileheight="32" infinite="1" nextlayerid="11" nextobjectid="46">
  <editorsettings>
   <export target="../1.lua" format="lua"/>
  </editorsettings>
@@ -376,6 +376,46 @@
 </chunk>
   </data>
  </layer>
+ <layer id="10" name="ObjectsDraw" width="54" height="32">
+  <data encoding="csv">
+   <chunk x="16" y="0" width="16" height="16">
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,258,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,290,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+</chunk>
+   <chunk x="32" y="0" width="16" height="16">
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+259,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+291,0,0,0,0,0,0,0,0,770,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+</chunk>
+  </data>
+ </layer>
  <objectgroup id="2" name="Ground">
   <object id="1" name="Ground" x="0" y="416" width="608" height="1"/>
   <object id="39" x="900.545" y="448" width="7588.76" height="1"/>
@@ -387,7 +427,7 @@
   <object id="2" name="LimitV" x="1.667" y="288" width="27.6667" height="138"/>
   <object id="22" x="576" y="417.125" width="32" height="190.875"/>
   <object id="40" x="899.636" y="449.713" width="22.4849" height="64.2872"/>
-  <object id="42" x="1216" y="387.636" width="32" height="60.3636"/>
+  <object id="42" x="1216" y="384" width="32" height="63.9996"/>
   <object id="44" x="-32" y="0" width="32" height="1000"/>
  </objectgroup>
  <objectgroup id="4" name="Platforms">
@@ -423,6 +463,6 @@
  <objectgroup id="6" name="LevelControl">
   <object id="7" type="Spawn" x="114.545" y="192" width="64" height="64"/>
   <object id="9" type="Next" x="912" y="344.136" width="32" height="32"/>
-  <object id="28" type="Death" x="0" y="608" width="30000" height="32"/>
+  <object id="28" type="Death" x="32" y="576" width="30000" height="32"/>
  </objectgroup>
 </map>

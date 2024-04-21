@@ -48,7 +48,18 @@ function Map:init()
         end
     end
     self:spawnEntities()
+    print(self:getMaxYCoord())
 end
+
+function Map:getMaxYCoord()
+    local storedY = 0  
+    for _,collider in ipairs(self.lvlControlLayer.objects) do
+        if collider.y > storedY then
+            storedY = collider.y
+        else return end
+    end
+
+return storedY end
 
 function Map:LayerBuild(layer, class, type)
     for i, obj in ipairs(layer) do
@@ -120,7 +131,14 @@ function Map:spawnEntities()
 end
 
 function Map:draw()
-    self.level:drawLayer(self.level.layers["GroundDraw"])
+    local groundlayer = self.level.layers["GroundDraw"]
+    if groundlayer then
+    self.level:drawLayer(groundlayer)
+    end
+    local objectsLayer = self.level.layers["ObjectsDraw"]
+    if objectsLayer then
+        self.level:drawLayer(objectsLayer)
+    end
 end
 
 return Map

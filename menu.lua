@@ -64,7 +64,6 @@ end
 function Menu:drawButtons(dt)
     local totalHeight = self:buttonsTotalHeight()
     local x = 0
-    
     for _, button in ipairs(self.assets.buttons) do
         local bw, bh = button.img:getWidth(), button.img:getHeight()
         local bx, by = WindowW / 2 - (bw / 2), (WindowH / 2) - (totalHeight / 2) + x

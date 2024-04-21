@@ -11,7 +11,7 @@ Json = require('libs/json')
 function love.load()
     Sys_type = love.system.getOS()
     WindowW, WindowH = love.graphics.getDimensions()
-    Gamestat = "Game"
+    Gamestat = "Menu"
     if Gamestat == "Menu" then
         Menu:load()
     end
