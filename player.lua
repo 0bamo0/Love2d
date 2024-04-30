@@ -251,7 +251,7 @@ function Player:Timers(dt)
         self.AttackCollider:destroy()
         self.stuned = false
         self.isAttcking = false
-        self.attacktimer = 0.28
+        self.attacktimer = 0.6
         self.animation.current:gotoFrame(3)
     end
     if self.isHurt then
