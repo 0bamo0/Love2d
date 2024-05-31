@@ -66,7 +66,6 @@ function Game:SaveGame()
     -- Step 2: Write the serialized data to a file
     local fileName = "savegame.json"
     love.filesystem.write(fileName, serializedData)
-    print(gameData)
 end
 
 function Game:LoadGame()

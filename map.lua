@@ -48,7 +48,6 @@ function Map:init()
         end
     end
     self:spawnEntities()
-    print(self:getMaxYCoord())
 end
 
 function Map:getMaxYCoord()

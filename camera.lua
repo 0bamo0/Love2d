@@ -52,9 +52,7 @@ function Camera:mousePosition()
   return love.mouse.getX() / self.scaleX + self.x, love.mouse.getY() / self.scaleY + self.y
 end
 
-
 function Camera:update(dt)
-  local fx, fy = self:getField()
   if self.isOnPlayer then
       local dx , dy = self:smoothing(Player.x-self.x-WindowW/2/self.scaleX , Player.y-self.y-WindowH/2/self.scaleY,3)
       self:move(dx,dy)
@@ -62,9 +60,6 @@ function Camera:update(dt)
   if self.x < 0 then
     self.x = 0
   end
-  print(fy)
-
-
 
   if not self.isOnPlayer then
     if love.keyboard.isDown('l') then

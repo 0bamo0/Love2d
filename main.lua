@@ -2,6 +2,8 @@ if arg[2] == "debug" then
     require("lldebugger").start()
 end
 
+Sys_type = love.system.getOS()
+
 love.graphics.setDefaultFilter("nearest", "nearest")
 
 Menu = require("menu")
@@ -9,8 +11,6 @@ Game = require("game")
 Json = require('libs/json')
 
 function love.load()
-    Sys_type = love.system.getOS()
-    WindowW, WindowH = love.graphics.getDimensions()
     Gamestat = "Menu"
     if Gamestat == "Menu" then
         Menu:load()
@@ -19,7 +19,6 @@ function love.load()
 end
 
 function love.update(dt)
-    Delta = dt
     WindowW, WindowH = love.graphics.getDimensions()
     if Gamestat == "Menu" then
         Menu:update(dt)
@@ -36,16 +35,13 @@ function love.draw()
     if Gamestat == "Game" then
         Game:draw()
     end
-    love.graphics.print(Delta)
 end
 
 function love.keypressed(key)
     if key == "o" and Camera.isOnPlayer then
         Camera.isOnPlayer = false
-        print("Camera on")
     elseif key == "o" and not Camera.isOnPlayer then
         Camera.isOnPlayer = true
-        print("Camera off")
     end
     if Gamestat == "Game" then
         Game:keypressed(key)
