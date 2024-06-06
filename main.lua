@@ -46,7 +46,20 @@ function love.keypressed(key)
     if Gamestat == "Game" then
         Game:keypressed(key)
     end
-    Quit(key)
+
+    if key == "escape" then
+        
+        if Gamestat == "Menu" and not Menu.showSetting then
+            love.event.quit(0)
+        end
+        if Gamestat == "Game" then
+            Gamestat = "Menu"
+            Menu:load()
+        end
+        if Menu.showSetting then
+            Menu.showSetting = false
+        end
+    end
 end
 
 function love.keyreleased(key)
@@ -78,21 +91,4 @@ function love.wheelmoved(x, y)
   if Gamestat == "Game" then
   Game:wheelmoved(x, y)
   end
-end
-
-function Quit(key)
-    if key == "escape" and Gamestat == "Menu" and not Menu.showSetting then
-        Exit()
-    end
-    if key == "escape" and Gamestat == "Game" then
-        Gamestat = "Menu"
-        Menu:load()
-    end
-    if key == "escape" and Menu.showSetting then
-        Menu.showSetting = false
-    end
-end
-
-function Exit()
-    love.event.quit(0)
 end

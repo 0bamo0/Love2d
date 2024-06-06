@@ -26,6 +26,7 @@ function Menu:loadAssets()
             id = info.id
         }
         table.insert(self.assets.buttons, button)
+        print('hello')
     end
 end
 
