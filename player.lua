@@ -182,7 +182,7 @@ end
 
 
 
-function Player:resetPosition(dt)
+function Player:resetPosition()
     self.collider.body:setPosition(self.startX, self.startY)
     self.collider:applyLinearImpulse(0, 10000000)
     self.Respawning = true
@@ -251,7 +251,7 @@ function Player:Timers(dt)
         self.AttackCollider:destroy()
         self.stuned = false
         self.isAttcking = false
-        self.attacktimer = 0.6
+        self.attacktimer = 0.3
         self.animation.current:gotoFrame(3)
     end
     if self.isHurt then

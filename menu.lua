@@ -15,6 +15,7 @@ function Menu:loadAssets()
     
     local buttonInfo = {
         {id = "Start", path = "start"},
+        {id = "Load", path = "load"},
         {id = "Options", path = "options"},
         {id = "Exit", path = "exit"}
     }
@@ -26,7 +27,6 @@ function Menu:loadAssets()
             id = info.id
         }
         table.insert(self.assets.buttons, button)
-        print('hello')
     end
 end
 
@@ -90,6 +90,10 @@ end
 function Menu:buttonClicked(id)
     if id == "Start" then
         Gamestat = "Game"
+        Game:newGame()
+    elseif id == "Load" then
+        Gamestat = "Game"
+        Game:LoadGame()
     elseif id == "Exit" then
         love.event.quit()
     elseif id == "Options" then

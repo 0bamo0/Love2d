@@ -8,7 +8,7 @@ love.graphics.setDefaultFilter("nearest", "nearest")
 
 Menu = require("menu")
 Game = require("game")
-Json = require('libs/json')
+
 
 function love.load()
     Gamestat = "Menu"
@@ -89,6 +89,6 @@ end
 
 function love.wheelmoved(x, y)
   if Gamestat == "Game" then
-  Game:wheelmoved(x, y)
+    Game:wheelmoved(x, y)
   end
 end

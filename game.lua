@@ -3,6 +3,8 @@ Game = {}
 wf = require "libs/windfield"
 sti = require "libs/sti"
 anim8 = require "libs/anim8"
+Json = require('libs/json')
+
 
 Map = require("map")
 Player = require("player")
@@ -12,6 +14,7 @@ debugging = require("debugging")
 Signs = require("Signs/signs")
 Controls = require('controls')
 Background = require('background')
+
 
 function Game:load()
     Background:load()
@@ -49,6 +52,15 @@ function Game:draw()
         Controls:draw()
     end
     love.graphics.rectangle('fill', WindowW-110 , 10 , Player.health*10, 10)
+end
+
+function Game:newGame()
+    Map.currentLevel = 1
+        Map:clean()
+        Map:init()
+        Player.collider.body:setPosition(Player.startX, Player.startY)
+        Player.collider:applyLinearImpulse(0, 10000000)
+        Player.Respawning = true
 end
 
 function Game:SaveGame()
