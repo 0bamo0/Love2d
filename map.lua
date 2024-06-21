@@ -96,7 +96,7 @@ function Map:next(dt)
         self.currentLevel = self.currentLevel + 1
     end
     self:init()
-    Player:resetPosition(dt)
+    Player:resetPosition()
 end
 
 function Map:clean()
