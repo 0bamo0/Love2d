@@ -13,8 +13,8 @@ function Player:load()
     self.jumpForce = 580
     self.hurtTimer = 0.5
     self.attacktimer = 0.28
-    self.deathtimer = 1.1
-    self.spawnTimer = 1
+    self.deathtimer = 0.4
+    self.spawnTimer = 0
     self.dashTimer = 0.8
     self.collider = world:newBSGRectangleCollider(self.x, self.y, self.width, self.height, 10)
     self.collider:setCollisionClass("Player")
@@ -240,7 +240,7 @@ function Player:Timers(dt)
     if self.spawnTimer < 0 then
         self.stuned = false
         self.Respawning = false
-        self.spawnTimer = 1
+        self.spawnTimer = 0
     end
     if self.isAttcking then
         self.attacktimer = self.attacktimer - dt
@@ -273,8 +273,9 @@ function Player:Timers(dt)
       self.isDead = false
       self.health = 10
       self:resetPosition()
-      self.deathtimer = 1.1
+      self.deathtimer = 0.4
       self.animation.current:gotoFrame(1)
     end
 end
+
 return Player

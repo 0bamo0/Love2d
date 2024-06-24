@@ -97,7 +97,7 @@ function Game:LoadGame()
 end
 
 function Game:keypressed(key)
-    if key == "f8" then
+    if key == "f5" then
         self:SaveGame()
     end
 

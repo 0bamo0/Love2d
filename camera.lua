@@ -133,11 +133,10 @@ end
 --- Calculate smooth movement.
 -- @tparam number dx the x displacement
 -- @tparam number dy the y displacement
--- @tparam number s the stiffness factor
 -- @treturn number the smoothed x displacement
 -- @treturn number the smoothed y displacement
 function Camera:smoothing(dx, dy, s)
-    local dts = love.timer.getDelta() * (s or stiffness)
+    local dts = love.timer.getDelta() * (s)
     return dx * dts, dy * dts
 end
 
