@@ -347,6 +347,36 @@ test("keyboard movement persists after state update", function()
     assertEqual(xVel, Player.speed, "right movement should survive setStat")
 end)
 
+test("player jump force controls upward velocity", function()
+    freshGame()
+
+    Player.grounded = true
+    Player.onPlatform = false
+    Player.stuned = false
+    Player.xVel = 0
+    Player.yVel = 0
+    Player.collider:setLinearVelocity(0, 0)
+
+    Player.jumpForce = 450
+    Player:Jump("space")
+    Player.xVel, Player.yVel = Player.collider:getLinearVelocity()
+    Player:setStat(0)
+    local _, lowJumpY = Player.collider:getLinearVelocity()
+
+    Player.grounded = true
+    Player.collider:setLinearVelocity(0, 0)
+    Player.xVel = 0
+    Player.yVel = 0
+
+    Player.jumpForce = 900
+    Player:Jump("space")
+    Player.xVel, Player.yVel = Player.collider:getLinearVelocity()
+    Player:setStat(0)
+    local _, highJumpY = Player.collider:getLinearVelocity()
+
+    assertTruthy(highJumpY < lowJumpY, "larger jump force should create stronger upward velocity")
+end)
+
 test("camera zoom cannot cross zero scale", function()
     freshGame()
 

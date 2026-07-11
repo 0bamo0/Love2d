@@ -10,7 +10,7 @@ function Player:load()
     self.width = 25
     self.height = 27
     self.health = 10
-    self.jumpForce = 580
+    self.jumpForce = 5000
     self.hurtTimer = 0.5
     self.attacktimer = 0.28
     self.deathtimer = 0.4
@@ -127,8 +127,6 @@ function Player:setStat(dt)
     end
     if self.yVel > 300 then
         self.yVel = 300
-    elseif self.yVel < -300 then
-        self.yVel = -300
     end
     self.collider:setLinearVelocity(self.xVel, self.yVel)
 end
