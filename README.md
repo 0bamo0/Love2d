@@ -24,3 +24,12 @@ F9/F10/F11 Load slots 1/2/3
 
 ## Runner Mode
 The main menu has a Runner option for an endless one-button runner mode. Press `Space`, `Up`, or `W` to jump, and press `R` to restart.
+
+## Android Build
+Run:
+
+```bat
+.\build-android-love.cmd
+```
+
+See [ANDROID_BUILD.md](ANDROID_BUILD.md) for APK/AAB notes.
