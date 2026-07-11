@@ -1,8 +1,27 @@
 --- Love2D main.lua file
 -- This file contains the main game loop and event handlers
 
+local function hasArg(value)
+    if not arg then
+        return false
+    end
+
+    for _, item in pairs(arg) do
+        if item == value then
+            return true
+        end
+    end
+
+    return false
+end
+
+if hasArg("--test") then
+    require("tests.runner")
+    return
+end
+
 -- Check if the game is running in debug mode
-if arg[2] == "debug" then
+if hasArg("debug") then
     require("lldebugger").start()
 end
 

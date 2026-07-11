@@ -6,3 +6,10 @@
 3- Extarct and Copy files to storage/lovegame :
 
 4- Run the Love2d Game from your launcher.
+
+## Tests
+Run the local LOVE test suite on Windows:
+
+```bat
+.\run-tests.cmd
+```

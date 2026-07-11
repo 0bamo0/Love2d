@@ -47,15 +47,12 @@ end
 
 function Menu:buttonsTotalHeight()
     local totalHeight = 0
-    local buttonPath = "assets/GUI/Menu/Buttons/"
-    local directoryItems = love.filesystem.getDirectoryItems(buttonPath)
-    
-    for _, item in ipairs(directoryItems) do
-        local image = love.graphics.newImage(buttonPath .. item)
-        totalHeight = totalHeight + image:getHeight()
+
+    for _, button in ipairs(self.assets.buttons) do
+        totalHeight = totalHeight + button.img:getHeight()
     end
-    
-    return totalHeight / 2
+
+    return totalHeight
 end
 
 function Menu:touchpressed(id, x, y, dx, dy, pressure)
