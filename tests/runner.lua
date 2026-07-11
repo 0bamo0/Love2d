@@ -274,6 +274,38 @@ test("touch movement respects stun state", function()
     assertEqual(xVel, 0, "stunned player should not move from touch input")
 end)
 
+test("keyboard movement persists after state update", function()
+    freshGame()
+
+    local originalIsDown = love.keyboard.isDown
+    love.keyboard.isDown = function(...)
+        local keys = {...}
+        for _, key in ipairs(keys) do
+            if key == "right" then
+                return true
+            end
+        end
+        return false
+    end
+
+    Player.collider:setLinearVelocity(0, 0)
+    Player.yVel = 0
+    Player.wallsRight = false
+    Player.canMove = true
+    Player.stuned = false
+
+    local ok, err = pcall(function()
+        Player:Move(0)
+        Player:setStat(0)
+    end)
+
+    love.keyboard.isDown = originalIsDown
+
+    assertTruthy(ok, err)
+    local xVel = Player.collider:getLinearVelocity()
+    assertEqual(xVel, Player.speed, "right movement should survive setStat")
+end)
+
 test("camera zoom cannot cross zero scale", function()
     freshGame()
 

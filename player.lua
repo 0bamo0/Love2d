@@ -52,7 +52,7 @@ end
 
 function Player:Move(dt)
     local _, yVel = self.collider:getLinearVelocity()
-    self.yVel = self.yVel or yVel
+    self.yVel = yVel
 
     local wantsRight = love.keyboard.isDown("right", "d") or self.isMovingRight
     local wantsLeft = love.keyboard.isDown("left", "q") or self.isMovingLeft
@@ -63,6 +63,7 @@ function Player:Move(dt)
     if wantsLeft and not self.wallsLeft and self.canMove and not self.stuned then
         self.collider:setLinearVelocity(-self.speed, self.yVel)
     end
+    self.xVel, self.yVel = self.collider:getLinearVelocity()
     self.x, self.y = self.collider:getPosition()
 end
 
