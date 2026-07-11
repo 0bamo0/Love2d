@@ -34,6 +34,7 @@ love.graphics.setDefaultFilter("nearest", "nearest")
 -- Load the menu and game modules
 Menu = require("menu")
 Game = require("game")
+Runner = require("runner")
 
 --- Load function
 -- This function is called when the game starts
@@ -43,6 +44,7 @@ function love.load()
         Menu:load()
     end
     Game:load() -- Load the game modules
+    Runner:load()
 end
 
 --- Update function
@@ -55,6 +57,9 @@ function love.update(dt)
     if Gamestat == "Game" then -- Update the game if the game state is game
         Game:update(dt)
     end
+    if Gamestat == "Runner" then
+        Runner:update(dt)
+    end
 end
 
 --- Draw function
@@ -65,6 +70,9 @@ function love.draw()
     end
     if Gamestat == "Game" then -- Draw the game if the game state is game
         Game:draw()
+    end
+    if Gamestat == "Runner" then
+        Runner:draw()
     end
 end
 
@@ -81,21 +89,38 @@ function love.keypressed(key)
     if Gamestat == "Game" then
         Game:keypressed(key)
     end
+    if Gamestat == "Runner" then
+        Runner:keypressed(key)
+    end
 
     -- Quit the game when the escape key is pressed
     if key == "escape" then
-        -- Quit the game if the game state is menu and the settings are not shown
-        if Gamestat == "Menu" and not Menu.showSetting then
-            love.event.quit(0)
-        end
-        -- Switch to the menu if the game state is game
         if Gamestat == "Game" then
             Gamestat = "Menu"
-            Menu:load()
+            Menu:openGamePause()
+            return
         end
-        -- Hide the settings if they are shown
+        if Gamestat == "Runner" then
+            Gamestat = "Menu"
+            Menu:openMain()
+            return
+        end
+        if Gamestat == "Menu" and Menu.screen == "GamePause" then
+            Gamestat = "Game"
+            Menu:openMain()
+            return
+        end
+        if Gamestat == "Menu" and Menu.screen == "Load" then
+            Menu:openMain()
+            return
+        end
         if Menu.showSetting then
             Menu.showSetting = false
+            return
+        end
+        -- Quit the game if the game state is menu and the settings are not shown
+        if Gamestat == "Menu" then
+            love.event.quit(0)
         end
     end
 end
@@ -112,17 +137,23 @@ end
 --- Touch pressed event handler
 -- This function is called when a touch is pressed
 function love.touchpressed( id, x, y, dx, dy, pressure )
-    -- Call the touchpressed function in the game module
-    Game:touchpressed(id, x, y, dx, dy, pressure)
-    -- Call the touchpressed function in the menu module
-    Menu:touchpressed(id, x, y, dx, dy, pressure)
+    if Gamestat == "Game" then
+        Game:touchpressed(id, x, y, dx, dy, pressure)
+    elseif Gamestat == "Runner" then
+        Runner:touchpressed(id, x, y, dx, dy, pressure)
+    elseif Gamestat == "Menu" then
+        Menu:touchpressed(id, x, y, dx, dy, pressure)
+    end
 end
 
 --- Touch released event handler
 -- This function is called when a touch is released
 function love.touchreleased(id, x, y, dx, dy, pressure)
-    -- Call the touchreleased function in the game module
-    Game:touchreleased(id, x, y, dx, dy, pressure)
+    if Gamestat == "Game" then
+        Game:touchreleased(id, x, y, dx, dy, pressure)
+    elseif Gamestat == "Runner" then
+        Runner:touchreleased(id, x, y, dx, dy, pressure)
+    end
 end
 
 --- Mouse pressed event handler

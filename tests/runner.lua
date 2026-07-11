@@ -37,7 +37,8 @@ local function resetModules()
         "Signs/signs",
         "controls",
         "background",
-        "menu"
+        "menu",
+        "runner"
     }
 
     for _, moduleName in ipairs(modules) do
@@ -54,6 +55,7 @@ local function resetModules()
         "Signs",
         "Controls",
         "Background",
+        "Runner",
         "world",
         "Touches",
         "ActiveSigns",
@@ -170,21 +172,47 @@ test("pig cleanup removes active attack hitboxes", function()
     assertFalsy(attackCollider.body, "pig attack collider should be destroyed")
 end)
 
-test("save/load restores saved player health", function()
+test("save slots restore independently", function()
     local Game, _, Player = freshGame()
 
-    love.filesystem.remove("savegame.json")
+    for slot = 1, Game.saveSlotCount do
+        Game:deleteSave(slot)
+    end
 
     Player.health = 3
     Player.x = 123
     Player.y = 456
-    Game:SaveGame()
+    Game:SaveGame(1)
 
-    Player.health = 9
-    Game:LoadGame()
+    Player.health = 8
+    Player.x = 321
+    Player.y = 654
+    Game:SaveGame(2)
+
+    Player.health = 10
+    Game:LoadGame(1)
 
     assertEqual(Player.health, 3, "loaded health")
-    love.filesystem.remove("savegame.json")
+    assertEqual(Player.x, 123, "slot 1 x")
+    assertEqual(Player.y, 456, "slot 1 y")
+
+    Game:LoadGame(2)
+
+    assertEqual(Player.health, 8, "slot 2 health")
+    assertEqual(Player.x, 321, "slot 2 x")
+    assertEqual(Player.y, 654, "slot 2 y")
+
+    for slot = 1, Game.saveSlotCount do
+        Game:deleteSave(slot)
+    end
+end)
+
+test("loading an empty save slot fails cleanly", function()
+    local Game = freshGame()
+
+    Game:deleteSave(3)
+
+    assertFalsy(Game:LoadGame(3), "empty slot should not load")
 end)
 
 test("touch release ignores unknown touch ids", function()
@@ -274,6 +302,19 @@ test("touch movement respects stun state", function()
     assertEqual(xVel, 0, "stunned player should not move from touch input")
 end)
 
+test("game pause menu is separate from main menu", function()
+    resetModules()
+    _G.WindowW, _G.WindowH = love.graphics.getDimensions()
+
+    local Menu = require("menu")
+    Menu:load()
+    Menu:openGamePause()
+
+    assertEqual(Menu.screen, "GamePause", "pause screen")
+    Menu:openMain()
+    assertEqual(Menu.screen, "main", "main screen")
+end)
+
 test("keyboard movement persists after state update", function()
     freshGame()
 
@@ -313,6 +354,40 @@ test("camera zoom cannot cross zero scale", function()
     Camera:Zoom(0, -1)
 
     assertTruthy(Camera.scaleX > 0 and Camera.scaleY > 0, "camera scale should stay positive")
+end)
+
+test("runner jumps and advances distance", function()
+    resetModules()
+
+    local Runner = require("runner")
+    Runner:load()
+    local startingDistance = Runner.distance
+
+    Runner:keypressed("space")
+    assertTruthy(Runner.player.vy < 0, "runner jump velocity")
+
+    Runner:update(0.1)
+
+    assertTruthy(Runner.distance > startingDistance, "runner distance should advance")
+end)
+
+test("runner detects obstacle collision", function()
+    resetModules()
+
+    local Runner = require("runner")
+    Runner:load()
+    Runner.obstacles = {
+        {
+            x = Runner.player.x,
+            y = Runner.player.y,
+            w = Runner.player.w,
+            h = Runner.player.h
+        }
+    }
+
+    Runner:update(0.016)
+
+    assertTruthy(Runner.dead, "runner should end on obstacle collision")
 end)
 
 local function writeResults(summary)

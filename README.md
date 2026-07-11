@@ -13,3 +13,14 @@ Run the local LOVE test suite on Windows:
 ```bat
 .\run-tests.cmd
 ```
+
+## Saves
+The main game has three save slots. From the in-game pause menu, use `Escape` and choose a save slot. Keyboard shortcuts also work while playing:
+
+```text
+F5/F6/F7  Save slots 1/2/3
+F9/F10/F11 Load slots 1/2/3
+```
+
+## Runner Mode
+The main menu has a Runner option for an endless one-button runner mode. Press `Space`, `Up`, or `W` to jump, and press `R` to restart.

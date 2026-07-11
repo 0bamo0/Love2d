@@ -2,6 +2,7 @@ local Suit = require("libs/suit")
 
 local Menu = {}
 local buttonMargin = 16
+local textButtonHeight = 44
 
 function Menu:load()
     self:loadAssets()
@@ -10,8 +11,14 @@ end
 function Menu:loadAssets()
     self.assets = Suit.new()
     self.settings = Suit.new()
+    self.loadSlots = Suit.new()
+    self.pause = Suit.new()
     self.showSetting = false
+    self.screen = "main"
     self.assets.buttons = {}
+    self.textButtons = {
+        {id = "Runner", label = "Runner"}
+    }
     
     local buttonInfo = {
         {id = "Start", path = "start"},
@@ -30,8 +37,22 @@ function Menu:loadAssets()
     end
 end
 
+function Menu:openMain()
+    self.screen = "main"
+    self.showSetting = false
+end
+
+function Menu:openGamePause()
+    self.screen = "GamePause"
+    self.showSetting = false
+end
+
 function Menu:update(dt)
-    if self.showSetting then
+    if self.screen == "Load" then
+        self:drawLoadButtons()
+    elseif self.screen == "GamePause" then
+        self:drawPauseButtons()
+    elseif self.showSetting then
         self:drawSettingsButtons()
     else
         self:drawButtons(dt)
@@ -45,6 +66,60 @@ function Menu:drawSettingsButtons()
     end
 end
 
+function Menu:drawLoadButtons()
+    local buttonWidth = math.min(WindowW * 0.7, 360)
+    local buttonHeight = 44
+    local gap = 14
+    local totalHeight = (buttonHeight + gap) * (Game.saveSlotCount + 1)
+    local x = WindowW / 2 - buttonWidth / 2
+    local y = WindowH / 2 - totalHeight / 2
+
+    for slot = 1, Game.saveSlotCount do
+        local label = Game:getSaveSummary(slot)
+        self.loadSlots:Button(label, {id = "LoadSlot" .. slot}, x, y, buttonWidth, buttonHeight)
+        if self.loadSlots:isHit("LoadSlot" .. slot) and Game:LoadGame(slot) then
+            Gamestat = "Game"
+            self.screen = "main"
+        end
+        y = y + buttonHeight + gap
+    end
+
+    self.loadSlots:Button("Back", {id = "LoadBack"}, x, y, buttonWidth, buttonHeight)
+    if self.loadSlots:isHit("LoadBack") then
+        self.screen = "main"
+    end
+end
+
+function Menu:drawPauseButtons()
+    local buttonWidth = math.min(WindowW * 0.7, 360)
+    local buttonHeight = 44
+    local gap = 14
+    local buttonCount = Game.saveSlotCount + 2
+    local totalHeight = (buttonHeight + gap) * buttonCount
+    local x = WindowW / 2 - buttonWidth / 2
+    local y = WindowH / 2 - totalHeight / 2
+
+    self.pause:Button("Resume", {id = "ResumeGame"}, x, y, buttonWidth, buttonHeight)
+    if self.pause:isHit("ResumeGame") then
+        Gamestat = "Game"
+        self:openMain()
+    end
+    y = y + buttonHeight + gap
+
+    for slot = 1, Game.saveSlotCount do
+        self.pause:Button("Save Slot " .. slot, {id = "SaveSlot" .. slot}, x, y, buttonWidth, buttonHeight)
+        if self.pause:isHit("SaveSlot" .. slot) then
+            Game:SaveGame(slot)
+        end
+        y = y + buttonHeight + gap
+    end
+
+    self.pause:Button("Main Menu", {id = "PauseMain"}, x, y, buttonWidth, buttonHeight)
+    if self.pause:isHit("PauseMain") then
+        self:openMain()
+    end
+end
+
 function Menu:buttonsTotalHeight()
     local totalHeight = 0
 
@@ -52,7 +127,7 @@ function Menu:buttonsTotalHeight()
         totalHeight = totalHeight + button.img:getHeight()
     end
 
-    return totalHeight
+    return totalHeight + (#self.textButtons * textButtonHeight)
 end
 
 function Menu:touchpressed(id, x, y, dx, dy, pressure)
@@ -73,28 +148,46 @@ function Menu:drawButtons(dt)
             self:buttonClicked(button.id)
         end
     end
+
+    for _, button in ipairs(self.textButtons) do
+        local bw, bh = 220, textButtonHeight
+        local bx, by = WindowW / 2 - (bw / 2), (WindowH / 2) - (totalHeight / 2) + x
+        self.assets:Button(button.label, {id = button.id}, bx, by, bw, bh)
+        x = x + bh + buttonMargin
+
+        if self.assets:isHit(button.id) then
+            self:buttonClicked(button.id)
+        end
+    end
 end
 
 function Menu:draw()
     love.graphics.setBackgroundColor(166 / 255, 110 / 255, 66 / 255)
-    self.assets:draw()
-    
-    if self.showSetting then
+
+    if self.screen == "Load" then
+        self.loadSlots:draw()
+    elseif self.screen == "GamePause" then
+        self.pause:draw()
+    elseif self.showSetting then
         self.settings:draw()
+    else
+        self.assets:draw()
     end
 end
 
 function Menu:buttonClicked(id)
     if id == "Start" then
         Gamestat = "Game"
-        Game:newGame()
+        Game:newGame(Game.currentSaveSlot)
     elseif id == "Load" then
-        Gamestat = "Game"
-        Game:LoadGame()
+        self.screen = "Load"
     elseif id == "Exit" then
         love.event.quit()
     elseif id == "Options" then
         self.showSetting = true
+    elseif id == "Runner" then
+        Gamestat = "Runner"
+        Runner:newGame()
     elseif id == "Go Back" then
         self.showSetting = false
     end
