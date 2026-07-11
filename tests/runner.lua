@@ -356,6 +356,17 @@ test("camera zoom cannot cross zero scale", function()
     assertTruthy(Camera.scaleX > 0 and Camera.scaleY > 0, "camera scale should stay positive")
 end)
 
+test("background draws while camera is zoomed", function()
+    freshGame()
+
+    Camera:setScale(2.4, 2.4)
+    local ok, err = pcall(function()
+        Background:draw()
+    end)
+
+    assertTruthy(ok, err)
+end)
+
 test("runner jumps and advances distance", function()
     resetModules()
 
@@ -369,6 +380,17 @@ test("runner jumps and advances distance", function()
     Runner:update(0.1)
 
     assertTruthy(Runner.distance > startingDistance, "runner distance should advance")
+end)
+
+test("runner spawns pigs as obstacles", function()
+    resetModules()
+
+    local Runner = require("runner")
+    Runner:load()
+    Runner:spawnObstacle()
+
+    assertEqual(Runner.obstacles[1].kind, "pig", "runner obstacle kind")
+    assertTruthy(Runner.pigSheet, "runner should load pig sprites")
 end)
 
 test("runner detects obstacle collision", function()

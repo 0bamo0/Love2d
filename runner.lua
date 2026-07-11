@@ -12,18 +12,19 @@ function Runner:load()
     self.clouds = love.graphics.newImage("assets/Background/3.png")
     self.playerSheet = love.graphics.newImage("assets/Player/PlayerSheet-2.png")
     self.playerQuad = love.graphics.newQuad(0, 0, 78, 58, self.playerSheet:getWidth(), self.playerSheet:getHeight())
-    self.ground = love.graphics.newImage("assets/Terrain/TX Tileset Ground.png")
+    self.pigSheet = love.graphics.newImage("assets/pig.png")
+    self.pigQuad = love.graphics.newQuad(0, 0, 33, 28, self.pigSheet:getWidth(), self.pigSheet:getHeight())
     self:newGame()
 end
 
 function Runner:newGame()
     local width, height = love.graphics.getDimensions()
-    self.groundY = height - 70
+    self.groundY = height - 92
     self.player = {
-        x = math.max(90, width * 0.18),
-        y = self.groundY - 46,
-        w = 34,
-        h = 42,
+        x = math.max(130, width * 0.18),
+        y = self.groundY - 66,
+        w = 58,
+        h = 66,
         vy = 0,
         grounded = true
     }
@@ -41,12 +42,14 @@ end
 
 function Runner:spawnObstacle()
     local width = love.graphics.getWidth()
-    local size = love.math.random(26, 44)
+    local obstacleWidth = 70
+    local obstacleHeight = 54
     local obstacle = {
+        kind = "pig",
         x = width + 30,
-        y = self.groundY - size,
-        w = size,
-        h = size
+        y = self.groundY - obstacleHeight,
+        w = obstacleWidth,
+        h = obstacleHeight
     }
     table.insert(self.obstacles, obstacle)
 end
@@ -65,7 +68,11 @@ end
 
 function Runner:update(dt)
     local width, height = love.graphics.getDimensions()
-    self.groundY = height - 70
+    local oldGroundY = self.groundY
+    self.groundY = height - 92
+    if oldGroundY and oldGroundY ~= self.groundY then
+        self.player.y = self.player.y + (self.groundY - oldGroundY)
+    end
 
     if self.dead then
         return
@@ -123,36 +130,41 @@ end
 
 function Runner:drawGround()
     local width = love.graphics.getWidth()
-    local tileScale = 2
-    local tileWidth = self.ground:getWidth() * tileScale
-    local offset = -(self.distance * 0.6) % tileWidth
+    local height = love.graphics.getHeight()
 
-    love.graphics.setColor(0.3, 0.23, 0.18)
-    love.graphics.rectangle("fill", 0, self.groundY, width, love.graphics.getHeight() - self.groundY)
-    love.graphics.setColor(1, 1, 1)
+    love.graphics.setColor(0.35, 0.24, 0.15)
+    love.graphics.rectangle("fill", 0, self.groundY, width, height - self.groundY)
 
-    for x = offset - tileWidth, width + tileWidth, tileWidth do
-        love.graphics.draw(self.ground, x, self.groundY - 18, 0, tileScale, 0.35)
+    love.graphics.setColor(0.26, 0.18, 0.12)
+    for y = self.groundY + 18, height, 26 do
+        love.graphics.rectangle("fill", 0, y, width, 4)
     end
+
+    love.graphics.setColor(0.34, 0.52, 0.13)
+    love.graphics.rectangle("fill", 0, self.groundY - 8, width, 12)
+    love.graphics.setColor(0.48, 0.64, 0.18)
+    love.graphics.rectangle("fill", 0, self.groundY - 11, width, 4)
+
+    love.graphics.setColor(0.2, 0.14, 0.1)
+    local offset = -(self.distance * 0.45) % 80
+    for x = offset - 80, width + 80, 80 do
+        love.graphics.rectangle("fill", x, self.groundY + 28, 30, 7)
+    end
+
+    love.graphics.setColor(1, 1, 1)
 end
 
 function Runner:draw()
     self:drawBackground()
     self:drawGround()
 
-    love.graphics.setColor(0.86, 0.18, 0.16)
     for _, obstacle in ipairs(self.obstacles) do
-        love.graphics.polygon(
-            "fill",
-            obstacle.x, obstacle.y + obstacle.h,
-            obstacle.x + obstacle.w / 2, obstacle.y,
-            obstacle.x + obstacle.w, obstacle.y + obstacle.h
-        )
+        local scale = obstacle.h / 28
+        love.graphics.draw(self.pigSheet, self.pigQuad, obstacle.x - 4, obstacle.y - 4, 0, scale, scale)
     end
 
     love.graphics.setColor(1, 1, 1)
-    local scale = self.player.w / 78
-    love.graphics.draw(self.playerSheet, self.playerQuad, self.player.x - 6, self.player.y - 5, 0, scale, scale)
+    love.graphics.draw(self.playerSheet, self.playerQuad, self.player.x - 40, self.player.y - 24, 0, 1.8, 1.8)
     love.graphics.print("Score " .. self.score, 20, 20)
     love.graphics.print("Best " .. self.best, 20, 42)
 

@@ -46,8 +46,8 @@ end
 
 function Game:draw()
     love.graphics.setBackgroundColor(0 / 255, 0 / 255, 0 / 255)
-    Camera:set()
     Background:draw()
+    Camera:set()
     Map:draw()
     Pigs.drawAll()
     if debugging.isActif then

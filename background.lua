@@ -20,18 +20,27 @@ function Background:update(dt)
 end
 
 function Background:draw()
-    local cfw , cfh = Camera:getField()
-    for i , image in ipairs(self.assets)do
+    local width, height = love.graphics.getDimensions()
+
+    love.graphics.push("all")
+    love.graphics.origin()
+
+    for i, image in ipairs(self.assets) do
         if image.layer == 1 then
-                local scale = math.max(cfh/image.png:getHeight(), cfw/image.png:getWidth()) 
-                love.graphics.draw(image.png,Camera.x,Camera.y,0,scale, scale)
+            local scale = math.max(width / image.png:getWidth(), height / image.png:getHeight())
+            love.graphics.draw(image.png, 0, 0, 0, scale, scale)
         elseif image.layer == 3 then
-            for i = -10, 10, 1 do
-                local x = i*(image.png:getWidth()*cfh/image.png:getHeight()) + (Camera.x/2)
-                love.graphics.draw(image.png,x,Camera.y,0,cfh/image.png:getHeight() , cfh/image.png:getHeight())
+            local scale = height / image.png:getHeight()
+            local tileWidth = image.png:getWidth() * scale
+            local offset = -(Camera.x * 0.28) % tileWidth
+
+            for x = offset - tileWidth, width + tileWidth, tileWidth do
+                love.graphics.draw(image.png, x, 0, 0, scale, scale)
             end
         end
     end
+
+    love.graphics.pop()
 end
 
 return Background

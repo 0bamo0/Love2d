@@ -20,6 +20,11 @@ if hasArg("--test") then
     return
 end
 
+if hasArg("--visual-capture") then
+    require("tests.visual_capture")
+    return
+end
+
 -- Check if the game is running in debug mode
 if hasArg("debug") then
     require("lldebugger").start()

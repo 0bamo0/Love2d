@@ -24,5 +24,10 @@ function love.conf(t)
         t.window.width = 320
         t.window.height = 180
         t.window.resizable = false
+    elseif hasArg("--visual-capture") then
+        t.identity = "love2d-visual-capture"
+        t.window.width = 960
+        t.window.height = 540
+        t.window.resizable = false
     end
 end
