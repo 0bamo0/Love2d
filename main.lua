@@ -90,13 +90,6 @@ function love.keypressed(key)
     elseif key == "o" and not Camera.isOnPlayer then
         Camera.isOnPlayer = true
     end
-    -- Call the keypressed function in the game module if the game state is game
-    if Gamestat == "Game" then
-        Game:keypressed(key)
-    end
-    if Gamestat == "Runner" then
-        Runner:keypressed(key)
-    end
 
     -- Quit the game when the escape key is pressed
     if key == "escape" then
@@ -106,8 +99,11 @@ function love.keypressed(key)
             return
         end
         if Gamestat == "Runner" then
-            Gamestat = "Menu"
-            Menu:openMain()
+            if Runner.confirmExit then
+                Runner:cancelExit()
+            else
+                Runner:requestExit()
+            end
             return
         end
         if Gamestat == "Menu" and Menu.screen == "GamePause" then
@@ -127,6 +123,14 @@ function love.keypressed(key)
         if Gamestat == "Menu" then
             love.event.quit(0)
         end
+    end
+
+    -- Call the keypressed function in the game module if the game state is game
+    if Gamestat == "Game" then
+        Game:keypressed(key)
+    end
+    if Gamestat == "Runner" then
+        Runner:keypressed(key)
     end
 end
 
@@ -167,6 +171,8 @@ function love.mousepressed(x, y, b)
     -- Call the mousepressed function in the game module if the game state is game
     if Gamestat == "Game" then
         Game:mousepressed(x, y, b)
+    elseif Gamestat == "Runner" then
+        Runner:mousepressed(x, y, b)
     end
 end
 

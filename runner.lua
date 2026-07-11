@@ -7,6 +7,38 @@ local function rectsOverlap(a, b)
         b.y < a.y + a.h
 end
 
+local function pointInRect(x, y, rect)
+    return x >= rect.x and x <= rect.x + rect.w and y >= rect.y and y <= rect.y + rect.h
+end
+
+local function drawPixelButton(text, rect, hovered)
+    local fill = hovered and {0.55, 0.32, 0.16} or {0.45, 0.25, 0.13}
+    local top = hovered and {0.88, 0.56, 0.24} or {0.72, 0.44, 0.2}
+    local border = {0.16, 0.09, 0.05}
+    local textColor = hovered and {1, 0.96, 0.72} or {1, 0.9, 0.58}
+    local font = love.graphics.getFont()
+
+    love.graphics.setColor(0.08, 0.04, 0.03, 0.8)
+    love.graphics.rectangle("fill", rect.x + 5, rect.y + 6, rect.w, rect.h)
+
+    love.graphics.setColor(border)
+    love.graphics.rectangle("fill", rect.x, rect.y, rect.w, rect.h)
+
+    love.graphics.setColor(fill)
+    love.graphics.rectangle("fill", rect.x + 4, rect.y + 4, rect.w - 8, rect.h - 8)
+
+    love.graphics.setColor(top)
+    love.graphics.rectangle("fill", rect.x + 7, rect.y + 7, rect.w - 14, 5)
+
+    love.graphics.setColor(0.24, 0.12, 0.06)
+    love.graphics.rectangle("line", rect.x + 6, rect.y + 6, rect.w - 12, rect.h - 12)
+
+    love.graphics.setColor(0.1, 0.05, 0.03, 0.75)
+    love.graphics.printf(text, rect.x + 3, rect.y + (rect.h - font:getHeight()) / 2 + 2, rect.w, "center")
+    love.graphics.setColor(textColor)
+    love.graphics.printf(text, rect.x + 2, rect.y + (rect.h - font:getHeight()) / 2, rect.w - 4, "center")
+end
+
 function Runner:load()
     self.background = love.graphics.newImage("assets/Background/1.png")
     self.clouds = love.graphics.newImage("assets/Background/3.png")
@@ -37,7 +69,38 @@ function Runner:newGame()
     self.score = 0
     self.best = self.best or 0
     self.dead = false
+    self.confirmExit = false
     self.obstacles = {}
+end
+
+function Runner:requestExit()
+    self.confirmExit = true
+end
+
+function Runner:cancelExit()
+    self.confirmExit = false
+end
+
+function Runner:confirmExitToMenu()
+    self.confirmExit = false
+    Gamestat = "Menu"
+    if Menu then
+        Menu:openMain()
+    end
+end
+
+function Runner:getExitButtons()
+    local width, height = love.graphics.getDimensions()
+    local buttonWidth = 136
+    local buttonHeight = 42
+    local gap = 18
+    local y = height / 2 + 34
+    local startX = width / 2 - buttonWidth - gap / 2
+
+    return {
+        yes = {x = startX, y = y, w = buttonWidth, h = buttonHeight},
+        no = {x = startX + buttonWidth + gap, y = y, w = buttonWidth, h = buttonHeight}
+    }
 end
 
 function Runner:spawnObstacle()
@@ -55,6 +118,10 @@ function Runner:spawnObstacle()
 end
 
 function Runner:jump()
+    if self.confirmExit then
+        return
+    end
+
     if self.dead then
         self:newGame()
         return
@@ -74,7 +141,7 @@ function Runner:update(dt)
         self.player.y = self.player.y + (self.groundY - oldGroundY)
     end
 
-    if self.dead then
+    if self.dead or self.confirmExit then
         return
     end
 
@@ -172,9 +239,55 @@ function Runner:draw()
         love.graphics.printf("Game Over", 0, love.graphics.getHeight() / 2 - 32, love.graphics.getWidth(), "center")
         love.graphics.printf("Press Space", 0, love.graphics.getHeight() / 2 - 8, love.graphics.getWidth(), "center")
     end
+
+    if self.confirmExit then
+        self:drawExitConfirmation()
+    end
+end
+
+function Runner:drawExitConfirmation()
+    local width, height = love.graphics.getDimensions()
+    local panelWidth = math.min(460, width - 80)
+    local panelHeight = 190
+    local panelX = width / 2 - panelWidth / 2
+    local panelY = height / 2 - panelHeight / 2
+    local mx, my = love.mouse.getPosition()
+    local buttons = self:getExitButtons()
+
+    love.graphics.push("all")
+    love.graphics.setColor(0, 0, 0, 0.55)
+    love.graphics.rectangle("fill", 0, 0, width, height)
+
+    love.graphics.setColor(0.08, 0.04, 0.03, 0.85)
+    love.graphics.rectangle("fill", panelX + 7, panelY + 8, panelWidth, panelHeight)
+    love.graphics.setColor(0.16, 0.09, 0.05)
+    love.graphics.rectangle("fill", panelX, panelY, panelWidth, panelHeight)
+    love.graphics.setColor(0.45, 0.25, 0.13)
+    love.graphics.rectangle("fill", panelX + 6, panelY + 6, panelWidth - 12, panelHeight - 12)
+    love.graphics.setColor(0.72, 0.44, 0.2)
+    love.graphics.rectangle("fill", panelX + 10, panelY + 10, panelWidth - 20, 6)
+
+    love.graphics.setColor(1, 0.9, 0.58)
+    love.graphics.printf("Exit Runner?", panelX, panelY + 38, panelWidth, "center")
+    love.graphics.setColor(0.96, 0.82, 0.52)
+    love.graphics.printf("Return to the main menu?", panelX + 24, panelY + 70, panelWidth - 48, "center")
+
+    drawPixelButton("Yes", buttons.yes, pointInRect(mx, my, buttons.yes))
+    drawPixelButton("No", buttons.no, pointInRect(mx, my, buttons.no))
+
+    love.graphics.pop()
 end
 
 function Runner:keypressed(key)
+    if self.confirmExit then
+        if key == "return" or key == "kpenter" or key == "y" then
+            self:confirmExitToMenu()
+        elseif key == "n" or key == "backspace" then
+            self:cancelExit()
+        end
+        return
+    end
+
     if key == "space" or key == "up" or key == "w" then
         self:jump()
     elseif key == "r" then
@@ -183,10 +296,27 @@ function Runner:keypressed(key)
 end
 
 function Runner:touchpressed(id, x, y, dx, dy, pressure)
+    if self.confirmExit then
+        self:mousepressed(x, y, 1)
+        return
+    end
     self:jump()
 end
 
 function Runner:touchreleased(id, x, y, dx, dy, pressure)
+end
+
+function Runner:mousepressed(x, y, button)
+    if button ~= 1 or not self.confirmExit then
+        return
+    end
+
+    local buttons = self:getExitButtons()
+    if pointInRect(x, y, buttons.yes) then
+        self:confirmExitToMenu()
+    elseif pointInRect(x, y, buttons.no) then
+        self:cancelExit()
+    end
 end
 
 return Runner

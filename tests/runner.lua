@@ -393,6 +393,61 @@ test("runner spawns pigs as obstacles", function()
     assertTruthy(Runner.pigSheet, "runner should load pig sprites")
 end)
 
+test("runner exit confirmation can be cancelled", function()
+    resetModules()
+
+    local Runner = require("runner")
+    Runner:load()
+    Runner:requestExit()
+
+    assertTruthy(Runner.confirmExit, "runner should show exit confirmation")
+
+    Runner:keypressed("n")
+
+    assertFalsy(Runner.confirmExit, "runner confirmation should cancel")
+end)
+
+test("runner exit confirmation returns to main menu", function()
+    resetModules()
+
+    local openedMain = false
+    _G.Menu = {
+        openMain = function()
+            openedMain = true
+        end
+    }
+    _G.Gamestat = "Runner"
+
+    local Runner = require("runner")
+    Runner:load()
+    Runner:requestExit()
+    Runner:keypressed("return")
+
+    assertEqual(Gamestat, "Menu", "runner should switch to menu")
+    assertTruthy(openedMain, "runner should open main menu")
+    assertFalsy(Runner.confirmExit, "runner confirmation should close")
+end)
+
+test("runner exit confirmation buttons handle mouse clicks", function()
+    resetModules()
+
+    local Runner = require("runner")
+    Runner:load()
+    Runner:requestExit()
+
+    local buttons = Runner:getExitButtons()
+    Runner:mousepressed(buttons.no.x + 4, buttons.no.y + 4, 1)
+    assertFalsy(Runner.confirmExit, "no button should cancel")
+
+    _G.Menu = {openMain = function() end}
+    _G.Gamestat = "Runner"
+    Runner:requestExit()
+    buttons = Runner:getExitButtons()
+    Runner:mousepressed(buttons.yes.x + 4, buttons.yes.y + 4, 1)
+
+    assertEqual(Gamestat, "Menu", "yes button should exit to menu")
+end)
+
 test("runner detects obstacle collision", function()
     resetModules()
 

@@ -75,6 +75,15 @@ function love.load()
         Runner:update(0.1)
     end, drawRunner)
 
+    addScenario("runner_exit_confirm", function()
+        Gamestat = "Runner"
+        Runner:newGame()
+        Runner:spawnObstacle()
+        Runner.obstacles[1].x = love.graphics.getWidth() * 0.68
+        Runner:update(0.1)
+        Runner:requestExit()
+    end, drawRunner)
+
     addScenario("pause_menu", function()
         Gamestat = "Menu"
         Menu:openGamePause()
