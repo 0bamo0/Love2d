@@ -71,8 +71,12 @@ end
 -- @tparam number x the x position
 -- @tparam number y the y position
 function Camera:setPosition(x, y)
-    self.x = x - WindowW / 2 / self.scaleX or self.x - WindowW / 2 / self.scaleX
-    self.y = y - WindowH / 2 / self.scaleX or self.y - WindowH / 2 / self.scaleX
+    if x then
+        self.x = x - WindowW / 2 / self.scaleX
+    end
+    if y then
+        self.y = y - WindowH / 2 / self.scaleY
+    end
 end
 
 --- Get the size of the camera field.
@@ -88,8 +92,9 @@ end
 -- @tparam number sx the x scale factor
 -- @tparam number sy the y scale factor
 function Camera:setScale(sx, sy)
-    self.scaleX = sx or self.scaleX
-    self.scaleY = sy or self.scaleY
+    local minScale = 0.1
+    self.scaleX = math.max(sx or self.scaleX, minScale)
+    self.scaleY = math.max(sy or self.scaleY, minScale)
 end
 
 --- Get the mouse position in camera coordinates.

@@ -58,7 +58,10 @@ function Game:newGame()
     Map.currentLevel = 1
         Map:clean()
         Map:init()
+        Player.health = 10
         Player.collider.body:setPosition(Player.startX, Player.startY)
+        Player.x = Player.startX
+        Player.y = Player.startY
         Player.collider:applyLinearImpulse(0, 10000000)
         Player.Respawning = true
 end
@@ -90,7 +93,10 @@ function Game:LoadGame()
         Map.currentLevel = loaded.Map.level
         Map:clean()
         Map:init()
+        Player.health = loaded.Player.health or Player.health
         Player.collider.body:setPosition(x, y)
+        Player.x = x
+        Player.y = y
         Player.collider:applyLinearImpulse(0, 10000000)
         Player.Respawning = true
     end

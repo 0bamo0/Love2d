@@ -27,9 +27,12 @@ function Player:load()
     self.onPlatform = false
     self.canMove = true
     self.isHurt = false
-    self.Respawing = false
+    self.Respawning = false
     self.isAttcking = false
     self.isDead = false
+    self.isMovingLeft = false
+    self.isMovingRight = false
+    self.stuned = false
 
 end
 
@@ -48,10 +51,16 @@ function Player:update(dt)
 end
 
 function Player:Move(dt)
-    if (love.keyboard.isDown("right", "d") and not self.wallsRight and self.canMove and not self.stuned) or self.isMovingRight then
+    local _, yVel = self.collider:getLinearVelocity()
+    self.yVel = self.yVel or yVel
+
+    local wantsRight = love.keyboard.isDown("right", "d") or self.isMovingRight
+    local wantsLeft = love.keyboard.isDown("left", "q") or self.isMovingLeft
+
+    if wantsRight and not self.wallsRight and self.canMove and not self.stuned then
         self.collider:setLinearVelocity(self.speed, self.yVel)
-      end
-    if (love.keyboard.isDown("left", "q") and not self.wallsLeft and self.canMove and not self.stuned) or self.isMovingLeft then
+    end
+    if wantsLeft and not self.wallsLeft and self.canMove and not self.stuned then
         self.collider:setLinearVelocity(-self.speed, self.yVel)
     end
     self.x, self.y = self.collider:getPosition()
@@ -76,6 +85,7 @@ function Player:LoadAssets()
     self.animation.hurt = anim8.newAnimation(self.grid("26-27", 1), 0.1)
     self.animation.jump = anim8.newAnimation(self.grid("12-13", 1), 0.1)
     self.animation.fall = anim8.newAnimation(self.grid("14-14", 1), 0.1)
+    self.animation.current = self.animation.idle
 end
 
 function Player:Animate(dt)
@@ -119,13 +129,14 @@ function Player:setStat(dt)
     elseif self.yVel < -300 then
         self.yVel = -300
     end
+    self.collider:setLinearVelocity(self.xVel, self.yVel)
 end
 
 function Player:Collisions(dt)
     local queryX = self.x - self.width / 2
     local queryY = self.y + self.height / 2
     local query = world:queryRectangleArea(queryX, queryY, self.width, 1, {"Ground", "Platforms", "Walls"})
-    if #query == 1 then
+    if #query > 0 then
         self.grounded = true
     else
         self.grounded = false
@@ -135,7 +146,7 @@ function Player:Collisions(dt)
         local queryX = self.x + self.width / 2
         local queryY = self.y - self.height / 2
         local query2Right = world:queryRectangleArea(queryX, queryY, 1, self.height, {"Ground", "Platforms", "Walls"})
-        if #query2Right == 1 then
+        if #query2Right > 0 then
             self.wallsRight = true
         else
             self.wallsRight = false
@@ -146,7 +157,7 @@ function Player:Collisions(dt)
         local queryX = self.x - self.width / 2 - 1
         local queryY = self.y - self.height / 2
         local query2Left = world:queryRectangleArea(queryX, queryY, 1, self.height, {"Ground", "Platforms", "Walls"})
-        if #query2Left == 1 then
+        if #query2Left > 0 then
             self.wallsLeft = true
         else
             self.wallsLeft = false
@@ -158,8 +169,8 @@ function Player:Hurt()
     if self.collider:enter("PigsAttack") then
         self.isHurt = true
         self.collider:setLinearVelocity(-self.direction * 200, -100)
-        self.health = self.health - 1
-        if self.health == 0 then
+        self.health = math.max(self.health - 1, 0)
+        if self.health <= 0 then
           self.isDead = true
         end
     end
@@ -168,7 +179,8 @@ end
 function Player:Jump(key)
     if key == "space" and not self.stuned then
         if (self.grounded or self.onPlatform) then
-            self.collider:applyLinearImpulse(self.xVel, -self.jumpForce)
+            local xVel = self.xVel or self.collider:getLinearVelocity()
+            self.collider:applyLinearImpulse(xVel, -self.jumpForce)
         end
     end
 end
@@ -191,7 +203,7 @@ end
 
 function Player:Attack(b)
     if b == 1 and Sys_type == "Windows" then
-        if not self.stuned then
+        if not self.stuned and not self.isAttcking then
             self.isAttcking = true
             if self.direction == 1 then
                 self.AttackCollider =
@@ -218,18 +230,25 @@ function Player:touchpressed(id, x, y, dx, dy, pressure)
     elseif x > Controls.jump.x and x < Controls.jump.x + Controls.jump.w and y > Controls.jump.y and y < Controls.jump.y + Controls.jump.h  then
         if (self.grounded or self.onPlatform) then
             Touches[id].id = "jump"
-            self.collider:applyLinearImpulse(self.xVel, -self.jumpForce)
+            local xVel = self.xVel or self.collider:getLinearVelocity()
+            self.collider:applyLinearImpulse(xVel, -self.jumpForce)
         end
     end
 end
 
 
 function Player:touchreleased(id, x, y, dx, dy, pressure)
-    if self.isMovingLeft and Touches[id].id == "left" then
+    local touch = Touches[id]
+    if not touch then
+        return
+    end
+
+    if self.isMovingLeft and touch.id == "left" then
         self.isMovingLeft = false
-    elseif self.isMovingRight and Touches[id].id == "right" then
+    elseif self.isMovingRight and touch.id == "right" then
         self.isMovingRight = false
     end
+    Touches[id] = nil
 end
 
 function Player:Timers(dt)
@@ -248,7 +267,10 @@ function Player:Timers(dt)
         self.stuned = true
     end
     if self.attacktimer < 0 then
-        self.AttackCollider:destroy()
+        if self.AttackCollider and self.AttackCollider.body then
+            self.AttackCollider:destroy()
+        end
+        self.AttackCollider = nil
         self.stuned = false
         self.isAttcking = false
         self.attacktimer = 0.3

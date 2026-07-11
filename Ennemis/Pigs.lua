@@ -44,8 +44,16 @@ function Pigs.new(x, y, width, height, speed , health)
     instance.animation.current = instance.animation.idle
 
     instance.canAttack = true
+    instance.isAttcking = false
     instance.isDead = false
     table.insert(ActivePigs, instance)
+end
+
+function Pigs:destroyAttackCollider()
+    if self.attackCollider and self.attackCollider.body then
+        self.attackCollider:destroy()
+    end
+    self.attackCollider = nil
 end
 
 function Pigs:update(dt)
@@ -63,7 +71,7 @@ function Pigs:Timers(dt)
         self.attacktimer = self.attacktimer - dt
     end
     if self.attacktimer < 0 then
-        self.attackCollider:destroy()
+        self:destroyAttackCollider()
         self.isAttcking = false
         self.attacktimer = 0.4
     end
@@ -113,15 +121,17 @@ end
 function Pigs:remove()
     for i, instance in ipairs(ActivePigs) do
         if instance == self then
+            instance:destroyAttackCollider()
             instance.collider:destroy()
             table.remove(ActivePigs, i)
+            break
         end
     end
 end
 
 function Pigs:setStat(dt)
     if not self.ishurt then
-        if not self.isAttacking then
+        if not self.isAttcking then
             if self.xVel ~= 0 then
                 self.stat = "walk"
             else
@@ -171,13 +181,20 @@ function Pigs:walkToPlayer(vision, dt)
 end
 
 function Pigs:hurt()
-    self.health = self.health - 1
-    if self.health == 0 then
+    self:destroyAttackCollider()
+    self.isAttcking = false
+    self.attacktimer = 0.4
+    self.health = math.max(self.health - 1, 0)
+    if self.health <= 0 then
         self.isDead = true
     end
 end
 
 function Pigs:attackPlayer()
+    if self.isAttcking then
+        return
+    end
+
     self.isAttcking = true
     if self.direction == 1 then
         self.attackCollider = world:newRectangleCollider(self.x-10, self.y - self.height / 2, 20, self.height)
@@ -214,6 +231,7 @@ end
 
 function Pigs.removeAll()
     for i, instance in ipairs(ActivePigs) do
+        instance:destroyAttackCollider()
         instance.collider:destroy()
     end
     ActivePigs = {}

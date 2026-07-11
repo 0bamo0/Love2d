@@ -55,7 +55,7 @@ function Map:getMaxYCoord()
     for _,collider in ipairs(self.lvlControlLayer.objects) do
         if collider.y > storedY then
             storedY = collider.y
-        else return end
+        end
     end
 
 return storedY end
@@ -100,12 +100,12 @@ function Map:next(dt)
 end
 
 function Map:clean()
-    for i, layers in ipairs(self) do
-        layers = {}
-    end
     for i, collider in ipairs(self.level.colliders) do
-        collider:destroy()
+        if collider.body then
+            collider:destroy()
+        end
     end
+    self.level.colliders = {}
     Pigs.removeAll()
     Signs.removeAll()
 end
